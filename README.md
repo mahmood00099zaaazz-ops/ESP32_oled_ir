@@ -61,3 +61,7 @@ Select the board and Upload the code and you have done it ENGINEERS!!!!
 **ACT 5 ROBOT**
 
 Turn the eyes into a moving robot: see [`ESP32_Robot/`](ESP32_Robot/README.md) for an obstacle-avoiding robot that adds an L298N motor driver and two DC motors.
+
+**ACT 6 TALKING ROBOT**
+
+Make the robot speak Kurdish (Badini), Arabic and English with a DFPlayer Mini, and write the same phrases on the OLED: see [`ESP32_Talking_Robot/`](ESP32_Talking_Robot/README.md).

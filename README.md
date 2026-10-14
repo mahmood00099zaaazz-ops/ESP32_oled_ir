@@ -57,3 +57,13 @@ Select the board and Upload the code and you have done it ENGINEERS!!!!
 
 
 
+
+**ROBOT EYES PREVIEW**
+
+How the eyes from `OLED_IR_CODE.ino` look on the 128x64 OLED:
+
+![Robot eyes preview](images/robot_eyes_preview.png)
+
+![Robot eyes animation](images/robot_eyes_animation.gif)
+
+To regenerate the images: `python3 tools/render_eyes_preview.py` (needs Pillow).

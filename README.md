@@ -1,3 +1,53 @@
+# 🤖 Roboti Badini — روبوتێ ب بادینی دئاخڤیت
+
+> New version: talking robot (INMP441 mic + MAX98357A speaker + OLED eyes).
+> The original IR-sensor sketch is still in `OLED_IR_CODE.ino`.
+
+## چاوا کار دکەت؟ (How it works)
+1. **ESP32** گوهـ ل تە دبیت (INMP441). دەمێ تو دئاخڤی، دەنگێ تە دهنێریتە سێرڤەری.
+2. **سێرڤەر** (`server/server.py`، ل سەر کومپیوتەرێ تە): دەنگی دکەتە نڤیسین ← **Claude** بەرسڤێ ب بادینی ددەت ← نڤیسینێ دکەتە دەنگ.
+3. **ESP32** بەرسڤێ ل سەر سپیکەری لێ ددەت و دەڤێ روبوتی ل سەر شاشێ دلڤیت.
+
+چاڤێن روبوتی: 😐 ئاسایی (چاڤان دقوچینیت و ل دۆرا خۆ دنێریت) · 😮 گوهدارکرن (چاڤێن مەزن) · 🤔 هزرکرن (چاڤ ل ژۆری + خال) · 😊 ئاخفتن (چاڤێن کەیفخۆش + دەڤ) · ✖✖ خەلەتی
+
+## Wiring / گرێدان
+| Part | Pin | ESP32 |
+|---|---|---|
+| OLED SSD1306 | SDA / SCL / VDD / GND | GPIO21 / GPIO22 / 3V3 / GND |
+| INMP441 mic | SD / WS / SCK | GPIO32 / GPIO25 / GPIO33 |
+| INMP441 mic | L/R, GND / VDD | GND / 3V3 |
+| MAX98357A amp | DIN / BCLK / LRC | GPIO26 / GPIO27 / GPIO14 |
+| MAX98357A amp | Vin / GND | VIN (5V) / GND |
+
+ئەگەر تە پینێن دی بکار ئینابن، تنێ ژمارێن `#define` ل سەری کودێ `Roboti_Badini/Roboti_Badini.ino` بگوهۆڕە.
+
+## 1) Server (PC / Raspberry Pi)
+```bash
+cd server
+pip install -r requirements.txt
+export ANTHROPIC_API_KEY=sk-ant-...      # Windows: set ANTHROPIC_API_KEY=sk-ant-...
+python server.py                          # listens on port 8000
+python server.py --say "Silav, tu çawa yî?"   # test without robot -> answer.wav
+```
+- Speech-to-text: Meta MMS (`facebook/mms-1b-all`, Kurmanji adapter)
+- Brain: Claude (`claude-opus-5-5`) — answers short, in **Badini, Kurdish Latin letters**
+  (the Kurdish TTS voice can only read Latin script: ê î û ç ş …)
+- Text-to-speech: Meta MMS TTS (`facebook/mms-tts-kmr-script_latin`)
+- First start downloads ~4 GB of models; a GPU is faster but CPU works.
+
+## 2) ESP32
+1. Arduino IDE → install board **esp32** and library **U8g2**.
+2. Open `Roboti_Badini/Roboti_Badini.ino`, set `WIFI_SSID`, `WIFI_PASS`,
+   `SERVER_HOST` (the IP of the PC running `server.py`).
+3. Board: **ESP32 Dev Module** → Upload → open Serial Monitor (115200).
+4. بئاخڤە! (Speak to it.) It starts recording when your voice is louder than the room
+   and stops after ~1 second of silence.
+
+**Tips:** too quiet mic → lower `MIC_GAIN_SHIFT` (e.g. 12); speaker too loud → lower
+`SPEAKER_VOLUME`; it reacts to noise → raise the `3.0f` threshold in `loop()`.
+
+---
+
 # ESP32_oled_ir
 This repo is about getting started with ESP32.In this repo you will cover two topic sending and receiving data from ESP32.This repo is about receiving data from an IR sensor and  display robotics eyes on an OLED 128x64 display using ESP32.
 

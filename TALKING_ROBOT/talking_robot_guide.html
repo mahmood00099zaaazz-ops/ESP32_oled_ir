@@ -1,0 +1,450 @@
+<title>ڕۆبۆتێ ئاخفتنێ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@600;800&family=Noto+Sans+Arabic:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one RTL reading column; drawings sit on a "workbench" sheet, tables and code below. */
+:root {
+  --paper: #eef2f4; --sheet: #ffffff; --ink: #1d2a33; --muted: #5d6e78; --rule: #d3dde2;
+  --shell: #fbfcfc; --shell-edge: #9fb0b9; --visor: #15202a; --glow: #19c6e0; --glow-ink: #0a7f93;
+  --w-i2c: #1f9d55; --w-mic: #2f6fd6; --w-amp: #8a4fd0; --w-pwr: #d23b3b; --w-gnd: #46535c;
+  --code-bg: #f4f7f8;
+  --f-display: "Noto Kufi Arabic", "Noto Sans Arabic", Tahoma, sans-serif;
+  --f-body: "Noto Sans Arabic", Tahoma, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f171d; --sheet: #16222a; --ink: #e3ecf0; --muted: #96a8b2; --rule: #2a3a44;
+  --shell: #e9eef1; --shell-edge: #7f939e; --visor: #0a1116; --glow: #3fdcf2; --glow-ink: #5fe3f5;
+  --w-i2c: #4cc983; --w-mic: #6a9cf0; --w-amp: #b48af0; --w-pwr: #f06a6a; --w-gnd: #a3b2ba;
+  --code-bg: #101a20; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #0f171d; --sheet: #16222a; --ink: #e3ecf0; --muted: #96a8b2; --rule: #2a3a44;
+  --shell: #e9eef1; --shell-edge: #7f939e; --visor: #0a1116; --glow: #3fdcf2; --glow-ink: #5fe3f5;
+  --w-i2c: #4cc983; --w-mic: #6a9cf0; --w-amp: #b48af0; --w-pwr: #f06a6a; --w-gnd: #a3b2ba;
+  --code-bg: #101a20; color-scheme: dark }
+
+body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 1.02rem; line-height: 1.85; }
+.wrap { max-width: 920px; margin: 0 auto; padding-block: 28px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 44px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; line-height: 1.5; margin: 0; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); font-weight: 800; }
+h2 { font-size: 1.45rem; font-weight: 800; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; max-width: 65ch; }
+.lat { font-family: var(--f-mono); font-size: .88em; direction: ltr; unicode-bidi: isolate; }
+.muted { color: var(--muted); }
+
+header { display: grid; gap: 10px; }
+.eyebrow { font-family: var(--f-mono); font-size: .78rem; letter-spacing: .12em; color: var(--glow-ink); direction: ltr; text-align: right; }
+.flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 6px; }
+.flow span { background: var(--sheet); border: 1px solid var(--rule); border-radius: 999px; padding: 2px 14px; font-size: .92rem; }
+.flow i { font-style: normal; color: var(--muted); }
+
+section { display: grid; gap: 16px; min-width: 0; }
+.sheet { direction: ltr; background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; padding: 12px; overflow-x: auto; }
+.sheet svg { display: block; width: 100%; height: auto; min-width: 560px; }
+svg text { font-family: var(--f-body); fill: var(--ink); }
+svg .t-sub { fill: var(--muted); font-size: 13px; }
+svg .t-mono { font-family: var(--f-mono); font-size: 12.5px; }
+svg .lead { stroke: var(--muted); stroke-width: 1; fill: none; }
+svg .shell { fill: var(--shell); stroke: var(--shell-edge); stroke-width: 2; }
+svg .board { fill: #1b5e8a; stroke: var(--shell-edge); }
+svg .pcb-amp { fill: #2b4fb0; stroke: var(--shell-edge); }
+svg .chip { fill: #1a1f24; }
+svg .visor { fill: var(--visor); }
+svg .glow { fill: var(--glow); }
+svg .axis { stroke: var(--shell-edge); stroke-dasharray: 5 6; stroke-width: 1.5; fill: none; }
+svg .box { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.5; }
+svg .pin { fill: var(--ink); }
+svg .w { stroke-width: 3; fill: none; stroke-linecap: round; }
+.i2c { stroke: var(--w-i2c); } .mic { stroke: var(--w-mic); } .amp { stroke: var(--w-amp); }
+.pwr { stroke: var(--w-pwr); } .gnd { stroke: var(--w-gnd); }
+svg .flag { font-family: var(--f-mono); font-size: 12px; font-weight: 600; }
+svg .flag.pwr { fill: var(--w-pwr); stroke: none; } svg .flag.gnd { fill: var(--w-gnd); stroke: none; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .9rem; }
+.legend b { display: inline-block; width: 22px; height: 4px; border-radius: 2px; vertical-align: middle; margin-inline-start: 6px; }
+
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 12px; background: var(--sheet); }
+table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: .95rem; }
+th, td { padding: 9px 14px; text-align: right; border-bottom: 1px solid var(--rule); }
+th { font-family: var(--f-display); font-weight: 600; font-size: .9rem; color: var(--muted); }
+tr:last-child td { border-bottom: 0; }
+td .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-inline-end: 8px; vertical-align: middle; }
+
+.parts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.parts li { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: 10px 14px; min-width: 0; }
+.parts li .lat { display: block; color: var(--glow-ink); }
+
+ol.steps { margin: 0; padding-inline-start: 1.4em; display: grid; gap: 8px; }
+ol.steps li { max-width: 65ch; }
+
+.note { border-inline-start: 4px solid var(--glow); background: var(--sheet); padding: 12px 16px; border-radius: 0 10px 10px 0; }
+
+.codehead { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+button { font-family: var(--f-body); font-size: .92rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 8px; padding: 6px 16px; cursor: pointer; }
+button:focus-visible { outline: 3px solid var(--glow); outline-offset: 2px; }
+pre { direction: ltr; text-align: left; margin: 0; background: var(--code-bg); border: 1px solid var(--rule); border-radius: 12px;
+  padding: 16px; overflow: auto; max-height: 520px; font-family: var(--f-mono); font-size: .8rem; line-height: 1.6; }
+@media (prefers-reduced-motion: no-preference) { .blink { animation: blink 4s infinite; transform-origin: center; transform-box: fill-box; } }
+@keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+</style>
+
+<div class="wrap" dir="rtl" lang="ku">
+<header>
+  <div class="eyebrow">ESP32 · OLED · INMP441 · MAX98357A</div>
+  <h1>ڕۆبۆتێ ئاخفتنێ</h1>
+  <p>هەیکەل، گرێدانا وایەران و کۆدێ ڕۆبۆتەکێ بچووک وەکی Eilik. ڕۆبۆت گوهداریا تە دکەت، دەنگێ تە تۆمار دکەت و ب دەنگەکێ بلندتر دووبارە دکەت، و دەڤێ وی ل سەر شاشێ دگەل دەنگی دلڤیت.</p>
+  <div class="flow"><span>گوهداری دکەت</span><i>←</i><span>۲ چرکە تۆمار دکەت</span><i>←</i><span>ب دەنگێ خۆ دئاخڤیت</span><i>←</i><span>چاڤێن خۆ دنقینیت</span></div>
+</header>
+
+<section>
+  <h2>هەیکەلێ ڕۆبۆتی</h2>
+  <p class="muted">وێنەیێ ژێک ڤەکری: سەر ل ژۆرێ، لەش ل ناڤەڕاستێ، بنک ل خوارێ. پارچێن ناڤخۆیی ل لایێ چەپێ نە و تیر نیشان ددەن کا دچنە کیرێ.</p>
+  <div class="sheet">
+  <svg direction="ltr" viewBox="0 0 640 620" role="img" aria-label="هەیکەلێ ڕۆبۆتی ب پارچێن ژێک ڤەکری">
+    <!-- assembly axis -->
+    <path class="axis" d="M320 222 V262 M320 452 V488"/>
+    <!-- mic on top -->
+    <rect x="306" y="30" width="28" height="16" rx="5" class="pcb-amp"/><circle cx="320" cy="38" r="4" class="chip"/>
+    <!-- head -->
+    <rect class="shell" x="210" y="52" width="220" height="166" rx="82"/>
+    <rect class="visor" x="240" y="86" width="160" height="98" rx="44"/>
+    <rect class="glow blink" x="268" y="114" width="36" height="42" rx="13"/>
+    <rect class="glow blink" x="336" y="114" width="36" height="42" rx="13"/>
+    <!-- body -->
+    <ellipse class="shell" cx="208" cy="360" rx="18" ry="48"/>
+    <ellipse class="shell" cx="432" cy="360" rx="18" ry="48"/>
+    <rect class="shell" x="232" y="270" width="176" height="178" rx="64"/>
+    <circle cx="320" cy="364" r="38" fill="none" stroke="var(--shell-edge)" stroke-width="2"/>
+    <circle cx="320" cy="364" r="25" fill="none" stroke="var(--shell-edge)" stroke-width="1.5" stroke-dasharray="3 4"/>
+    <circle cx="320" cy="364" r="9" fill="var(--shell-edge)"/>
+    <!-- base -->
+    <ellipse class="shell" cx="320" cy="532" rx="160" ry="34"/>
+    <ellipse cx="320" cy="522" rx="120" ry="20" fill="none" stroke="var(--shell-edge)" stroke-width="1.5"/>
+    <rect x="300" y="548" width="40" height="10" rx="3" fill="var(--shell-edge)"/>
+
+    <!-- right-side labels -->
+    <path class="lead" d="M334 38 H468"/>
+    <text x="474" y="36" direction="rtl" text-anchor="end" font-size="15" font-weight="600">مایکرۆفۆن</text>
+    <text x="474" y="55" direction="rtl" text-anchor="end" class="t-sub">گوهێن ڕۆبۆتی · INMP441</text>
+    <path class="lead" d="M400 135 H468"/>
+    <text x="474" y="133" direction="rtl" text-anchor="end" font-size="15" font-weight="600">شاشا OLED = چاڤ</text>
+    <text x="474" y="152" direction="rtl" text-anchor="end" class="t-sub">0.96″ · 128×64 پیکسل</text>
+    <path class="lead" d="M450 330 H476"/>
+    <text x="482" y="320" direction="rtl" text-anchor="end" font-size="15" font-weight="600">دەست</text>
+    <text x="482" y="339" direction="rtl" text-anchor="end" class="t-sub">سێرڤۆ SG90 (ئارەزوومەندانە)</text>
+    <path class="lead" d="M358 380 V404 H476"/>
+    <text x="482" y="400" direction="rtl" text-anchor="end" font-size="15" font-weight="600">بلندگۆ = دەڤ</text>
+    <text x="482" y="419" direction="rtl" text-anchor="end" class="t-sub">Ø40mm · 3W · 4Ω</text>
+    <path class="lead" d="M480 532 H500"/>
+    <text x="506" y="528" direction="rtl" text-anchor="end" font-size="15" font-weight="600">بنک</text>
+    <text x="506" y="547" direction="rtl" text-anchor="end" class="t-sub">سویچ و دەرگەهێ USB</text>
+
+    <!-- internals on the left -->
+    <rect class="board" x="36" y="268" width="128" height="52" rx="5"/>
+    <rect x="50" y="278" width="44" height="32" rx="3" fill="#c9d3d8"/><rect x="128" y="286" width="28" height="16" rx="2" fill="#c9d3d8"/>
+    <text x="100" y="342" text-anchor="middle" font-size="15" font-weight="600" class="lat" style="font-size:14px">ESP32</text>
+    <text x="100" y="360" direction="rtl" text-anchor="middle" class="t-sub">مێشکێ ڕۆبۆتی</text>
+    <path class="lead" d="M164 294 H232" stroke-dasharray="4 4" marker-end="url(#arr)"/>
+
+    <rect class="pcb-amp" x="64" y="384" width="72" height="40" rx="4"/><rect x="88" y="396" width="18" height="16" class="chip"/>
+    <text x="100" y="444" text-anchor="middle" class="lat" style="font-size:13px">MAX98357A</text>
+    <text x="100" y="462" direction="rtl" text-anchor="middle" class="t-sub">باهێزکەرێ دەنگی</text>
+    <path class="lead" d="M136 404 H232" stroke-dasharray="4 4" marker-end="url(#arr)"/>
+
+    <rect x="40" y="494" width="120" height="36" rx="10" fill="#2f7d4f" stroke="var(--shell-edge)"/>
+    <rect x="160" y="503" width="8" height="18" rx="2" fill="var(--shell-edge)"/>
+    <text x="100" y="517" text-anchor="middle" class="lat" style="font-size:12px;fill:#ffffff">18650</text>
+    <text x="100" y="552" direction="rtl" text-anchor="middle" font-size="14" font-weight="600">باتری + شەحنکەر</text>
+    <text x="100" y="570" direction="rtl" text-anchor="middle" class="t-sub">TP4056 · MT3608 → 5V</text>
+        <path class="lead" d="M170 512 H196" stroke-dasharray="4 4" marker-end="url(#arr)"/>
+
+    <!-- dimensions -->
+    <path class="lead" d="M210 236 H430 M210 230 V242 M430 230 V242"/>
+    <text x="320" y="252" text-anchor="middle" class="t-mono" style="fill:var(--muted)">~ 80 mm</text>
+    <path class="lead" d="M160 598 H480 M160 592 V604 M480 592 V604"/>
+    <text x="320" y="616" text-anchor="middle" class="t-mono" style="fill:var(--muted)">Ø ~110 mm</text>
+    <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--muted)"/></marker></defs>
+  </svg>
+  </div>
+  <p class="muted">پێڤەرێن نێزیک ب ملیمەتران. سەر دڤێت ب کێمی ۷۰ mm بلند بیت دا شاشا OLED (۲۷×۲۷ mm) و مایک تێدا جهـ ببن. لەش دڤێت جهێ ESP32 (نێزیکی ۵۲×۲۸ mm) و بلندگۆیا Ø40 هەبیت.</p>
+</section>
+
+<section>
+  <h2>گرێدانا وایەران</h2>
+  <p class="muted">ئەڤ گرێدانە ل دویڤ وێنەیێ تە یێ Fritzing نە. ئەگەر تە ب پینێن دی گرێدایە، تنێ ژمارێن <span class="lat">#define</span> ل سەرێ کۆدی بگوهۆڕە.</p>
+  <div class="sheet">
+  <svg direction="ltr" viewBox="0 0 820 380" role="img" aria-label="نەخشێ گرێدانا وایەران">
+    <!-- ESP32 -->
+    <rect class="box" x="380" y="40" width="160" height="310" rx="10"/>
+    <text x="460" y="70" text-anchor="middle" class="t-mono" style="font-size:15px;font-weight:600">ESP32</text>
+    <text x="460" y="90" direction="rtl" text-anchor="middle" class="t-sub">مێشک</text>
+    <g class="t-mono">
+      <text x="388" y="104">33</text><text x="388" y="134">25</text><text x="388" y="164">32</text>
+      <text x="388" y="224">27</text><text x="388" y="254">14</text><text x="388" y="284">26</text><text x="388" y="324">VIN</text>
+      <text x="532" y="104" text-anchor="end">22</text><text x="532" y="134" text-anchor="end">21</text>
+      <text x="532" y="294" text-anchor="end">3V3</text><text x="532" y="324" text-anchor="end">GND</text>
+    </g>
+    <!-- Mic -->
+    <rect class="box" x="170" y="70" width="150" height="110" rx="8"/>
+    <text x="245" y="60" text-anchor="middle" class="t-mono" style="font-size:12px;font-weight:600">INMP441 · مایکرۆفۆن</text>
+    <g class="t-mono"><text x="312" y="104" text-anchor="end">SCK</text><text x="312" y="134" text-anchor="end">WS</text><text x="312" y="164" text-anchor="end">SD</text>
+      <text x="178" y="104">VDD</text><text x="178" y="134">GND</text><text x="178" y="164">L/R</text></g>
+    <path class="w mic" d="M320 100 H380 M320 130 H380 M320 160 H380"/>
+    <path class="w pwr" d="M170 100 H140"/><text class="flag pwr" x="134" y="104" text-anchor="end">3V3</text>
+    <path class="w gnd" d="M170 130 H140 M170 160 H140"/><text class="flag gnd" x="134" y="134" text-anchor="end">GND</text><text class="flag gnd" x="134" y="164" text-anchor="end">GND</text>
+    <!-- Amp -->
+    <rect class="box" x="170" y="204" width="150" height="102" rx="8"/>
+        <g class="t-mono"><text x="312" y="224" text-anchor="end">BCLK</text><text x="312" y="254" text-anchor="end">LRC</text><text x="312" y="284" text-anchor="end">DIN</text>
+      <text x="178" y="240">+</text><text x="178" y="280">−</text><text x="210" y="300" style="font-size:10.5px">VIN</text><text x="250" y="300" style="font-size:10.5px">GND</text></g>
+    <text x="245" y="196" text-anchor="middle" class="t-mono" style="font-size:12px;font-weight:600">MAX98357A · باهێزکەر</text>
+    <path class="w amp" d="M320 220 H380 M320 250 H380 M320 280 H380"/>
+    <!-- Speaker -->
+    <circle cx="72" cy="256" r="40" class="box"/><circle cx="72" cy="256" r="22" fill="none" stroke="var(--ink)"/><circle cx="72" cy="256" r="7" class="pin"/>
+    <text x="72" y="318" direction="rtl" text-anchor="middle" style="font-size:14px;font-weight:600">بلندگۆ</text>
+    <path class="w pwr" d="M170 236 H112"/>
+    <path class="w gnd" d="M170 276 H112"/>
+    <!-- ESP32 power flags -->
+    <path class="w pwr" d="M540 290 H570"/><text class="flag pwr" x="576" y="294">3V3</text>
+    <path class="w gnd" d="M540 320 H570"/><text class="flag gnd" x="576" y="324">GND</text>
+    <path class="w pwr" d="M380 320 H350"/><text class="flag pwr" x="344" y="324" text-anchor="end">5V</text>
+    <!-- OLED -->
+    <rect class="box" x="620" y="70" width="170" height="110" rx="8"/>
+    <rect x="660" y="84" width="118" height="70" rx="4" class="visor"/>
+    <rect x="684" y="104" width="24" height="26" rx="8" class="glow"/><rect x="730" y="104" width="24" height="26" rx="8" class="glow"/>
+    <g class="t-mono"><text x="626" y="104">SCL</text><text x="626" y="134">SDA</text><text x="626" y="172">VCC GND</text></g>
+    <text x="705" y="200" text-anchor="middle" class="t-mono" style="font-size:13px;font-weight:600">OLED SSD1306</text>
+    <text x="705" y="218" direction="rtl" text-anchor="middle" class="t-sub">چاڤ</text>
+    <path class="w i2c" d="M540 100 H620 M540 130 H620"/>
+    <path class="w pwr" d="M660 180 V246"/><text class="flag pwr" x="660" y="262" text-anchor="middle">3V3</text>
+    <path class="w gnd" d="M700 180 V246"/><text class="flag gnd" x="700" y="262" text-anchor="middle">GND</text>
+    <path class="w pwr" d="M220 306 V336"/><text class="flag pwr" x="220" y="352" text-anchor="middle">5V</text>
+    <path class="w gnd" d="M262 306 V336"/><text class="flag gnd" x="262" y="352" text-anchor="middle">GND</text>
+  </svg>
+  </div>
+  <div class="legend">
+    <span><b style="background:var(--w-i2c)"></b>شاشە (I2C)</span>
+    <span><b style="background:var(--w-mic)"></b>مایک (I2S)</span>
+    <span><b style="background:var(--w-amp)"></b>باهێزکەر (I2S)</span>
+    <span><b style="background:var(--w-pwr)"></b>هێز</span>
+    <span><b style="background:var(--w-gnd)"></b>GND</span>
+  </div>
+  <p class="muted">هەمی <span class="lat">GND</span> ب ئێک دو ڤە گرێبدە. <span class="lat">3V3</span> بۆ مایک و شاشێ یە، <span class="lat">5V</span> بۆ باهێزکەری یە.</p>
+
+  <div class="tablewrap"><table>
+    <thead><tr><th>پارچە</th><th>پینا پارچەی</th><th>پینا ESP32</th></tr></thead>
+    <tbody>
+      <tr><td><span class="sw" style="background:var(--w-i2c)"></span>شاشا OLED</td><td class="lat">SDA</td><td class="lat">GPIO 21</td></tr>
+      <tr><td><span class="sw" style="background:var(--w-i2c)"></span>شاشا OLED</td><td class="lat">SCL</td><td class="lat">GPIO 22</td></tr>
+      <tr><td><span class="sw" style="background:var(--w-mic)"></span>مایک INMP441</td><td class="lat">SCK</td><td class="lat">GPIO 33</td></tr>
+      <tr><td><span class="sw" style="background:var(--w-mic)"></span>مایک INMP441</td><td class="lat">WS</td><td class="lat">GPIO 25</td></tr>
+      <tr><td><span class="sw" style="background:var(--w-mic)"></span>مایک INMP441</td><td class="lat">SD</td><td class="lat">GPIO 32</td></tr>
+      <tr><td><span class="sw" style="background:var(--w-mic)"></span>مایک INMP441</td><td class="lat">L/R</td><td class="lat">GND</td></tr>
+      <tr><td><span class="sw" style="background:var(--w-amp)"></span>باهێزکەر MAX98357A</td><td class="lat">BCLK</td><td class="lat">GPIO 27</td></tr>
+      <tr><td><span class="sw" style="background:var(--w-amp)"></span>باهێزکەر MAX98357A</td><td class="lat">LRC</td><td class="lat">GPIO 14</td></tr>
+      <tr><td><span class="sw" style="background:var(--w-amp)"></span>باهێزکەر MAX98357A</td><td class="lat">DIN</td><td class="lat">GPIO 26</td></tr>
+      <tr><td><span class="sw" style="background:var(--w-pwr)"></span>باهێزکەر MAX98357A</td><td class="lat">VIN</td><td class="lat">VIN (5V)</td></tr>
+      <tr><td><span class="sw" style="background:var(--w-pwr)"></span>مایک و شاشە</td><td class="lat">VDD / VCC</td><td class="lat">3V3</td></tr>
+      <tr><td><span class="sw" style="background:var(--w-gnd)"></span>هەمی پارچە</td><td class="lat">GND</td><td class="lat">GND</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>لیستا پارچەیان</h2>
+  <ul class="parts">
+    <li><span class="lat">ESP32 DevKit V1</span>مێشکێ ڕۆبۆتی، WiFi و Bluetooth تێدا نە</li>
+    <li><span class="lat">OLED 0.96″ SSD1306 I2C</span>شاشە بۆ چاڤان و دەڤی</li>
+    <li><span class="lat">INMP441</span>مایکرۆفۆنا دیجیتالی</li>
+    <li><span class="lat">MAX98357A</span>باهێزکەرێ دەنگی بۆ بلندگۆیێ</li>
+    <li><span class="lat">Speaker 3W 4Ω Ø40mm</span>بلندگۆ</li>
+    <li><span class="lat">18650 + TP4056 + MT3608</span>باتری، شەحنکەر و بلندکرنا ڤۆلتی بۆ 5V</li>
+    <li><span class="lat">SG90 ×2</span>سێرڤۆ بۆ دەستان (ئارەزوومەندانە)</li>
+    <li><span class="lat">PLA / 3D print</span>هەیکەل: سەر، لەش، دەست و بنک</li>
+  </ul>
+  <p class="note">د وێنەیێ تە یێ دووێ دا <span class="lat">Arduino Nano</span> هاتیە بکارئینان. نانۆ بیرەوەرییا وێ بەس نینە بۆ تۆمارکرنا دەنگی، لەوما <span class="lat">ESP32</span> ب جهێ وێ بکاربینە. <span class="lat">DFPlayer Mini</span> ژی پێدڤی نینە چونکی <span class="lat">MAX98357A</span> دەنگی ڕاستەوخۆ دەردئێخیت.</p>
+</section>
+
+<section>
+  <h2>قۆناغێن کۆمکرنێ</h2>
+  <ol class="steps">
+    <li>پێشیێ هەمی پارچەیان ل سەر بێڕبۆردی (breadboard) گرێبدە و کۆدی تاقی بکە، پاشان بخە د هەیکەلی دا.</li>
+    <li>شاشا OLED ل پشت پەنجەرا ڕەش یا سەری بچەسپینە. مایکی ل سەرێ سەری دانە و کونەکێ بچووک بۆ دەنگی بهێلە.</li>
+    <li>بلندگۆیێ ل پێشیا لەشی دانە و کونێن بچووک ل بەرامبەر وێ ڤەکە دا دەنگ دەربکەڤیت.</li>
+    <li><span class="lat">ESP32</span> و باهێزکەری د ناڤ لەشی دا ب پێچ یان چەسپێ گەرم ڤە گرێبدە. مایکی ژ بلندگۆیێ دویر بێخە.</li>
+    <li>باتری، شەحنکەر و سویچی بخە د ناڤ بنکی دا، و دەرگەهێ <span class="lat">USB</span> ل پشتێ بهێلە.</li>
+    <li>وایەرێن سەری ب ناڤ ستۆیێ دا ببە و سەری ل سەر لەشی دانە.</li>
+  </ol>
+</section>
+
+<section>
+  <div class="codehead">
+    <h2>کۆد</h2>
+    <button id="copy" type="button">کۆدی کۆپی بکە</button>
+  </div>
+  <p class="muted">د <span class="lat">Arduino IDE</span> دا بۆردا <span class="lat">ESP32 Dev Module</span> هەلبژێرە و ئەڤان لایبرەریان دابەزینە: <span class="lat">Adafruit SSD1306</span> و <span class="lat">Adafruit GFX</span>. ئەگەر ڕۆبۆت ب دەنگێ نزم ناکەڤیتە کار، ژمارا <span class="lat">TRIGGER</span> کێم بکە. بۆ دەنگەکێ هێشتا بلندتر، <span class="lat">PITCH</span> زێدە بکە.</p>
+  <pre id="code">// Talking robot: OLED eyes + INMP441 mic + MAX98357A speaker on ESP32.
+// It listens, records what you say (2 s) and repeats it in a higher voice
+// while the mouth on the OLED moves with the sound.
+#include &lt;Wire.h&gt;
+#include &lt;Adafruit_GFX.h&gt;
+#include &lt;Adafruit_SSD1306.h&gt;
+#include &lt;driver/i2s.h&gt;
+
+// INMP441 microphone
+#define MIC_SCK 33
+#define MIC_WS  25
+#define MIC_SD  32
+// MAX98357A amplifier
+#define AMP_BCLK 27
+#define AMP_LRC  14
+#define AMP_DIN  26
+// OLED uses the default I2C pins: SDA 21, SCL 22
+
+#define RATE      16000
+#define REC_SEC   2
+#define REC_LEN   (RATE * REC_SEC)
+#define PITCH     1.35      // &gt;1 = higher, funnier voice
+#define TRIGGER   2500      // loudness that starts recording
+#define CHUNK     256
+
+Adafruit_SSD1306 oled(128, 64, &amp;Wire, -1);
+int16_t *rec;
+int32_t raw[CHUNK];
+float dc = 0;
+
+void micInit() {
+  i2s_config_t c = {};
+  c.mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX);
+  c.sample_rate = RATE;
+  c.bits_per_sample = I2S_BITS_PER_SAMPLE_32BIT;
+  c.channel_format = I2S_CHANNEL_FMT_ONLY_LEFT;   // L/R pin -&gt; GND
+  c.communication_format = I2S_COMM_FORMAT_STAND_I2S;
+  c.dma_buf_count = 8;
+  c.dma_buf_len = CHUNK;
+  i2s_pin_config_t p = {};
+  p.mck_io_num = I2S_PIN_NO_CHANGE;
+  p.bck_io_num = MIC_SCK;
+  p.ws_io_num = MIC_WS;
+  p.data_out_num = I2S_PIN_NO_CHANGE;
+  p.data_in_num = MIC_SD;
+  i2s_driver_install(I2S_NUM_0, &amp;c, 0, NULL);
+  i2s_set_pin(I2S_NUM_0, &amp;p);
+}
+
+void ampInit() {
+  i2s_config_t c = {};
+  c.mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_TX);
+  c.sample_rate = RATE * PITCH;
+  c.bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT;
+  c.channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT;
+  c.communication_format = I2S_COMM_FORMAT_STAND_I2S;
+  c.dma_buf_count = 8;
+  c.dma_buf_len = CHUNK;
+  c.tx_desc_auto_clear = true;
+  i2s_pin_config_t p = {};
+  p.mck_io_num = I2S_PIN_NO_CHANGE;
+  p.bck_io_num = AMP_BCLK;
+  p.ws_io_num = AMP_LRC;
+  p.data_out_num = AMP_DIN;
+  p.data_in_num = I2S_PIN_NO_CHANGE;
+  i2s_driver_install(I2S_NUM_1, &amp;c, 0, NULL);
+  i2s_set_pin(I2S_NUM_1, &amp;p);
+}
+
+// Reads one chunk from the mic into out (16-bit), returns the peak level.
+int readMic(int16_t *out) {
+  size_t bytes;
+  i2s_read(I2S_NUM_0, raw, sizeof(raw), &amp;bytes, portMAX_DELAY);
+  int n = bytes / 4, peak = 0;
+  for (int i = 0; i &lt; n; i++) {
+    float v = raw[i] &gt;&gt; 14;
+    dc += (v - dc) * 0.001;
+    int s = constrain((int)(v - dc), -32767, 32767);
+    if (out) out[i] = s;
+    peak = max(peak, abs(s));
+  }
+  return peak;
+}
+
+void face(int eyeH, int mouth) {
+  oled.clearDisplay();
+  oled.fillRoundRect(20, 24 - eyeH / 2, 32, eyeH, 9, SSD1306_WHITE);
+  oled.fillRoundRect(76, 24 - eyeH / 2, 32, eyeH, 9, SSD1306_WHITE);
+  if (mouth &gt; 0) oled.fillRoundRect(52, 48, 24, mouth, 4, SSD1306_WHITE);
+  oled.display();
+}
+
+void listenAndRecord() {
+  face(30, 0);                       // big eyes: listening
+  int len = 0;
+  while (len + CHUNK &lt;= REC_LEN) {
+    readMic(rec + len);
+    len += CHUNK;
+  }
+  speak(len);
+}
+
+void speak(int len) {
+  int16_t stereo[CHUNK * 2];
+  size_t bytes;
+  int peak = 0;
+  for (int i = 0; i &lt; len; i += CHUNK) {
+    for (int j = 0; j &lt; CHUNK; j++) {
+      int16_t s = rec[i + j];
+      stereo[2 * j] = stereo[2 * j + 1] = s;
+      peak = max(peak, abs((int)s));
+    }
+    i2s_write(I2S_NUM_1, stereo, sizeof(stereo), &amp;bytes, portMAX_DELAY);
+    if ((i / CHUNK) % 4 == 3) {       // redraw every 4 chunks so audio keeps flowing
+      face(20, map(min(peak, 12000), 0, 12000, 2, 14));
+      peak = 0;
+    }
+  }
+  i2s_zero_dma_buffer(I2S_NUM_1);
+  // ignore the mic for a moment so the robot does not hear itself
+  unsigned long t = millis();
+  while (millis() - t &lt; 400) readMic(NULL);
+}
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin();
+  Wire.setClock(400000);
+  oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  rec = (int16_t *)malloc(REC_LEN * sizeof(int16_t));
+  micInit();
+  ampInit();
+  face(24, 0);
+}
+
+void loop() {
+  static unsigned long nextBlink = 3000;
+  int level = readMic(NULL);
+  if (level &gt; TRIGGER) {
+    listenAndRecord();
+    face(24, 0);
+    return;
+  }
+  if (millis() &gt; nextBlink) {          // idle blink
+    face(3, 0);
+    delay(120);
+    face(24, 0);
+    nextBlink = millis() + random(2000, 5000);
+  }
+}</pre>
+</section>
+</div>
+
+<script>
+document.getElementById('copy').addEventListener('click', function () {
+  var btn = this, pre = document.getElementById('code');
+  function selectIt() { var r = document.createRange(); r.selectNodeContents(pre); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'کۆد هەلبژارتی یە، Ctrl+C بکە'; }
+  try {
+    navigator.clipboard.writeText(pre.textContent).then(function () { btn.textContent = 'هاتە کۆپیکرن'; }, selectIt);
+  } catch (e) { selectIt(); }
+});
+</script>

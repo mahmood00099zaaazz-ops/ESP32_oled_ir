@@ -67,3 +67,17 @@ How the eyes from `OLED_IR_CODE.ino` look on the 128x64 OLED:
 ![Robot eyes animation](images/robot_eyes_animation.gif)
 
 To regenerate the images: `python3 tools/render_eyes_preview.py` (needs Pillow).
+
+**ESP32 ROBOT EYES (FULL CODE)**
+
+`ESP32_Robot_Eyes/ESP32_Robot_Eyes.ino` is a complete, improved version of the sketch:
+
+- Rounded robot eyes that blink at random times and look around (left, right, up, down).
+- Smooth, non-blocking animation (~50 FPS, no `delay()` in the loop).
+- When the IR sensor detects an object, the robot looks up and smiles; it goes back to normal shortly after the object leaves.
+- IR input is debounced; status messages are printed to the Serial Monitor (115200 baud).
+
+Wiring: OLED SDA -> GPIO21, SCL -> GPIO22, VCC -> 3V3, GND -> GND. IR sensor OUT -> GPIO34, VCC -> 3V3, GND -> GND.
+Library: U8g2 by olikraus. Board: "ESP32 Dev Module".
+
+![ESP32 robot eyes](images/esp32_robot_eyes.gif)

@@ -12,6 +12,8 @@
 
   Library:
     - U8g2 by olikraus (Arduino IDE: Sketch > Include Library > Manage Libraries > "U8g2")
+      Only install it. Do NOT use "Sketch > Include Library > U8g2": that adds
+      #include <MUIU8g2.h> at the top of this file and causes compile errors.
 
   Board:
     - Tools > Board > esp32 > "ESP32 Dev Module"

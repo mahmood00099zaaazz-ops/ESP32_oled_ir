@@ -190,8 +190,9 @@ wire([(LX1, 620), (1390, 620), (1390, 615), (1440, 615)], BLACK, 4)
 # ---------------- Battery + switch ----------------
 d.rounded_rectangle([1300, 920, 1600, 1060], radius=14, fill=(60, 60, 66), outline=INK, width=3)
 for i, x in enumerate((1320, 1460)):
-    d.rounded_rectangle([x, 950, x + 120, 1000], radius=20, fill=(60, 140, 220), outline=INK, width=2)
-    d.text((x + 22, 963), "18650", fill=(255, 255, 255), font=F_PIN)
+    d.rounded_rectangle([x, 950, x + 120, 1000], radius=20, fill=(255, 210, 40), outline=INK, width=2)
+    d.rectangle([x + 112, 965, x + 124, 985], fill=(200, 200, 200), outline=INK)
+    d.text((x + 22, 963), "18650", fill=INK, font=F_PIN)
 d.text((1330, 1010), "2x 18650 = 7.4V", fill=(255, 255, 255), font=F_BOX)
 d.ellipse([1300 - 6, 935 - 6, 1300 + 6, 935 + 6], fill=RED)
 d.text((1270, 905), "+", fill=RED, font=F_BOX)

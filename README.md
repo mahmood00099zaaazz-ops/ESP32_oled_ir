@@ -81,3 +81,20 @@ Wiring: OLED SDA -> GPIO21, SCL -> GPIO22, VCC -> 3V3, GND -> GND. IR sensor OUT
 Library: U8g2 by olikraus. Board: "ESP32 Dev Module".
 
 ![ESP32 robot eyes](images/esp32_robot_eyes.gif)
+
+**ESP32 TALKING ROBOT**
+
+`ESP32_Robot_Talk/ESP32_Robot_Talk.ino` gives the robot a voice with a DFPlayer Mini MP3 module.
+Record your own sentences (any language) as MP3 and put them on a FAT32 microSD card in a folder
+named `mp3` (`mp3/0001.mp3`, `mp3/0002.mp3`, ...). The OLED shows eyes and a mouth that moves while
+the robot talks.
+
+- Sentence 1 at start-up, a random greeting (2-4) when the IR sensor sees someone, and a random
+  sentence (5-6) when nobody has been around for 30-60 seconds.
+- Type 1-9 in the Serial Monitor (115200 baud) to play a sentence.
+
+Wiring: DFPlayer VCC -> 5V (VIN), GND -> GND, TX -> GPIO16, RX -> 1k resistor -> GPIO17,
+BUSY -> GPIO4, SPK_1/SPK_2 -> speaker (3W, 4-8 ohm). OLED and IR as above.
+Libraries: U8g2 and DFRobotDFPlayerMini.
+
+![ESP32 talking robot face](images/robot_talk.gif)

@@ -107,3 +107,12 @@ Microphone INMP441 (WS 33, SCK 32, SD 35), amplifier MAX98357A (LRC 25, BCLK 26,
 OLED (21/22), IR (34). Needs ESP32 board package 3.x, the U8g2 library, WiFi and a Gemini API key.
 Set `WIFI_SSID`, `WIFI_PASS` and `GEMINI_API_KEY` at the top of the sketch; if Gemini returns
 "model not found", update `MODEL_TEXT` / `MODEL_TTS` from https://ai.google.dev/gemini-api/docs/models
+
+**ESP32 PARROT ROBOT (NO WIFI)**
+
+`ESP32_Robot_Parrot/ESP32_Robot_Parrot.ino`: the robot listens all the time and looks surprised,
+then happy, at loud sounds. Wave a hand at the IR sensor (or press BOOT), speak after the beep,
+and it repeats your words in a higher "parrot" voice while its OLED mouth moves.
+Same wiring as `images/full_audio_robot_wiring.png`. Tune `LOUD_LEVEL` with the Serial Monitor.
+
+![Full audio robot wiring](images/full_audio_robot_wiring.png)

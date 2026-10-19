@@ -9,7 +9,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 OUT = Path(__file__).resolve().parent.parent / "images" / "robot_walker.png"
-W, H = 1080, 2720
+W, H = 1080, 2830
 BG = (250, 250, 246)
 INK = (25, 25, 30)
 GREY = (95, 95, 95)
@@ -148,41 +148,65 @@ WY0 = 960
 section_title(WY0, "٢. چاوا دچیت؟")
 
 
-def mini(cx, cy, tilt, step):
-    """Tiny front view. tilt: -1 lean left / 0 / 1 lean right. step: which foot is forward (drawn larger)."""
-    s = 0.32
-    off = tilt * 14
-    d.rounded_rectangle([cx - 200 * s + off, cy - 350 * s, cx + 200 * s + off, cy], radius=10,
-                        fill=SHELL, outline=SHELL_EDGE, width=3)
-    d.rounded_rectangle([cx - 120 * s + off, cy - 300 * s, cx + 120 * s + off, cy - 180 * s], radius=5, fill=(10, 14, 22))
-    for k, lx in enumerate((cx - 110 * s, cx + 30 * s)):
-        lift = 18 if (tilt == 1 and k == 0) or (tilt == -1 and k == 1) else 0
-        grow = 1.25 if step == k else 1.0
-        d.rectangle([lx, cy, lx + 80 * s, cy + 150 * s - lift], fill=SHELL, outline=SHELL_EDGE, width=3)
-        fw = 130 * s * grow
-        d.rectangle([lx + 40 * s - fw / 2, cy + 150 * s - lift, lx + 40 * s + fw / 2, cy + 175 * s - lift],
-                    fill=(200, 200, 195), outline=SHELL_EDGE, width=3)
-    d.line([(cx - 90, cy + 175 * s + 2), (cx + 90, cy + 175 * s + 2)], fill=(150, 150, 150), width=3)
+def mini(cx, ground_y, lean):
+    """Tiny BACK view (so the robot's left is on the left). lean: 'right' or 'left'.
+
+    The robot leans over the standing foot; the other foot is lifted (orange).
+    """
+    LW, LH = 220, 230
+    layer = Image.new("RGBA", (LW, LH), (0, 0, 0, 0))
+    ld = ImageDraw.Draw(layer)
+    bx = LW / 2
+    ld.rounded_rectangle([bx - 62, 20, bx + 62, 130], radius=12, fill=SHELL, outline=SHELL_EDGE, width=3)
+    ld.rectangle([bx - 30, 45, bx + 30, 75], fill=(215, 215, 210), outline=SHELL_EDGE, width=2)   # back panel
+    for side in ("left", "right"):
+        lx = bx - 48 if side == "left" else bx + 18
+        lifted = side != lean
+        lift = 26 if lifted else 0
+        color = ARROW if lifted else SHELL_EDGE
+        ld.rectangle([lx, 130, lx + 30, 190 - lift], fill=SHELL, outline=color, width=3)
+        ld.rectangle([lx - 12, 190 - lift, lx + 42, 202 - lift], fill=(200, 200, 195), outline=color, width=3)
+    # rotate around the standing foot
+    pivot_x = bx + 33 if lean == "right" else bx - 33
+    angle = -12 if lean == "right" else 12
+    layer = layer.rotate(angle, center=(pivot_x, 202), resample=Image.BICUBIC)
+    img.paste(layer, (int(cx - LW / 2), int(ground_y - 202)), layer)
+    d.line([(cx - 95, ground_y + 2), (cx + 95, ground_y + 2)], fill=(150, 150, 150), width=3)
 
 
+def footprints(cx, y, ahead, lifted):
+    """Top view of both feet. ahead: which foot is in front. lifted: which foot is in the air."""
+    for side in ("left", "right"):
+        fx = cx - 46 if side == "left" else cx + 14
+        fy = y - 26 if side == ahead else y
+        if side == lifted:
+            d.rounded_rectangle([fx, fy, fx + 32, fy + 54], radius=10, outline=ARROW, width=4)
+        else:
+            d.rounded_rectangle([fx, fy, fx + 32, fy + 54], radius=10, fill=(150, 150, 145), outline=INK, width=2)
+    en(cx + 70, y - 30, "↑", 26, GREY)
+
+
+# (lean, foot ahead, lifted foot, number, caption)
 frames = [
-    (1, None, "١", ("خوار دبیت", "بۆ ڕاستێ")),
-    (1, 0, "٢", ("پێیێ چەپێ", "دچیتە پێش")),
-    (-1, 0, "٣", ("خوار دبیت", "بۆ چەپێ")),
-    (-1, 1, "٤", ("پێیێ ڕاستێ", "دچیتە پێش")),
+    ("right", None, "left", "١", ("خوار دبیت", "بۆ ڕاستێ")),
+    ("right", "left", "left", "٢", ("پێیێ چەپێ", "دچیتە پێش")),
+    ("left", "left", "right", "٣", ("خوار دبیت", "بۆ چەپێ")),
+    ("left", "right", "right", "٤", ("پێیێ ڕاستێ", "دچیتە پێش")),
 ]
-for k, (tilt, step, num, lines) in enumerate(frames):
+ku(W / 2, WY0 + 70, "ژ پشتێ ڤە (چەپ ل چەپێ یە)", 24, GREY)
+for k, (lean, ahead, lifted, num, lines) in enumerate(frames):
     cx = W - 150 - k * 250
-    mini(cx, WY0 + 230, tilt, step)
-    en(cx, WY0 + 300, num, 34, ARROW)
+    mini(cx, WY0 + 300, lean)
+    footprints(cx, WY0 + 350, ahead, lifted)
+    en(cx, WY0 + 420, num, 34, ARROW)
     for j, t in enumerate(lines):
-        ku(cx, WY0 + 346 + j * 34, t, 26, INK)
-ku(W / 2, WY0 + 430, "دووبارە دکەت... و ب ڤی ڕەنگی ب ڕێڤە دچیت!", 28, GREY)
+        ku(cx, WY0 + 464 + j * 34, t, 26, INK)
+ku(W / 2, WY0 + 545, "پێیێ پرتەقاڵی = د هەوا دا. دووبارە دکەت... و ب ڕێڤە دچیت!", 26, GREY)
 
 # =====================================================================
 # 3) Wiring
 # =====================================================================
-WR0 = 1480
+WR0 = 1590
 section_title(WR0, "٣. وایەر")
 
 rows = [
@@ -230,7 +254,7 @@ ku(W / 2, py + 120, "وایەرێ سۆر یێ هەر سێرڤۆیەکێ ← 5V،
 # =====================================================================
 # 4) Parts + tips
 # =====================================================================
-PY0 = 2230
+PY0 = 2340
 d.rounded_rectangle([40, PY0, W - 40, H - 30], radius=22, fill=(255, 255, 255), outline=INK, width=4)
 ku(W - 80, PY0 + 20, "چ پێدڤیە؟", 38, INK, anchor="ra")
 items = [

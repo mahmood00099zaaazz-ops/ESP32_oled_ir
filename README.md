@@ -98,3 +98,12 @@ BUSY -> GPIO4, SPK_1/SPK_2 -> speaker (3W, 4-8 ohm). OLED and IR as above.
 Libraries: U8g2 and DFRobotDFPlayerMini.
 
 ![ESP32 talking robot face](images/robot_talk.gif)
+
+**ESP32 AI VOICE ROBOT (GEMINI)**
+
+`ESP32_Robot_Gemini/ESP32_Robot_Gemini.ino`: wave a hand at the IR sensor (or press BOOT), ask a
+question after the beep, and the robot answers out loud using the Gemini API.
+Microphone INMP441 (WS 33, SCK 32, SD 35), amplifier MAX98357A (LRC 25, BCLK 26, DIN 27),
+OLED (21/22), IR (34). Needs ESP32 board package 3.x, the U8g2 library, WiFi and a Gemini API key.
+Set `WIFI_SSID`, `WIFI_PASS` and `GEMINI_API_KEY` at the top of the sketch; if Gemini returns
+"model not found", update `MODEL_TEXT` / `MODEL_TTS` from https://ai.google.dev/gemini-api/docs/models

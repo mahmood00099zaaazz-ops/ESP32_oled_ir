@@ -57,3 +57,9 @@ Select the board and Upload the code and you have done it ENGINEERS!!!!
 
 
 
+
+**BATTERY POWER (18650 + TP4056 + MT3608)**
+
+To run the project from a Li-ion battery: Battery → TP4056 (B+/B−), TP4056 OUT+/OUT− → MT3608 VIN+/VIN−, MT3608 VOUT+/VOUT− → ESP32 VIN/GND. Set the MT3608 output to 5.0V with a multimeter before connecting the ESP32, and unplug the battery while uploading code over USB.
+
+![Battery power wiring](POWER_WIRING.png)

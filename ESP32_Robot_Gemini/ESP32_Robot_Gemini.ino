@@ -458,6 +458,17 @@ void appendUtf8(String &out, uint32_t cp) {
   }
 }
 
+// Read 4 hex digits (as in س) starting at `at`.
+uint32_t hex4(const String &s, int at) {
+  uint32_t v = 0;
+  for (int k = 0; k < 4; k++) {
+    char c = s[at + k];
+    int d = (c >= '0' && c <= '9') ? c - '0' : (c >= 'a' && c <= 'f') ? c - 'a' + 10 : (c >= 'A' && c <= 'F') ? c - 'A' + 10 : 0;
+    v = (v << 4) | d;
+  }
+  return v;
+}
+
 // Find "key": "value" after position `from` and return the decoded value ("" if not found).
 String jsonStringAfter(const String &json, const char *key, int from) {
   String k = String("\"") + key + "\"";
@@ -481,10 +492,10 @@ String jsonStringAfter(const String &json, const char *key, int from) {
       case 't': out += ' '; break;
       case 'r': break;
       case 'u': {
-        uint32_t cp = strtoul(json.substring(i + 1, i + 5).c_str(), nullptr, 16);
+        uint32_t cp = hex4(json, i + 1);
         i += 4;
         if (cp >= 0xD800 && cp <= 0xDBFF && json[i + 1] == '\\' && json[i + 2] == 'u') {
-          uint32_t lo = strtoul(json.substring(i + 3, i + 7).c_str(), nullptr, 16);
+          uint32_t lo = hex4(json, i + 3);
           cp = 0x10000 + ((cp - 0xD800) << 10) + (lo - 0xDC00);
           i += 6;
         }

@@ -48,7 +48,7 @@ const float SPEAKER_VOLUME = 0.6;                          // 0.0 .. 1.0
 
 // ---------------- Pins ----------------
 const int IR_PIN = 34;
-const int BOOT_PIN = 0;
+const int BUTTON_PIN = 0;
 const int SDA_PIN = 21, SCL_PIN = 22;
 const int MIC_SCK = 32, MIC_WS = 33, MIC_SD = 35;
 const int SPK_BCLK = 26, SPK_LRC = 25, SPK_DIN = 27;
@@ -88,7 +88,7 @@ void drawEyes(int dx, int dy, int h) {
   }
 }
 
-void drawFace(Face face, int mouthOpen = 0, const char *message = nullptr) {
+void drawFace(Face face, int mouthOpen, const char *message) {
   u8g2.clearBuffer();
   unsigned long now = millis();
   switch (face) {
@@ -150,7 +150,7 @@ void updateIdleFace() {
     nextBlinkAt = now + random(2000, 5000);
   }
   lookX += (targetX - lookX) * 0.25;
-  drawFace(FACE_IDLE);
+  drawFace(FACE_IDLE, 0, nullptr);
 }
 
 void showError(const char *message) {
@@ -201,7 +201,7 @@ size_t recordQuestion() {
     }
     if (millis() - lastDraw > 100) {             // a small sound-level bar while listening
       lastDraw = millis();
-      drawFace(FACE_LISTEN);
+      drawFace(FACE_LISTEN, 0, nullptr);
       int bar = map(min(level, 12000), 0, 12000, 0, 100);
       u8g2.drawFrame(13, 59, 102, 5);
       u8g2.drawBox(14, 60, bar, 3);
@@ -315,7 +315,7 @@ class SpeechPlayer : public Stream {
 
   void finish() {
     flushPcm();
-    drawFace(FACE_TALK, 0);
+    drawFace(FACE_TALK, 0, nullptr);
   }
 
  private:
@@ -394,7 +394,7 @@ class SpeechPlayer : public Stream {
     pcmLen_ -= even;
     if (millis() - lastMouth_ > 120) {              // mouth follows the loudness
       lastMouth_ = millis();
-      drawFace(FACE_TALK, map(min(peak, 16000), 0, 16000, 0, 14));
+      drawFace(FACE_TALK, map(min(peak, 16000), 0, 16000, 0, 14), nullptr);
     }
   }
 
@@ -459,7 +459,7 @@ void appendUtf8(String &out, uint32_t cp) {
 }
 
 // Find "key": "value" after position `from` and return the decoded value ("" if not found).
-String jsonStringAfter(const String &json, const char *key, int from = 0) {
+String jsonStringAfter(const String &json, const char *key, int from) {
   String k = String("\"") + key + "\"";
   int p = json.indexOf(k, from);
   if (p < 0) return "";
@@ -574,7 +574,7 @@ bool speak(const String &text) {
 void setup() {
   Serial.begin(115200);
   pinMode(IR_PIN, INPUT);
-  pinMode(BOOT_PIN, INPUT_PULLUP);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   Wire.begin(SDA_PIN, SCL_PIN);
   u8g2.begin();
@@ -625,7 +625,7 @@ void setup() {
 }
 
 void loop() {
-  bool trigger = digitalRead(IR_PIN) == LOW || digitalRead(BOOT_PIN) == LOW;
+  bool trigger = digitalRead(IR_PIN) == LOW || digitalRead(BUTTON_PIN) == LOW;
   if (!trigger || !recording) {
     updateIdleFace();
     delay(30);
@@ -644,7 +644,7 @@ void loop() {
   beep(700, 80);
 
   // 2. Think
-  drawFace(FACE_THINK);
+  drawFace(FACE_THINK, 0, nullptr);
   String answer = askGemini(samples);
   if (answer.length() == 0) {
     showError("Gemini error");
@@ -654,7 +654,7 @@ void loop() {
   Serial.println(answer);
 
   // 3. Talk
-  drawFace(FACE_TALK, 4);
+  drawFace(FACE_TALK, 4, nullptr);
   if (!speak(answer)) {
     showError("Speech error");
   }

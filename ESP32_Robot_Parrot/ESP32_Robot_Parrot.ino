@@ -36,7 +36,7 @@ const int MIC_GAIN_SHIFT = 13;      // 32-bit mic sample >> 13 -> 16-bit (bigger
 
 // ---------------- Pins ----------------
 const int IR_PIN = 34;
-const int BOOT_PIN = 0;
+const int BUTTON_PIN = 0;
 const int SDA_PIN = 21, SCL_PIN = 22;
 const int MIC_SCK = 32, MIC_WS = 33, MIC_SD = 35;
 const int SPK_BCLK = 26, SPK_LRC = 25, SPK_DIN = 27;
@@ -104,7 +104,7 @@ void drawEyes(int dx, int dy, int w, int h) {
   }
 }
 
-void drawFace(Face face, int mouth = 0) {
+void drawFace(Face face, int mouth) {
   u8g2.clearBuffer();
   unsigned long now = millis();
   int lx = (int)lookX;
@@ -239,7 +239,7 @@ void parrot() {
     if (heardVoice && millis() - lastVoiceAt > 800) break;
     if (millis() - lastDraw > 100) {               // level bar while listening
       lastDraw = millis();
-      drawFace(FACE_LISTEN);
+      drawFace(FACE_LISTEN, 0);
       int bar = map(min(level, 16000), 0, 16000, 0, 100);
       u8g2.drawFrame(13, 58, 102, 6);
       u8g2.drawBox(14, 59, bar, 4);
@@ -251,7 +251,7 @@ void parrot() {
   Serial.printf("Recorded %u samples, voice: %s\n", (unsigned)got, heardVoice ? "yes" : "no");
 
   if (!heardVoice) {
-    drawFace(FACE_CONFUSED);
+    drawFace(FACE_CONFUSED, 0);
     delay(1500);
     return;
   }
@@ -263,7 +263,7 @@ void parrot() {
 
   delay(200);
   playParrot(start, got);
-  drawFace(FACE_HAPPY);
+  drawFace(FACE_HAPPY, 0);
   delay(800);
   drainMic(200);
 }
@@ -274,7 +274,7 @@ void parrot() {
 void setup() {
   Serial.begin(115200);
   pinMode(IR_PIN, INPUT);
-  pinMode(BOOT_PIN, INPUT_PULLUP);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   Wire.begin(SDA_PIN, SCL_PIN);
   u8g2.begin();
@@ -310,10 +310,10 @@ void loop() {
   unsigned long now = millis();
 
   // Parrot: hand in front of the IR sensor, or BOOT button
-  if (digitalRead(IR_PIN) == LOW || digitalRead(BOOT_PIN) == LOW) {
+  if (digitalRead(IR_PIN) == LOW || digitalRead(BUTTON_PIN) == LOW) {
     parrot();
     while (digitalRead(IR_PIN) == LOW) {          // wait until the hand is gone
-      drawFace(FACE_HAPPY);
+      drawFace(FACE_HAPPY, 0);
       delay(50);
     }
     drainMic(100);
@@ -353,11 +353,11 @@ void loop() {
   if (now - lastDraw >= 40) {
     lastDraw = now;
     if (now < reactUntil) {
-      drawFace(FACE_SURPRISED);
+      drawFace(FACE_SURPRISED, 0);
     } else if (now < happyUntil) {
-      drawFace(FACE_HAPPY);
+      drawFace(FACE_HAPPY, 0);
     } else {
-      drawFace(FACE_IDLE);
+      drawFace(FACE_IDLE, 0);
     }
   }
 }

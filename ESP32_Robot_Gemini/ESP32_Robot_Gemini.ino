@@ -28,7 +28,6 @@
 
 #include <Arduino.h>
 #include <WiFi.h>
-#include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 #include <ESP_I2S.h>
 #include <U8g2lib.h>
@@ -511,6 +510,9 @@ String jsonStringAfter(const String &json, const char *key, int from) {
 // =====================================================================
 //                              GEMINI
 // =====================================================================
+// With no certificate (nullptr), HTTPClient uses HTTPS without checking the certificate.
+const char *NO_CERTIFICATE = nullptr;
+
 String geminiUrl(const char *model) {
   return String("https://generativelanguage.googleapis.com/v1beta/models/") + model + ":generateContent";
 }
@@ -525,11 +527,9 @@ String askGemini(size_t samples) {
   String tail = "\"}}]}],\"generationConfig\":{\"maxOutputTokens\":1024}}";
   AudioRequestBody body(head, recording, samples, tail);
 
-  WiFiClientSecure client;
-  client.setInsecure();                             // simple: no certificate check
   HTTPClient http;
   http.setTimeout(30000);
-  if (!http.begin(client, geminiUrl(MODEL_TEXT))) return "";
+  if (!http.begin(geminiUrl(MODEL_TEXT), NO_CERTIFICATE)) return "";
   http.addHeader("Content-Type", "application/json");
   http.addHeader("x-goog-api-key", GEMINI_API_KEY);
 
@@ -555,11 +555,9 @@ bool speak(const String &text) {
                 "\"speechConfig\":{\"voiceConfig\":{\"prebuiltVoiceConfig\":{\"voiceName\":\"" +
                 VOICE_NAME + "\"}}}}}";
 
-  WiFiClientSecure client;
-  client.setInsecure();
   HTTPClient http;
   http.setTimeout(30000);
-  if (!http.begin(client, geminiUrl(MODEL_TTS))) return false;
+  if (!http.begin(geminiUrl(MODEL_TTS), NO_CERTIFICATE)) return false;
   http.addHeader("Content-Type", "application/json");
   http.addHeader("x-goog-api-key", GEMINI_API_KEY);
 

@@ -41,7 +41,9 @@ const char *GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";
 const char *MODEL_TEXT = "gemini-flash-lite-latest";       // understands your voice, writes the answer
 const char *MODEL_TTS = "gemini-3.1-flash-tts-preview";    // turns the answer into speech
 const char *VOICE_NAME = "Kore";
-const char *ANSWER_LANGUAGE = "the same language the person speaks";   // or e.g. "Arabic", "English"
+// Badini Kurdish, written in Latin letters (Kurmanji alphabet) so the speech voice can read it aloud.
+// Other examples: "the same language the person speaks", "Arabic", "English"
+const char *ANSWER_LANGUAGE = "Kurdish, Badini (Behdini) dialect, written in the Latin Kurmanji alphabet";
 const float SPEAKER_VOLUME = 0.6;                          // 0.0 .. 1.0
 // ========================================================
 

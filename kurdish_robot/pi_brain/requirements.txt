@@ -1,0 +1,6 @@
+anthropic
+numpy
+pyserial
+sounddevice
+torch
+transformers

@@ -1,14 +1,20 @@
 """Everything in one picture: the all-in-one wiring (images/all_in_one.png) plus the battery,
 charger, switch and 5V boost feeding the ESP32. Kurdish (Badini) text.
-Output: images/complete_robot.png  (run tools/draw_all_in_one.py first)
+Output: images/complete_robot.png, or images/complete_no_ir.png with the argument "noir"
+(run tools/draw_all_in_one.py / tools/draw_all_no_ir.py first)
 Usage: python3 tools/draw_complete.py  (needs Pillow built with libraqm for right-to-left text)
 """
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
+import sys
+
 IMG = Path(__file__).resolve().parent.parent / "images"
-top = Image.open(IMG / "all_in_one.png")
+# with IR (default) or without IR:  python3 tools/draw_complete.py noir
+SRC, DST, N0 = ("all_no_ir.png", "complete_no_ir.png", 16) if sys.argv[1:] == ["noir"] else \
+    ("all_in_one.png", "complete_robot.png", 19)
+top = Image.open(IMG / SRC)
 W, PH = top.width, 1330
 img = Image.new("RGB", (W, top.height + PH), (245, 242, 235))
 img.paste(top, (0, 0))
@@ -79,16 +85,16 @@ d.rounded_rectangle([290, ey + 55, 450, ey + 100], radius=8, fill=(90, 90, 95));
 ku(540, ey + 120, "چەپ، پینا 19 (هەمان پینا ئەمپلیفایەری)", 24, GREY)
 
 # wires 19..24
-wire([(750, by + 55), (900, by + 55), (900, ty + 30), (750, ty + 30)], RED); badge(900, (by + ty) / 2 + 40, 19, RED)
-wire([(330, by + 55), (180, by + 55), (180, ty + 30), (330, ty + 30)], BLACK); badge(180, (by + ty) / 2 + 40, 20, BLACK)
-wire([(750, ty + 110), (860, ty + 110), (860, sy)], RED); badge(860, ty + 185, 21, RED)
-wire([(860, sy + 90), (860, boy + 30), (750, boy + 30)], RED); badge(860, sy + 145, 22, RED)
-wire([(330, ty + 110), (180, ty + 110), (180, boy + 30), (330, boy + 30)], BLACK); badge(180, (ty + boy) / 2 + 60, 23, BLACK)
-wire([(750, boy + 110), (900, boy + 110), (900, ey + 77), (790, ey + 77)], RED); badge(900, (boy + ey) / 2 + 70, 24, RED)
-wire([(330, boy + 110), (180, boy + 110), (180, ey + 77), (290, ey + 77)], BLACK); badge(180, (boy + ey) / 2 + 70, 25, BLACK)
+wire([(750, by + 55), (900, by + 55), (900, ty + 30), (750, ty + 30)], RED); badge(900, (by + ty) / 2 + 40, N0 + 0, RED)
+wire([(330, by + 55), (180, by + 55), (180, ty + 30), (330, ty + 30)], BLACK); badge(180, (by + ty) / 2 + 40, N0 + 1, BLACK)
+wire([(750, ty + 110), (860, ty + 110), (860, sy)], RED); badge(860, ty + 185, N0 + 2, RED)
+wire([(860, sy + 90), (860, boy + 30), (750, boy + 30)], RED); badge(860, sy + 145, N0 + 3, RED)
+wire([(330, ty + 110), (180, ty + 110), (180, boy + 30), (330, boy + 30)], BLACK); badge(180, (ty + boy) / 2 + 60, N0 + 4, BLACK)
+wire([(750, boy + 110), (900, boy + 110), (900, ey + 77), (790, ey + 77)], RED); badge(900, (boy + ey) / 2 + 70, N0 + 5, RED)
+wire([(330, boy + 110), (180, boy + 110), (180, ey + 77), (290, ey + 77)], BLACK); badge(180, (boy + ey) / 2 + 70, N0 + 6, BLACK)
 
 ku(W / 2, Y0 + PH - 95, "⚠ بەری وەستاندنا ESP32، پێچا MT3608 بزڤڕینە هەتا 5V", 26, RED)
 ku(W / 2, Y0 + PH - 52, "⚠ دەمێ USB ب ڕۆبۆتی ڤە، سویچێ بگرە (OFF)", 26, RED)
 
-img.save(IMG / "complete_robot.png")
+img.save(IMG / DST)
 print("saved", img.size)

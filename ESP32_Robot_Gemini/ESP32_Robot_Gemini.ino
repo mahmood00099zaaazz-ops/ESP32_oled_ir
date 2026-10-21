@@ -12,7 +12,7 @@ const char *GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";  // کلیلا Gemini
   ------------------------
   Ask the robot a question with your voice, and it answers with its voice.
 
-    1. Wave your hand in front of the IR sensor (or press the BOOT button).
+    1. Press the BOOT button (or wave your hand at the IR sensor, if USE_IR is true).
     2. After the short beep, speak for 3 seconds.
     3. The robot sends your voice to Gemini over WiFi, gets a short answer,
        turns the answer into speech with Gemini, and plays it on the speaker.
@@ -20,7 +20,7 @@ const char *GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";  // کلیلا Gemini
 
   Hardware:
     OLED SSD1306 128x64 (I2C)  VCC -> 3V3, GND, SDA -> GPIO21, SCL -> GPIO22
-    IR obstacle sensor         VCC -> 3V3, GND, OUT -> GPIO34 (LOW = hand)
+    IR obstacle sensor         optional: VCC -> 3V3, GND, OUT -> GPIO34 (LOW = hand)
     INMP441 microphone         VDD -> 3V3 (NOT 5V), GND, L/R -> GND,
                                WS -> GPIO33, SCK -> GPIO32, SD -> GPIO35
     MAX98357A amplifier        Vin -> 5V, GND, LRC -> GPIO25, BCLK -> GPIO26, DIN -> GPIO27
@@ -51,6 +51,7 @@ const char *VOICE_NAME = "Kore";
 // Other examples: "the same language the person speaks", "Arabic", "English"
 const char *ANSWER_LANGUAGE = "Kurdish, Badini (Behdini) dialect, written in the Latin Kurmanji alphabet";
 const float SPEAKER_VOLUME = 0.6;                          // 0.0 .. 1.0
+const bool USE_IR = false;   // true only when the IR sensor is wired to GPIO34 (else the BOOT button)
 // ========================================================
 
 // ---------------- Pins ----------------
@@ -588,9 +589,13 @@ bool speak(const String &text) {
 // =====================================================================
 //                              ARDUINO
 // =====================================================================
+bool handSeen() {
+  return USE_IR && digitalRead(IR_PIN) == LOW;
+}
+
 void setup() {
   Serial.begin(115200);
-  pinMode(IR_PIN, INPUT);
+  pinMode(IR_PIN, INPUT);                           // GPIO34 floats when nothing is wired
   pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   Wire.begin(SDA_PIN, SCL_PIN);
@@ -651,7 +656,7 @@ void setup() {
 }
 
 void loop() {
-  bool trigger = digitalRead(IR_PIN) == LOW || digitalRead(BUTTON_PIN) == LOW;
+  bool trigger = handSeen() || digitalRead(BUTTON_PIN) == LOW;
   if (!trigger || !recording) {
     updateIdleFace();
     delay(30);
@@ -686,7 +691,7 @@ void loop() {
   }
 
   // wait until the hand is gone, so it does not start again by itself
-  while (digitalRead(IR_PIN) == LOW) {
+  while (handSeen()) {
     updateIdleFace();
     delay(30);
   }

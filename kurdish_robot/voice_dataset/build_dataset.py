@@ -4,12 +4,14 @@ Writes:
   sentences.tsv  id <tab> Latin <tab> Arabic script  (master list)
   metadata.csv   id|Latin                             (LJSpeech format for Piper training)
   READ_ME_ALOUD.md                                     (numbered list to read, Arabic script)
+  studio.html                                          (reading page, from studio_template.html)
 
 Sentences are written in Latin (Kurmancî) letters; the Arabic script is
 generated with transliterate().
 """
 
 import glob
+import json
 import os
 import re
 
@@ -98,6 +100,12 @@ def main():
             if (i - 1) % 50 == 0:
                 f.write(f"\n## {i} – {min(i + 49, len(rows))}\n\n")
             f.write(f"{i}. {arabic}  \n   `{latin}`\n")
+
+    with open(os.path.join(HERE, "studio_template.html"), encoding="utf-8") as f:
+        page = f.read()
+    data = json.dumps([[arabic, latin] for _, latin, arabic in rows], ensure_ascii=False)
+    with open(os.path.join(HERE, "studio.html"), "w", encoding="utf-8") as f:
+        f.write(page.replace("__SENTENCES__", data))
 
     print(f"{len(rows)} sentences written")
 

@@ -1,3 +1,12 @@
+// ############################################################
+// ##   تنێ ڤان 3 ڕێزان بگوهۆڕە   (ONLY CHANGE THESE 3 LINES)  ##
+// ##   نڤیسینێ د ناڤبەرا " " دا بگوهۆڕە، " و ; ژێ نەبە        ##
+// ############################################################
+const char *WIFI_SSID = "YOUR_WIFI_NAME";            // ناڤێ WiFi
+const char *WIFI_PASS = "YOUR_WIFI_PASSWORD";        // پاسۆردا WiFi
+const char *GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";  // کلیلا Gemini
+// ############################################################
+
 /*
   ESP32 Gemini Voice Robot
   ------------------------
@@ -33,10 +42,7 @@
 #include <U8g2lib.h>
 #include <Wire.h>
 
-// ===================== CHANGE THESE =====================
-const char *WIFI_SSID = "YOUR_WIFI_NAME";
-const char *WIFI_PASS = "YOUR_WIFI_PASSWORD";
-const char *GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";
+// ===================== MORE SETTINGS =====================
 
 const char *MODEL_TEXT = "gemini-flash-lite-latest";       // understands your voice, writes the answer
 const char *MODEL_TTS = "gemini-3.1-flash-tts-preview";    // turns the answer into speech
@@ -615,6 +621,15 @@ void setup() {
     showError("No memory");
   }
   Serial.printf("Recording time: %u s\n", (unsigned)(recordingSamples / MIC_RATE));
+
+  // The 3 settings at the top of the file must be filled in
+  if (strcmp(WIFI_SSID, "YOUR_WIFI_NAME") == 0 || strcmp(GEMINI_API_KEY, "YOUR_GEMINI_API_KEY") == 0) {
+    Serial.println("Write your WiFi name, WiFi password and Gemini key at the top of the code!");
+    while (true) {
+      drawFace(FACE_ERROR, 0, "Set WiFi + key");
+      delay(1000);
+    }
+  }
 
   // WiFi
   drawFace(FACE_THINK, 0, "WiFi...");

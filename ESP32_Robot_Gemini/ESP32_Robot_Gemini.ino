@@ -267,8 +267,8 @@ class AudioRequestBody : public Stream {
     size_t g = p / 4, k = p % 4, i = g * 3;
     uint32_t v = (uint32_t)rawAt(i) << 16;
     size_t have = rawLen_ - i;                    // bytes available in this group (1, 2 or 3+)
-    if (have > 1) v |= (uint32_t)rawAt(i + 1) << 8;
-    if (have > 2) v |= rawAt(i + 2);
+    if (have > 1) v += (uint32_t)rawAt(i + 1) << 8;
+    if (have > 2) v += rawAt(i + 2);
     if (k == 2 && have < 2) return '=';
     if (k == 3 && have < 3) return '=';
     return T[(v >> (18 - 6 * k)) & 0x3F];
@@ -353,7 +353,7 @@ class SpeechPlayer : public Stream {
         }
         int v = b64Value(c);
         if (v < 0) return;                          // '=' padding or a line break
-        quad_ = (quad_ << 6) | v;
+        quad_ = (quad_ << 6) + v;
         if (++quadCount_ == 4) {
           pushByte((quad_ >> 16) & 0xFF);
           pushByte((quad_ >> 8) & 0xFF);
@@ -448,27 +448,27 @@ void appendUtf8(String &out, uint32_t cp) {
   if (cp < 0x80) {
     out += (char)cp;
   } else if (cp < 0x800) {
-    out += (char)(0xC0 | (cp >> 6));
-    out += (char)(0x80 | (cp & 0x3F));
+    out += (char)(0xC0 + (cp >> 6));
+    out += (char)(0x80 + (cp & 0x3F));
   } else if (cp < 0x10000) {
-    out += (char)(0xE0 | (cp >> 12));
-    out += (char)(0x80 | ((cp >> 6) & 0x3F));
-    out += (char)(0x80 | (cp & 0x3F));
+    out += (char)(0xE0 + (cp >> 12));
+    out += (char)(0x80 + ((cp >> 6) & 0x3F));
+    out += (char)(0x80 + (cp & 0x3F));
   } else {
-    out += (char)(0xF0 | (cp >> 18));
-    out += (char)(0x80 | ((cp >> 12) & 0x3F));
-    out += (char)(0x80 | ((cp >> 6) & 0x3F));
-    out += (char)(0x80 | (cp & 0x3F));
+    out += (char)(0xF0 + (cp >> 18));
+    out += (char)(0x80 + ((cp >> 12) & 0x3F));
+    out += (char)(0x80 + ((cp >> 6) & 0x3F));
+    out += (char)(0x80 + (cp & 0x3F));
   }
 }
 
-// Read 4 hex digits (as in س) starting at `at`.
+// Read 4 hex digits (as in \u0633) starting at `at`.
 uint32_t hex4(const String &s, int at) {
   uint32_t v = 0;
   for (int k = 0; k < 4; k++) {
     char c = s[at + k];
     int d = (c >= '0' && c <= '9') ? c - '0' : (c >= 'a' && c <= 'f') ? c - 'a' + 10 : (c >= 'A' && c <= 'F') ? c - 'A' + 10 : 0;
-    v = (v << 4) | d;
+    v = (v << 4) + d;
   }
   return v;
 }

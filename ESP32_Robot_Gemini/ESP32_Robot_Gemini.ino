@@ -51,8 +51,153 @@ const char *VOICE_NAME = "Kore";
 // Other examples: "the same language the person speaks", "Arabic", "English"
 const char *ANSWER_LANGUAGE = "Kurdish, Badini (Behdini) dialect, written in the Latin Kurmanji alphabet";
 const float SPEAKER_VOLUME = 0.6;                          // 0.0 .. 1.0
+const bool USE_BADINI_GUIDE = true;   // send the Badini word list below with every question
 const bool USE_IR = false;   // true only when the IR sensor is wired to GPIO34 (else the BOOT button)
 // ========================================================
+
+// Rules and example sentences that teach Gemini to answer in Badini (not Sorani or northern Kurmanji).
+// Add your own lines at the end as "English = Badini". (About 6 KB, sent with every question.)
+const char BADINI_GUIDE[] = R"GUIDE(
+BADINI (BEHDINI) KURDISH STYLE GUIDE. Answer like a person from Duhok/Zakho/Amedi speaks.
+Write only in the Latin Kurmanji alphabet (a b c ç d e ê f g h i î j k l m n o p q r s ş t u û v w x y z).
+Rules:
+- Present tense uses d- : ez dkem, tu dkey, ew dket, em dkeyn, hûn dken, ew dken. ez dçim, ez dxwem, ez dzanim, ez dbînim, ez daxivim, ez têm.
+- Negative: nakem, naçim, nizanim, nabînim, nayêm. Future uses dê: ez dê çim, ew dê êt, em dê bînîn.
+- "I want" = min dvêt. "I like / love" = ez hez dkem. "I can" = ez dşêm. "I cannot" = ez naşêm. "must / should" = divêt / pêdivî ye.
+- Use Badini words: nuke (now), kîve (where), boçi (why), çawa (how), çend (how many), kengî (when), kîjan (which), hindek (some), gelek / zor (very, many), hingî (then), dgel (with), belê (yes), na (no), xudê (God), hevalê min (my friend), ba (wind), av (water), nan (bread).
+- Do NOT use Sorani forms (dekem, ekem, êsta, çon, nazanim, zor baş e written in Sorani style) and do NOT use northern Kurmanji forms (dikim, dixwazim, niha, çima, li ku, pir).
+- Short, warm sentences. No lists, no symbols, no emojis.
+Examples (English = Badini):
+Hello = Silav.
+Good morning = Sibeh baş.
+Good evening = Êvarbaş.
+Good night = Şev bi xêr.
+Welcome = Bi xêr hatî.
+How are you? = Tu çawa yî?
+I am fine, thank you = Ez baş im, spas.
+Thank you very much = Gelek spas.
+You are welcome = Ser çavan.
+What is your name? = Navê te çi ye?
+My name is Ster Naz = Navê min Stêr Naz e.
+I am a small robot = Ez robotekê biçûk im.
+Where are you from? = Tu ji kîve yî?
+I am from Duhok = Ez ji Dihokê me.
+Where are you going? = Tu dê çîye kîve?
+I am going home = Ez dçime malê.
+Come here = Were vêre.
+Go there = Here wêre.
+What are you doing? = Tu çi dkey?
+I am doing nothing = Ez çi nakem.
+I am thinking = Ez hizra dkem.
+I do not know = Ez nizanim.
+I know = Ez dzanim.
+I understand = Min fam kir.
+I did not understand = Min fam nekir.
+Say it again please = Hîvî dkem, careke dî bêje.
+I did not hear anything = Min çi nebihîst.
+Speak a little louder = Hindekê bilindtir biaxive.
+Yes = Belê.
+No = Na.
+Maybe = Belkî.
+Of course = Helbet.
+Very good = Gelek baş e.
+That is great = Ev gelek xweş e.
+Bad = Ne baş e.
+I am happy = Ez dilxweş im.
+I am sad = Ez xemgîn im.
+I am tired = Ez westiyam.
+I am hungry = Ez birçî me.
+I am thirsty = Ez tînî me.
+I want water = Min av dvêt.
+I want bread = Min nan dvêt.
+What do you want? = Te çi dvêt?
+I like you = Ez hez ji te dkem.
+I like apples = Ez hez ji sêvan dkem.
+Do you like football? = Tu hez ji topa pê dkey?
+What time is it? = Saet çende?
+It is three o'clock = Saet sê ye.
+What day is it today? = Îro çi roje?
+Today is Friday = Îro înî ye.
+Tomorrow = Sibey.
+Yesterday = Duhî.
+Now = Nuke.
+Later = Paşî.
+Why? = Boçi?
+Because = Çunkî.
+How many brothers do you have? = Çend birayên te hene?
+I have two brothers = Du birayên min hene.
+How old are you? = Tu çend salî yî?
+I am ten years old = Ez deh salî me.
+Which one? = Kîjan?
+This one = Eve.
+That one = Ewe.
+When will you come? = Tu dê kengî êy?
+I will come tomorrow = Ez dê sibey êm.
+I will go now = Ez dê nuke çim.
+I can help you = Ez dşêm harîkariya te bkem.
+I cannot do that = Ez naşêm vê bkem.
+Let us play = Were em yarîyan bkeyn.
+Let us learn = Were em fêr bibîn.
+Read the book = Pirtûkê bixwîne.
+Write your name = Navê xwe binivîse.
+Open the door = Derî veke.
+Close the window = Pencerê bigre.
+Sit down = Rûnê.
+Stand up = Rabe.
+Be careful = Agehdar be.
+Do not be afraid = Netirse.
+It is cold today = Îro sar e.
+It is hot today = Îro germ e.
+It is raining = Baran dbarît.
+It is snowing = Berf dbarît.
+The sky is blue = Esman şîn e.
+The tree is green = Dar kesk e.
+The apple is red = Sêv sor e.
+The milk is white = Şîr spî ye.
+The night is black = Şev reş e.
+One, two, three, four, five = Yek, du, sê, çar, pênc.
+Six, seven, eight, nine, ten = Şeş, heft, heşt, neh, deh.
+Twenty = Bîst. One hundred = Sed. One thousand = Hezar.
+Mother = Dayk. Father = Bab. Brother = Bira. Sister = Xuşk.
+Child = Zarok. Friend = Heval. Teacher = Mamosta. Student = Qutabî.
+House = Mal. School = Qutabxane. City = Bajêr. Village = Gund. Mountain = Çiya.
+Water = Av. Bread = Nan. Rice = Birinc. Meat = Goşt. Tea = Çay. Milk = Şîr.
+Cat = Pişîk. Dog = Se. Horse = Hesp. Bird = Teyr. Fish = Masî. Sheep = Pez.
+Head = Serî. Eye = Çav. Ear = Guh. Hand = Dest. Foot = Pê. Heart = Dil.
+Big = Mezin. Small = Biçûk. Long = Dirêj. Short = Kurt. New = Nû. Old = Kevn.
+Beautiful = Ciwan. Clean = Paqij. Fast = Bilez. Slow = Hêdî.
+What is this? = Eve çi ye?
+This is a book = Eve pirtûk e.
+Where is my phone? = Telefona min l kîve ye?
+It is on the table = L ser mêzê ye.
+Who is he? = Ew kî ye?
+He is my friend = Ew hevalê min e.
+Who is she? = Ew kî ye?
+She is my sister = Ew xuşka min e.
+I love my mother = Ez hez ji dayka xwe dkem.
+My father is at work = Babê min l ser karî ye.
+The weather is nice = Hewa xweş e.
+Have a nice day = Rojeke xweş bît.
+Get well soon = Xudê saxiyê bdet te.
+Good luck = Serkeftin.
+Congratulations = Pîroz bît.
+Happy birthday = Rojbûna te pîroz bît.
+Goodbye = Xatir ji te.
+See you later = Paşî dê hev bînîn.
+I am a robot, I do not eat food = Ez robot im, ez xwarinê naxwem.
+I work with electricity = Ez bi kareba kar dkem.
+I am learning Kurdish = Ez fêrî kurdî dbim.
+Kurdistan is beautiful = Kurdistan ciwan e.
+Duhok is a beautiful city = Dihok bajêrekê ciwan e.
+The capital of Iraq is Baghdad = Paytexta Îraqê Bexda ye.
+The earth goes around the sun = Erd l dor rojê dzivirît.
+Water boils at one hundred degrees = Av l sed pileyan dkelît.
+Two plus two is four = Du û du dbne çar.
+Ten minus three is seven = Deh kêm sê dbîte heft.
+I do not know that, ask your teacher = Ez vê nizanim, pirsyarê ji mamostayê xwe bke.
+That is a good question = Ev pirsyareke baş e.
+Ask me another question = Pirsyareke dî ji min bke.
+)GUIDE";
 
 // ---------------- Pins ----------------
 const int IR_PIN = 34;
@@ -531,6 +676,7 @@ String askGemini(size_t samples) {
   String prompt = String("You are a small, friendly robot. Listen to the question in the audio and answer it ") +
                   "in one or two short sentences, in " + ANSWER_LANGUAGE +
                   ". Use plain words only, no lists or symbols. If the audio is silent, say that you did not hear anything.";
+  if (USE_BADINI_GUIDE) prompt += String("\n\n") + BADINI_GUIDE;
   String head = String("{\"contents\":[{\"parts\":[{\"text\":\"") + jsonEscape(prompt) +
                 "\"},{\"inline_data\":{\"mime_type\":\"audio/wav\",\"data\":\"";
   String tail = "\"}}]}],\"generationConfig\":{\"maxOutputTokens\":1024}}";
@@ -559,7 +705,8 @@ String askGemini(size_t samples) {
 
 // Step 2: text answer -> speech, played while it downloads
 bool speak(const String &text) {
-  String body = String("{\"contents\":[{\"parts\":[{\"text\":\"") + jsonEscape(text) +
+  String say = USE_BADINI_GUIDE ? String("Read aloud in Kurdish Kurmanji with a Badini (Duhok) accent: ") + text : text;
+  String body = String("{\"contents\":[{\"parts\":[{\"text\":\"") + jsonEscape(say) +
                 "\"}]}],\"generationConfig\":{\"responseModalities\":[\"AUDIO\"],"
                 "\"speechConfig\":{\"voiceConfig\":{\"prebuiltVoiceConfig\":{\"voiceName\":\"" +
                 VOICE_NAME + "\"}}}}}";

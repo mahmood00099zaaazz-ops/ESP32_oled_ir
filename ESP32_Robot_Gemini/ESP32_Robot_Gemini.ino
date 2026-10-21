@@ -592,16 +592,6 @@ void setup() {
 
   Wire.begin(SDA_PIN, SCL_PIN);
   u8g2.begin();
-
-  // Start WiFi first, so it gets its memory before the audio buffers and
-  // keeps connecting in the background while the rest is set up.
-  drawFace(FACE_THINK, 0, "WiFi...");
-  WiFi.mode(WIFI_STA);
-  WiFi.setSleep(false);
-  WiFi.setAutoReconnect(true);
-  WiFi.setTxPower(WIFI_POWER_8_5dBm);               // less current: fewer drop-outs on weak USB power
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
-
   u8g2.setBusClock(400000);                         // faster screen updates while talking
   randomSeed(esp_random());
 
@@ -628,6 +618,14 @@ void setup() {
     showError("No memory");
   }
   Serial.printf("Recording time: %u s\n", (unsigned)(recordingSamples / MIC_RATE));
+
+  // WiFi starts after the audio is set up, as in the first version: starting
+  // it earlier made the speaker fail to start ("Speaker not working").
+  drawFace(FACE_THINK, 0, "WiFi...");
+  WiFi.mode(WIFI_STA);
+  WiFi.setSleep(false);
+  WiFi.setAutoReconnect(true);
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
 
   // Wait for WiFi (phone hotspots can be slow to hand out an address)
   unsigned long start = millis();

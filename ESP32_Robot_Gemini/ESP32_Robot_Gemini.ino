@@ -582,6 +582,22 @@ bool speak(const String &text) {
   return player.foundAudio() && player.bytesPlayed() > 0;
 }
 
+// Speaker: MAX98357A, 16-bit mono at the TTS rate
+bool startSpeaker() {
+  speaker.setPins(SPK_BCLK, SPK_LRC, SPK_DIN);
+  bool ok = speaker.begin(I2S_MODE_STD, TTS_RATE, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
+  Serial.println(ok ? "Speaker OK" : "Speaker start FAILED");
+  return ok;
+}
+
+// Microphone: INMP441 sends 32-bit samples on the left slot
+bool startMic() {
+  mic.setPins(MIC_SCK, MIC_WS, -1, MIC_SD);
+  bool ok = mic.begin(I2S_MODE_STD, MIC_RATE, I2S_DATA_BIT_WIDTH_32BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_LEFT);
+  Serial.println(ok ? "Mic OK" : "Mic start FAILED");
+  return ok;
+}
+
 // =====================================================================
 //                              ARDUINO
 // =====================================================================
@@ -595,15 +611,21 @@ void setup() {
   u8g2.setBusClock(400000);                         // faster screen updates while talking
   randomSeed(esp_random());
 
-  // Microphone: INMP441 sends 32-bit samples on the left slot
-  mic.setPins(MIC_SCK, MIC_WS, -1, MIC_SD);
-  if (!mic.begin(I2S_MODE_STD, MIC_RATE, I2S_DATA_BIT_WIDTH_32BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_LEFT)) {
-    showError("Mic not working");
+  // Speaker first, then the microphone; each gets a second try if it fails.
+  // The Serial Monitor says which one failed.
+  if (!startSpeaker()) {
+    speaker.end();
+    delay(300);
+    if (!startSpeaker()) {
+      showError("Speaker not working");
+    }
   }
-  // Speaker: MAX98357A, 16-bit mono at the TTS rate
-  speaker.setPins(SPK_BCLK, SPK_LRC, SPK_DIN);
-  if (!speaker.begin(I2S_MODE_STD, TTS_RATE, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO)) {
-    showError("Speaker not working");
+  if (!startMic()) {
+    mic.end();
+    delay(300);
+    if (!startMic()) {
+      showError("Mic not working");
+    }
   }
 
   // Memory for the recording: 5 s with PSRAM, otherwise 3 s (96 KB)

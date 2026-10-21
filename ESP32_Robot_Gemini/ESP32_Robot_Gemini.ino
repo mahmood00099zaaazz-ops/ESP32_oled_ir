@@ -82,13 +82,13 @@ My name is Ster Naz = Navê min Stêr Naz e.
 I am a small robot = Ez robotekê biçûk im.
 Where are you from? = Tu ji kîve yî?
 I am from Duhok = Ez ji Dihokê me.
-Where are you going? = Tu dê çîye kîve?
+Where are you going? = Tu dê çiye kîve?
 I am going home = Ez dçime malê.
 Come here = Were vêre.
 Go there = Here wêre.
 What are you doing? = Tu çi dkey?
 I am doing nothing = Ez çi nakem.
-I am thinking = Ez hizra dkem.
+I am thinking = Ez hizr dkem.
 I do not know = Ez nizanim.
 I know = Ez dzanim.
 I understand = Min fam kir.
@@ -116,7 +116,7 @@ I like apples = Ez hez ji sêvan dkem.
 Do you like football? = Tu hez ji topa pê dkey?
 What time is it? = Saet çende?
 It is three o'clock = Saet sê ye.
-What day is it today? = Îro çi roje?
+What day is it today? = Îro çi roj e?
 Today is Friday = Îro înî ye.
 Tomorrow = Sibey.
 Yesterday = Duhî.
@@ -162,7 +162,7 @@ Mother = Dayk. Father = Bab. Brother = Bira. Sister = Xuşk.
 Child = Zarok. Friend = Heval. Teacher = Mamosta. Student = Qutabî.
 House = Mal. School = Qutabxane. City = Bajêr. Village = Gund. Mountain = Çiya.
 Water = Av. Bread = Nan. Rice = Birinc. Meat = Goşt. Tea = Çay. Milk = Şîr.
-Cat = Pişîk. Dog = Se. Horse = Hesp. Bird = Teyr. Fish = Masî. Sheep = Pez.
+Cat = Pişîk. Dog = Seh. Horse = Hesp. Bird = Teyr. Fish = Masî. Sheep = Pez.
 Head = Serî. Eye = Çav. Ear = Guh. Hand = Dest. Foot = Pê. Heart = Dil.
 Big = Mezin. Small = Biçûk. Long = Dirêj. Short = Kurt. New = Nû. Old = Kevn.
 Beautiful = Ciwan. Clean = Paqij. Fast = Bilez. Slow = Hêdî.
@@ -182,7 +182,7 @@ Get well soon = Xudê saxiyê bdet te.
 Good luck = Serkeftin.
 Congratulations = Pîroz bît.
 Happy birthday = Rojbûna te pîroz bît.
-Goodbye = Xatir ji te.
+Goodbye = Bi xatirê te.
 See you later = Paşî dê hev bînîn.
 I am a robot, I do not eat food = Ez robot im, ez xwarinê naxwem.
 I work with electricity = Ez bi kareba kar dkem.
@@ -192,11 +192,11 @@ Duhok is a beautiful city = Dihok bajêrekê ciwan e.
 The capital of Iraq is Baghdad = Paytexta Îraqê Bexda ye.
 The earth goes around the sun = Erd l dor rojê dzivirît.
 Water boils at one hundred degrees = Av l sed pileyan dkelît.
-Two plus two is four = Du û du dbne çar.
+Two plus two is four = Du û du dbine çar.
 Ten minus three is seven = Deh kêm sê dbîte heft.
-I do not know that, ask your teacher = Ez vê nizanim, pirsyarê ji mamostayê xwe bke.
-That is a good question = Ev pirsyareke baş e.
-Ask me another question = Pirsyareke dî ji min bke.
+I do not know that, ask your teacher = Ez vê nizanim, pisyarê ji mamostayê xwe bke.
+That is a good question = Ev pisyareke baş e.
+Ask me another question = Pisyareke dî ji min bke.
 )GUIDE";
 
 // ---------------- Pins ----------------

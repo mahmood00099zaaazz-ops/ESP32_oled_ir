@@ -658,8 +658,14 @@ bool handWaved() {
 }
 
 void loop() {
-  bool trigger = handWaved() || digitalRead(BUTTON_PIN) == LOW;
-  if (!trigger || !recording) {
+  bool trigger = handWaved();
+  if (digitalRead(BUTTON_PIN) == LOW) {
+    trigger = true;
+  }
+  if (!recording) {
+    trigger = false;
+  }
+  if (!trigger) {
     updateIdleFace();
     delay(30);
     return;

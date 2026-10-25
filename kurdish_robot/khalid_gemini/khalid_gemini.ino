@@ -8,6 +8,7 @@
 //   OLED      VCC 3V3, GND, SCL 22, SDA 21
 //   INMP441   VDD 3V3, GND, L/R GND, WS 33, SCK 32, SD 35
 //   MAX98357A VIN 5V, GND, LRC 25, BCLK 26, DIN 27
+//   or LM386  VCC 5V, GND, IN 25   (set AMP_LM386 = true; speaker on its green terminal)
 //   Battery   + -> 100k -> GPIO34 -> 100k -> GND   (optional, for the battery icon)
 //
 // Put your WiFi name, WiFi password and Gemini key in secrets.h
@@ -27,7 +28,8 @@ const char *TEXT_MODEL = "gemini-3.5-flash";              // understands your vo
 const char *TTS_MODEL  = "gemini-3.1-flash-tts-preview";  // turns the answer into speech
 const char *VOICE      = "Puck";                          // other voices: Kore, Fenrir, Charon, Aoede
 const bool  ARABIC_SCRIPT = false;   // false: Latin Kurmanci letters (usually spoken better)
-const float VOLUME = 0.25;           // 0.0 - 1.0. Keep low: the speaker is only 0.5 W
+const bool  AMP_LM386 = true;        // true: LM386 board on pin 25 (built-in DAC). false: MAX98357A
+const float VOLUME = 0.5;            // 0.0 - 1.0. With LM386, set the loudness with its blue knob
 const bool  MIC_RIGHT = false;       // set true if the screen says "mic silent"
 
 // ---------- Pins ----------
@@ -211,24 +213,61 @@ void render(Face f, Mood m, const char *label, bool mouthOpen, bool blink) {
 }
 
 // ---------- Audio out ----------
+// Writes mono samples to the amp. Returns how many samples were taken.
+int ampWrite(const int16_t *s, int n, TickType_t wait) {
+  if (!AMP_LM386) {
+    size_t w = 0;
+    i2s_write(AMP_PORT, s, n * 2, &w, wait);
+    return w / 2;
+  }
+  // Built-in DAC: unsigned, it uses the high byte. Same sample on both channels.
+  uint16_t st[256];
+  int done = 0;
+  while (done < n) {
+    int k = min(n - done, 128);
+    for (int i = 0; i < k; i++) st[2 * i] = st[2 * i + 1] = (uint16_t)(s[done + i] + 32768);
+    size_t w = 0;
+    i2s_write(AMP_PORT, st, k * 4, &w, wait);
+    done += w / 4;
+    if ((int)w < k * 4) break;
+  }
+  return done;
+}
+
+// Fills the DMA buffers with silence (the DAC keeps repeating them, so silence must be mid-level).
+void ampQuiet() {
+  if (!AMP_LM386) { i2s_zero_dma_buffer(AMP_PORT); return; }
+  int16_t z[128] = {0};
+  for (int i = 0; i < 8 * 512 / 128; i++) ampWrite(z, 128, portMAX_DELAY);
+}
+
 void startAmp() {
   i2s_config_t cfg = {};
-  cfg.mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_TX);
   cfg.sample_rate = TTS_RATE;
   cfg.bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT;
-  cfg.channel_format = I2S_CHANNEL_FMT_ONLY_LEFT;
-  cfg.communication_format = I2S_COMM_FORMAT_STAND_I2S;
   cfg.dma_buf_count = 8;
   cfg.dma_buf_len = 512;
-  cfg.tx_desc_auto_clear = true;
-  i2s_pin_config_t pins = {};
-  pins.bck_io_num = AMP_BCLK;
-  pins.ws_io_num = AMP_LRC;
-  pins.data_out_num = AMP_DIN;
-  pins.data_in_num = I2S_PIN_NO_CHANGE;
-  i2s_driver_install(AMP_PORT, &cfg, 0, NULL);
-  i2s_set_pin(AMP_PORT, &pins);
-  i2s_zero_dma_buffer(AMP_PORT);
+  if (AMP_LM386) {
+    cfg.mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_TX | I2S_MODE_DAC_BUILT_IN);
+    cfg.channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT;
+    cfg.communication_format = I2S_COMM_FORMAT_STAND_MSB;
+    cfg.tx_desc_auto_clear = false;  // auto-clear would drop the DAC to 0 V and click
+    i2s_driver_install(AMP_PORT, &cfg, 0, NULL);
+    i2s_set_dac_mode(I2S_DAC_CHANNEL_RIGHT_EN);  // GPIO25 only
+  } else {
+    cfg.mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_TX);
+    cfg.channel_format = I2S_CHANNEL_FMT_ONLY_LEFT;
+    cfg.communication_format = I2S_COMM_FORMAT_STAND_I2S;
+    cfg.tx_desc_auto_clear = true;
+    i2s_pin_config_t pins = {};
+    pins.bck_io_num = AMP_BCLK;
+    pins.ws_io_num = AMP_LRC;
+    pins.data_out_num = AMP_DIN;
+    pins.data_in_num = I2S_PIN_NO_CHANGE;
+    i2s_driver_install(AMP_PORT, &cfg, 0, NULL);
+    i2s_set_pin(AMP_PORT, &pins);
+  }
+  ampQuiet();
 }
 
 void beep(int freq, int ms) {
@@ -240,10 +279,9 @@ void beep(int freq, int ms) {
       buf[i] = (int16_t)(8000 * VOLUME * sinf(phase));
       phase += 2 * PI * freq / TTS_RATE;
     }
-    size_t w;
-    i2s_write(AMP_PORT, buf, sizeof(buf), &w, portMAX_DELAY);
+    ampWrite(buf, 256, portMAX_DELAY);
   }
-  i2s_zero_dma_buffer(AMP_PORT);
+  ampQuiet();
 }
 
 // ---------- Microphone ----------
@@ -532,9 +570,7 @@ int ringHead = 0, ringTail = 0, ringCount = 0;
 void ringPump(bool block) {
   while (ringCount > 0) {
     int n = min(ringCount, min(REC_MAX - ringTail, 512));
-    size_t written = 0;
-    i2s_write(AMP_PORT, &audioBuf[ringTail], n * 2, &written, block ? portMAX_DELAY : 0);
-    int s = written / 2;
+    int s = ampWrite(&audioBuf[ringTail], n, block ? portMAX_DELAY : 0);
     ringTail = (ringTail + s) % REC_MAX;
     ringCount -= s;
     if (s < n && !block) return;  // DMA is full for now
@@ -589,7 +625,6 @@ bool speak(const String &reply, Mood mood, String &err) {
   int bits = 0;
   uint32_t decoded = 0;
   unsigned long lastMouth = 0;
-  i2s_zero_dma_buffer(AMP_PORT);
 
   while ((ch = r.get()) >= 0 && ch != '"') {
     int8_t val = b64val(ch);
@@ -628,8 +663,7 @@ bool speak(const String &reply, Mood mood, String &err) {
     }
     delay(5);
   }
-  delay(8 * 512 * 1000 / TTS_RATE);  // let the DMA buffers finish
-  i2s_zero_dma_buffer(AMP_PORT);
+  ampQuiet();  // queues silence behind the last words, so they finish playing
   return true;
 }
 

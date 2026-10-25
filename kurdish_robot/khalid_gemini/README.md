@@ -20,7 +20,8 @@
 |---|---|
 | شاشە | VCC 3V3، GND، SCL 22، SDA 21 |
 | مایک INMP441 | VDD 3V3، GND، L/R GND، WS 33، SCK 32، SD 35 |
-| ئەمپ MAX98357A | VIN 5V، GND، LRC 25، BCLK 26، DIN 27 |
+| ئەمپ MAX98357A | VIN 5V، GND، LRC 25، BCLK 26، DIN 27 (`AMP_LM386 = false`) |
+| یان ئەمپ LM386 | VCC 5V، GND، IN 25 (`AMP_LM386 = true`)، بلندگۆ ل سەر پارچا سەوز |
 | باتری (نوو) | باتری+ ← 100k ← GPIO34 ← 100k ← GND |
 
 ## ئەگەر کار نەکر

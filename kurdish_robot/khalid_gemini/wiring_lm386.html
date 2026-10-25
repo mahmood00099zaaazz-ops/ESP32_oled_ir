@@ -1,0 +1,124 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Khalid Wiring LM386</title>
+<style>body{margin:0;background:#f4f5f7}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="2330" viewBox="0 0 760 2330" font-family="DejaVu Sans, sans-serif">
+  <rect width="760" height="2330" fill="#f4f5f7"/>
+  <text x="380" y="58" font-size="32" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">گرێدانا هەمی تشتان 🤖</text>
+  <text x="380" y="96" font-size="19" fill="#5d6878" text-anchor="middle" direction="rtl">ل گۆر پارچێن د وێنێ تە دا</text>
+
+  <!-- power rails -->
+  <rect x="30" y="120" width="700" height="290" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <circle cx="680" cy="170" r="26" fill="#ff3b30"/><text x="680" y="181" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">١</text>
+  <text x="640" y="180" font-size="24" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">3V3 و GND ← Breadboard</text>
+  <text x="640" y="216" font-size="18" fill="#5d6878" direction="rtl" text-anchor="start">شاشە و مایک هەردو 3V3 دڤێن</text>
+  <rect x="60" y="240" width="190" height="140" rx="10" fill="#1b1f24"/>
+  <text x="155" y="318" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">ESP32</text>
+  <text x="80" y="270" font-size="17" fill="#ffd54f" font-weight="bold">3V3</text>
+  <text x="80" y="365" font-size="17" fill="#ffd54f" font-weight="bold">GND</text>
+  <rect x="420" y="240" width="270" height="140" rx="8" fill="#f5f5f5" stroke="#bbb" stroke-width="2"/>
+  <path d="M440 260 h230" stroke="#e53935" stroke-width="6"/><path d="M440 360 h230" stroke="#1e88e5" stroke-width="6"/>
+  <text x="555" y="300" font-size="19" fill="#e53935" font-weight="bold" text-anchor="middle">+ (3V3)</text>
+  <text x="555" y="340" font-size="19" fill="#1e88e5" font-weight="bold" text-anchor="middle">− (GND)</text>
+  <path d="M250 265 H440" stroke="#e53935" stroke-width="7"/>
+  <path d="M250 360 H440" stroke="#222" stroke-width="7"/>
+
+  <!-- OLED -->
+  <rect x="30" y="430" width="700" height="290" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <circle cx="680" cy="480" r="26" fill="#1565c0"/><text x="680" y="491" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">٢</text>
+  <text x="640" y="490" font-size="24" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">شاشە 🖥️</text>
+  <rect x="470" y="520" width="200" height="160" rx="8" fill="#1565c0"/><rect x="490" y="560" width="140" height="100" fill="#000"/>
+  <text x="570" y="545" font-size="13" fill="#fff" text-anchor="middle">VCC GND SCL SDA</text>
+  <g font-size="21" font-family="DejaVu Sans Mono, monospace" fill="#1b1f24">
+    <text x="60" y="545">VCC ─▶ <tspan fill="#e53935" font-weight="bold">+ (3V3)</tspan></text>
+    <text x="60" y="590">GND ─▶ <tspan fill="#1e88e5" font-weight="bold">− (GND)</tspan></text>
+    <text x="60" y="635">SCL ─▶ ESP32 <tspan fill="#c62828" font-weight="bold">22</tspan></text>
+    <text x="60" y="680">SDA ─▶ ESP32 <tspan fill="#c62828" font-weight="bold">21</tspan></text>
+  </g>
+
+  <!-- MIC -->
+  <rect x="30" y="740" width="700" height="380" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <circle cx="680" cy="790" r="26" fill="#263238"/><text x="680" y="801" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">٣</text>
+  <text x="640" y="800" font-size="24" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">مایک 🎤</text>
+  <circle cx="570" cy="950" r="85" fill="#222" stroke="#c9a54a" stroke-width="8"/>
+  <circle cx="570" cy="950" r="12" fill="#888"/>
+  <g font-size="14" fill="#fff" text-anchor="middle"><text x="520" y="915">L/R</text><text x="520" y="955">WS</text><text x="520" y="995">SCK</text>
+  <text x="620" y="915">GND</text><text x="620" y="955">VDD</text><text x="620" y="995">SD</text></g>
+  <g font-size="21" font-family="DejaVu Sans Mono, monospace" fill="#1b1f24">
+    <text x="60" y="855">VDD ─▶ <tspan fill="#e53935" font-weight="bold">+ (3V3)</tspan></text>
+    <text x="60" y="900">GND ─▶ <tspan fill="#1e88e5" font-weight="bold">− (GND)</tspan></text>
+    <text x="60" y="945">L/R ─▶ <tspan fill="#1e88e5" font-weight="bold">− (GND)</tspan></text>
+    <text x="60" y="990">WS  ─▶ ESP32 <tspan fill="#c62828" font-weight="bold">33</tspan></text>
+    <text x="60" y="1035">SCK ─▶ ESP32 <tspan fill="#c62828" font-weight="bold">32</tspan></text>
+    <text x="60" y="1080">SD  ─▶ ESP32 <tspan fill="#c62828" font-weight="bold">35</tspan></text>
+  </g>
+
+  <!-- LM386 -->
+  <rect x="30" y="1140" width="700" height="430" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <circle cx="680" cy="1190" r="26" fill="#5e35b1"/><text x="680" y="1201" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">٤</text>
+  <text x="640" y="1200" font-size="24" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">ئەمپ LM386 🔊 (٣ پین)</text>
+  <!-- board -->
+  <rect x="400" y="1240" width="290" height="110" rx="8" fill="#0d47a1"/>
+  <rect x="410" y="1255" width="70" height="80" rx="4" fill="#4caf50"/>
+  <circle cx="430" cy="1280" r="9" fill="#2e7d32"/><circle cx="460" cy="1280" r="9" fill="#2e7d32"/>
+  <rect x="520" y="1275" width="40" height="30" rx="3" fill="#222"/>
+  <circle cx="605" cy="1285" r="20" fill="#1e88e5"/><circle cx="605" cy="1285" r="12" fill="#eee"/>
+  <g stroke="#c0c0c0" stroke-width="5"><path d="M660 1260 h45"/><path d="M660 1295 h45"/><path d="M660 1330 h45"/></g>
+  <g font-size="15" fill="#333" font-weight="bold"><text x="712" y="1265">VCC</text><text x="712" y="1300">IN</text><text x="712" y="1335">GND</text></g>
+  <text x="605" y="1330" font-size="13" fill="#fff" text-anchor="middle" direction="rtl">دەنگ</text>
+  <!-- speaker -->
+  <path d="M430 1290 C430 1380 470 1400 500 1420" stroke="#fbc02d" stroke-width="6" fill="none"/>
+  <path d="M460 1290 C460 1370 500 1390 525 1415" stroke="#1e88e5" stroke-width="6" fill="none"/>
+  <circle cx="530" cy="1460" r="50" fill="#222"/><circle cx="530" cy="1460" r="18" fill="#555"/>
+  <text x="620" y="1470" font-size="19" fill="#333" direction="rtl" text-anchor="middle">بلندگۆ</text>
+  <g font-size="21" font-family="DejaVu Sans Mono, monospace" fill="#1b1f24">
+    <text x="60" y="1270">VCC ─▶ ESP32 <tspan fill="#c62828" font-weight="bold">5V</tspan></text>
+    <text x="60" y="1315">GND ─▶ ESP32 <tspan fill="#c62828" font-weight="bold">GND</tspan></text>
+    <text x="60" y="1360">IN  ─▶ ESP32 <tspan fill="#c62828" font-weight="bold">25</tspan></text>
+  </g>
+  <g font-size="18" direction="rtl" text-anchor="start" fill="#5d6878">
+    <text x="360" y="1430">بلندگۆ ← پارچا سەوز</text>
+    <text x="360" y="1462">ب بورغیێ، بێ لحیم ✓</text>
+    <text x="360" y="1520" fill="#1565c0">🔵 دوگما شین = بلندی دەنگی</text>
+    <text x="360" y="1550" fill="#1565c0">ل دەستپێکێ بکە نیڤ</text>
+  </g>
+
+  <!-- battery -->
+  <rect x="30" y="1590" width="700" height="560" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <circle cx="680" cy="1640" r="26" fill="#34c759"/><text x="680" y="1651" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">٥</text>
+  <text x="640" y="1650" font-size="24" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">باتری 🔋 (پشتی کو هەمی کار کر)</text>
+  <!-- battery -->
+  <rect x="60" y="1700" width="170" height="110" rx="12" fill="#222"/>
+  <text x="145" y="1750" font-size="18" fill="#fff" text-anchor="middle">Li-ion</text>
+  <text x="145" y="1780" font-size="16" fill="#bbb" text-anchor="middle">3.6V 1000mAh</text>
+  <!-- tp4056 -->
+  <rect x="300" y="1690" width="190" height="140" rx="8" fill="#1565c0"/>
+  <rect x="370" y="1675" width="50" height="25" rx="4" fill="#bbb"/>
+  <text x="395" y="1765" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">TP4056</text>
+  <g font-size="14" fill="#ffd54f" font-weight="bold"><text x="310" y="1820">B−</text><text x="350" y="1820">B+</text><text x="400" y="1820">OUT−</text><text x="448" y="1820">OUT+</text></g>
+  <!-- wires battery -->
+  <path d="M230 1730 C270 1730 330 1760 360 1815" stroke="#e53935" stroke-width="6" fill="none"/>
+  <path d="M230 1790 C260 1790 300 1800 318 1815" stroke="#222" stroke-width="6" fill="none"/>
+  <!-- switch -->
+  <circle cx="600" cy="1740" r="34" fill="#e53935" stroke="#222" stroke-width="6"/>
+  <text x="600" y="1800" font-size="17" fill="#333" text-anchor="middle" direction="rtl">سویچ</text>
+  <path d="M468 1815 C500 1780 540 1750 566 1740" stroke="#e53935" stroke-width="6" fill="none"/>
+  <!-- esp32 target -->
+  <rect x="520" y="1880" width="170" height="90" rx="8" fill="#1b1f24"/>
+  <text x="605" y="1915" font-size="18" font-weight="bold" fill="#fff" text-anchor="middle">ESP32</text>
+  <text x="555" y="1955" font-size="16" fill="#ffd54f" font-weight="bold" text-anchor="middle">GND</text>
+  <text x="660" y="1955" font-size="16" fill="#ffd54f" font-weight="bold" text-anchor="middle">5V</text>
+  <path d="M634 1740 C720 1760 715 1900 660 1940" stroke="#e53935" stroke-width="6" fill="none"/>
+  <path d="M415 1828 C420 1900 520 1900 555 1940" stroke="#222" stroke-width="6" fill="none"/>
+  <g font-size="20" font-family="DejaVu Sans Mono, monospace" fill="#1b1f24">
+    <text x="60" y="2010">Battery <tspan fill="#e53935" font-weight="bold">+</tspan> ─▶ B+</text>
+    <text x="60" y="2042">Battery <tspan font-weight="bold">−</tspan> ─▶ B−</text>
+    <text x="60" y="2074">OUT+ ─▶ Switch ─▶ ESP32 <tspan fill="#c62828" font-weight="bold">5V</tspan></text>
+    <text x="60" y="2106">OUT− ─▶ ESP32 <tspan fill="#c62828" font-weight="bold">GND</tspan></text>
+  </g>
+  <text x="690" y="2140" font-size="18" fill="#c62828" font-weight="bold" direction="rtl" text-anchor="start">⚠️ دەمێ USB ب ESP32 ڤە، سویچ OFF بکە</text>
+  <text x="380" y="2200" font-size="22" font-weight="bold" fill="#1e9e45" text-anchor="middle" direction="rtl">✓ کۆدێ نوو بۆ LM386 بکار بینە</text>
+  <text x="380" y="2240" font-size="18" fill="#5d6878" text-anchor="middle" direction="rtl">GPIO 26 و 27 نوکە ڤالا دمینن</text>
+  <text x="380" y="2280" font-size="18" fill="#5d6878" text-anchor="middle" direction="rtl">بەری هەر گرێدانەکێ: USB دەرێخە 🔌</text>
+</svg>
+</body></html>

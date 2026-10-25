@@ -360,7 +360,7 @@ struct NetReader {
 };
 
 // Sends text with write(), which every ESP32 core version has on WiFiClientSecure.
-void send(WiFiClientSecure &c, const String &s) {
+void sendText(WiFiClientSecure &c, const String &s) {
   c.write((const uint8_t *)s.c_str(), s.length());
 }
 
@@ -376,8 +376,8 @@ bool startPost(WiFiClientSecure &c, const char *model, size_t bodyLen) {
            "Content-Length: %u\r\n"
            "Connection: close\r\n",
            model, HOST, (unsigned)bodyLen);
-  send(c, head);
-  send(c, String("x-goog-api-key: ") + GEMINI_KEY + "\r\n\r\n");
+  sendText(c, head);
+  sendText(c, String("x-goog-api-key: ") + GEMINI_KEY + "\r\n\r\n");
   return true;
 }
 
@@ -466,7 +466,7 @@ bool askGemini(int samples, String &heard, String &reply, Mood &mood, String &er
   size_t b64Len = 4 * ((wavLen + 2) / 3);
   WiFiClientSecure c;
   if (!startPost(c, TEXT_MODEL, pre.length() + b64Len + post.length())) { err = "no connection"; return false; }
-  send(c, pre);
+  sendText(c, pre);
 
   static const char *T = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   const uint8_t *pcm = (const uint8_t *)audioBuf;
@@ -484,7 +484,7 @@ bool askGemini(int samples, String &heard, String &reply, Mood &mood, String &er
     if (o >= 508) { c.write((const uint8_t *)out, o); o = 0; }
   }
   if (o) c.write((const uint8_t *)out, o);
-  send(c, post);
+  sendText(c, post);
 
   NetReader r;
   r.c = &c;
@@ -550,7 +550,7 @@ bool speak(const String &reply, Mood mood, String &err) {
 
   WiFiClientSecure c;
   if (!startPost(c, TTS_MODEL, body.length())) { err = "no connection"; return false; }
-  send(c, body);
+  sendText(c, body);
 
   NetReader r;
   r.c = &c;

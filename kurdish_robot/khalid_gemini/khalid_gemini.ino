@@ -59,7 +59,13 @@ unsigned long lastBattRead = 0;
 
 void readBattery() {
   uint32_t mv = 0;
-  for (int i = 0; i < 16; i++) mv += analogReadMilliVolts(PIN_BATT);
+  for (int i = 0; i < 16; i++) {
+#if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR >= 2
+    mv += analogReadMilliVolts(PIN_BATT);
+#else
+    mv += analogRead(PIN_BATT) * 3300UL / 4095;  // older ESP32 cores: rough value
+#endif
+  }
   battVolts = (mv / 16.0f) * 2.0f / 1000.0f;  // 100k/100k divider
   battPresent = battVolts > 2.5f;              // nothing connected reads ~0 V
   lastBattRead = millis();

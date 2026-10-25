@@ -1,0 +1,56 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>TP4056 Pads</title>
+<style>body{margin:0;background:#fff}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1520" viewBox="0 0 1125 2250" font-family="DejaVu Sans, sans-serif">
+  <rect width="1125" height="2250" fill="#fff"/>
+  <text x="562" y="70" font-size="50" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">TP4056: تێلان ل کیڤە بکەی؟</text>
+  <g transform="translate(0,-250)">
+    <clipPath id="c"><rect x="0" y="350" width="1125" height="1200"/></clipPath>
+    <image href="tp4056_photo.jpg" x="0" y="0" width="1125" height="2000" preserveAspectRatio="none" clip-path="url(#c)"/>
+    <!-- pads -->
+    <circle cx="290" cy="832" r="30" fill="none" stroke="#ff1744" stroke-width="9"/>
+    <circle cx="332" cy="830" r="26" fill="none" stroke="#ff9100" stroke-width="9"/>
+    <circle cx="466" cy="826" r="26" fill="none" stroke="#2979ff" stroke-width="9"/>
+    <circle cx="528" cy="822" r="30" fill="none" stroke="#212121" stroke-width="9"/>
+    <!-- leader lines -->
+    <path d="M290 800 L120 520" stroke="#ff1744" stroke-width="7"/>
+    <path d="M332 800 L360 520" stroke="#ff9100" stroke-width="7"/>
+    <path d="M466 800 L640 520" stroke="#2979ff" stroke-width="7"/>
+    <path d="M528 795 L900 520" stroke="#212121" stroke-width="7"/>
+    <!-- labels -->
+    <rect x="20" y="400" width="210" height="120" rx="16" fill="#ff1744"/>
+    <text x="125" y="455" font-size="40" font-weight="bold" fill="#fff" text-anchor="middle">OUT+</text>
+    <text x="125" y="500" font-size="28" fill="#fff" text-anchor="middle" direction="rtl">بۆ سویچ</text>
+    <rect x="260" y="400" width="210" height="120" rx="16" fill="#ff9100"/>
+    <text x="365" y="455" font-size="40" font-weight="bold" fill="#fff" text-anchor="middle">B+</text>
+    <text x="365" y="500" font-size="28" fill="#fff" text-anchor="middle" direction="rtl">باتری سۆر</text>
+    <rect x="530" y="400" width="210" height="120" rx="16" fill="#2979ff"/>
+    <text x="635" y="455" font-size="40" font-weight="bold" fill="#fff" text-anchor="middle">B−</text>
+    <text x="635" y="500" font-size="28" fill="#fff" text-anchor="middle" direction="rtl">باتری رەش</text>
+    <rect x="800" y="400" width="250" height="120" rx="16" fill="#212121"/>
+    <text x="925" y="455" font-size="40" font-weight="bold" fill="#fff" text-anchor="middle">OUT−</text>
+    <text x="925" y="500" font-size="28" fill="#fff" text-anchor="middle" direction="rtl">MT3608 VIN−</text>
+    <!-- usb -->
+    <path d="M430 1320 V1420" stroke="#00c853" stroke-width="8"/>
+    <rect x="250" y="1420" width="360" height="80" rx="14" fill="#00c853"/>
+    <text x="430" y="1472" font-size="34" font-weight="bold" fill="#fff" text-anchor="middle" direction="rtl">USB = شەحنا باتریێ 🔌</text>
+  </g>
+  <rect x="30" y="1290" width="1065" height="930" rx="24" fill="#f4f5f7" stroke="#d5dbe4" stroke-width="3"/>
+  <g font-size="38" direction="rtl" text-anchor="start" fill="#1b1f24">
+    <text x="1060" y="1370" font-weight="bold">١. تێلا سۆر یا باتریێ ← B+</text>
+    <text x="1060" y="1440" font-weight="bold">٢. تێلا رەش یا باتریێ ← B−</text>
+    <text x="1060" y="1510" font-weight="bold">٣ و ٤:</text>
+    <text x="1060" y="1700" fill="#1565c0">٥. سویچ ON، پاشی Multimeter ل سەر</text>
+    <text x="1060" y="1760" fill="#1565c0">VOUT+ و VOUT− یێن MT3608 (نە ڤێ پارچێ)</text>
+    <text x="1060" y="1840" fill="#c62828">⚠️ B+ و B− بەرەڤاژی نەکە، باتری گەرم دبیت</text>
+    <text x="1060" y="1910" fill="#c62828">⚠️ بلا B+ و B− ب ئێک نەکەڤن</text>
+    <text x="1060" y="2010" fill="#5d6878">💡 نڤیسینێن بچویک ل سەر پارچێ بخوینە دا پشتراست بی</text>
+    <text x="1060" y="2110" fill="#5d6878">📸 پاشی وێنێ MT3608 ژی بهنێرە</text>
+  </g>
+  <g font-size="36" font-family="DejaVu Sans Mono, monospace" font-weight="bold" fill="#1b1f24">
+    <text x="80" y="1570">OUT+ ─▶ Switch ─▶ MT3608 VIN+</text>
+    <text x="80" y="1625">OUT− ─▶ MT3608 VIN−</text>
+  </g>
+</svg>
+</body></html>

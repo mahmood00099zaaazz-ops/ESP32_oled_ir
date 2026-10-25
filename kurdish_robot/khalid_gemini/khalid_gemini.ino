@@ -359,16 +359,25 @@ struct NetReader {
   }
 };
 
+// Sends text with write(), which every ESP32 core version has on WiFiClientSecure.
+void send(WiFiClientSecure &c, const String &s) {
+  c.write((const uint8_t *)s.c_str(), s.length());
+}
+
 // Sends the request line and headers. HTTP/1.0 keeps the reply un-chunked.
 bool startPost(WiFiClientSecure &c, const char *model, size_t bodyLen) {
   c.setInsecure();
   if (!c.connect(HOST, 443)) return false;
-  c.printf("POST /v1beta/models/%s:generateContent HTTP/1.0\r\n", model);
-  c.printf("Host: %s\r\n", HOST);
-  c.printf("x-goog-api-key: %s\r\n", GEMINI_KEY);
-  c.print("Content-Type: application/json\r\n");
-  c.printf("Content-Length: %u\r\n", (unsigned)bodyLen);
-  c.print("Connection: close\r\n\r\n");
+  char head[256];
+  snprintf(head, sizeof(head),
+           "POST /v1beta/models/%s:generateContent HTTP/1.0\r\n"
+           "Host: %s\r\n"
+           "Content-Type: application/json\r\n"
+           "Content-Length: %u\r\n"
+           "Connection: close\r\n",
+           model, HOST, (unsigned)bodyLen);
+  send(c, head);
+  send(c, String("x-goog-api-key: ") + GEMINI_KEY + "\r\n\r\n");
   return true;
 }
 
@@ -457,7 +466,7 @@ bool askGemini(int samples, String &heard, String &reply, Mood &mood, String &er
   size_t b64Len = 4 * ((wavLen + 2) / 3);
   WiFiClientSecure c;
   if (!startPost(c, TEXT_MODEL, pre.length() + b64Len + post.length())) { err = "no connection"; return false; }
-  c.print(pre);
+  send(c, pre);
 
   static const char *T = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   const uint8_t *pcm = (const uint8_t *)audioBuf;
@@ -475,7 +484,7 @@ bool askGemini(int samples, String &heard, String &reply, Mood &mood, String &er
     if (o >= 508) { c.write((const uint8_t *)out, o); o = 0; }
   }
   if (o) c.write((const uint8_t *)out, o);
-  c.print(post);
+  send(c, post);
 
   NetReader r;
   r.c = &c;
@@ -541,7 +550,7 @@ bool speak(const String &reply, Mood mood, String &err) {
 
   WiFiClientSecure c;
   if (!startPost(c, TTS_MODEL, body.length())) { err = "no connection"; return false; }
-  c.print(body);
+  send(c, body);
 
   NetReader r;
   r.c = &c;

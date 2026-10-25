@@ -286,6 +286,19 @@ void appendUtf8(String &out, uint32_t cp) {
   }
 }
 
+// Reads 4 hex digits starting at src[p] (for \uXXXX escapes).
+uint32_t hex4(const String &src, int p) {
+  uint32_t v = 0;
+  for (int i = 0; i < 4; i++) {
+    char h = src[p + i];
+    v <<= 4;
+    if (h >= '0' && h <= '9') v |= h - '0';
+    else if (h >= 'a' && h <= 'f') v |= h - 'a' + 10;
+    else if (h >= 'A' && h <= 'F') v |= h - 'A' + 10;
+  }
+  return v;
+}
+
 // Returns the string value of "key" in a JSON text (first match), unescaped.
 String jsonField(const String &src, const char *key) {
   String pat = String("\"") + key + "\"";
@@ -307,10 +320,10 @@ String jsonField(const String &src, const char *key) {
     else if (e == 't') out += '\t';
     else if (e == 'r') {}
     else if (e == 'u' && p + 4 <= (int)src.length()) {
-      uint32_t cp = strtoul(src.substring(p, p + 4).c_str(), nullptr, 16);
+      uint32_t cp = hex4(src, p);
       p += 4;
       if (cp >= 0xD800 && cp < 0xDC00 && p + 6 <= (int)src.length() && src[p] == '\\' && src[p + 1] == 'u') {
-        uint32_t lo = strtoul(src.substring(p + 2, p + 6).c_str(), nullptr, 16);
+        uint32_t lo = hex4(src, p + 2);
         cp = 0x10000 + ((cp - 0xD800) << 10) + (lo - 0xDC00);
         p += 6;
       }
@@ -349,7 +362,6 @@ struct NetReader {
 // Sends the request line and headers. HTTP/1.0 keeps the reply un-chunked.
 bool startPost(WiFiClientSecure &c, const char *model, size_t bodyLen) {
   c.setInsecure();
-  c.setTimeout(20);
   if (!c.connect(HOST, 443)) return false;
   c.printf("POST /v1beta/models/%s:generateContent HTTP/1.0\r\n", model);
   c.printf("Host: %s\r\n", HOST);

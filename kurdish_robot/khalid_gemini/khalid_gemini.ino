@@ -52,6 +52,41 @@ U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
 
 int16_t *audioBuf = nullptr;
 
+// ---------- Types ----------
+// Defined before any function: the Arduino builder adds function prototypes
+// above the first function, and they must already know these types.
+enum Mood { M_NORMAL, M_HAPPY, M_FUNNY, M_ANGRY, M_SAD, M_LOVE, M_SURPRISED };
+enum Face { F_IDLE, F_LISTEN, F_THINK, F_TALK, F_SLEEP, F_ERROR };
+
+struct Turn { String role, text; };
+
+// Reads a server reply one byte at a time, in 1 KB chunks.
+struct NetReader {
+  WiFiClientSecure *c;
+  uint8_t buf[1024];
+  int len = 0, pos = 0;
+  int get() {
+    if (pos >= len) {
+      unsigned long t = millis();
+      while (!c->available()) {
+        if (!c->connected() || millis() - t > 20000) return -1;
+        delay(2);
+      }
+      len = c->read(buf, sizeof(buf));
+      pos = 0;
+      if (len <= 0) return -1;
+    }
+    return buf[pos++];
+  }
+  String line() {
+    String s;
+    int ch;
+    while ((ch = get()) >= 0 && ch != '\n') if (ch != '\r') s += (char)ch;
+    return s;
+  }
+};
+
+
 // ---------- Battery ----------
 float battVolts = 0;
 bool  battPresent = false;
@@ -90,8 +125,6 @@ void drawBattery() {
 }
 
 // ---------- Faces ----------
-enum Mood { M_NORMAL, M_HAPPY, M_FUNNY, M_ANGRY, M_SAD, M_LOVE, M_SURPRISED };
-enum Face { F_IDLE, F_LISTEN, F_THINK, F_TALK, F_SLEEP, F_ERROR };
 
 int lookX = 0;
 
@@ -148,7 +181,7 @@ void drawEye(int cx, int cy, Mood m, bool left, bool closed) {
   }
 }
 
-void render(Face f, Mood m, const char *label, bool mouthOpen = false, bool blink = false) {
+void render(Face f, Mood m, const char *label, bool mouthOpen, bool blink) {
   u8g2.clearBuffer();
   drawBattery();
 
@@ -252,7 +285,7 @@ int recordWhileHeld() {
     }
     if (millis() - lastFace > 300) {
       ear = !ear;
-      render(F_LISTEN, M_NORMAL, ear ? "listening..." : "listening.. ");
+      render(F_LISTEN, M_NORMAL, ear ? "listening..." : "listening.. ", false, false);
       lastFace = millis();
     }
   }
@@ -334,30 +367,6 @@ String jsonField(const String &src, const char *key) {
 }
 
 // ---------- Network ----------
-struct NetReader {
-  WiFiClientSecure *c;
-  uint8_t buf[1024];
-  int len = 0, pos = 0;
-  int get() {
-    if (pos >= len) {
-      unsigned long t = millis();
-      while (!c->available()) {
-        if (!c->connected() || millis() - t > 20000) return -1;
-        delay(2);
-      }
-      len = c->read(buf, sizeof(buf));
-      pos = 0;
-      if (len <= 0) return -1;
-    }
-    return buf[pos++];
-  }
-  String line() {
-    String s;
-    int ch;
-    while ((ch = get()) >= 0 && ch != '\n') if (ch != '\r') s += (char)ch;
-    return s;
-  }
-};
 
 // Sends text with write(), which every ESP32 core version has on WiFiClientSecure.
 void sendText(WiFiClientSecure &c, const String &s) {
@@ -400,7 +409,6 @@ String readRest(NetReader &r, int maxLen) {
 }
 
 // ---------- Conversation ----------
-struct Turn { String role, text; };
 const int MAX_TURNS = 6;
 Turn history[MAX_TURNS];
 int turns = 0;
@@ -604,7 +612,7 @@ bool speak(const String &reply, Mood mood, String &err) {
       ringPump(false);
       if (millis() - lastMouth > 140) {
         mouth = !mouth;
-        render(F_TALK, mood, nullptr, mouth);
+        render(F_TALK, mood, nullptr, mouth, false);
         lastMouth = millis();
       }
     }
@@ -615,7 +623,7 @@ bool speak(const String &reply, Mood mood, String &err) {
     ringPump(false);
     if (millis() - lastMouth > 140) {
       mouth = !mouth;
-      render(F_TALK, mood, nullptr, mouth);
+      render(F_TALK, mood, nullptr, mouth, false);
       lastMouth = millis();
     }
     delay(5);
@@ -632,7 +640,7 @@ void connectWiFi() {
   WiFi.begin(WIFI_NAME, WIFI_PASS);
   unsigned long t = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - t < 15000) {
-    render(F_THINK, M_NORMAL, "WiFi...");
+    render(F_THINK, M_NORMAL, "WiFi...", false, false);
     delay(300);
   }
   if (WiFi.status() == WL_CONNECTED) Serial.printf("WiFi OK: %s\n", WiFi.localIP().toString().c_str());
@@ -648,7 +656,7 @@ void idle() {
   if (now - lastBattRead > 5000) readBattery();
 
   if (now - lastTalk > 120000) {  // nobody talked for 2 minutes: sleep
-    render(F_SLEEP, M_NORMAL, "press BOOT");
+    render(F_SLEEP, M_NORMAL, "press BOOT", false, false);
     delay(200);
     return;
   }
@@ -676,11 +684,11 @@ void setup() {
   pinMode(PIN_BOOT, INPUT_PULLUP);
   u8g2.begin();
   readBattery();
-  render(F_IDLE, M_HAPPY, "Silav! Ez Xalid im");
+  render(F_IDLE, M_HAPPY, "Silav! Ez Xalid im", false, false);
 
   audioBuf = (int16_t *)malloc(REC_MAX * sizeof(int16_t));
   if (!audioBuf) {
-    render(F_ERROR, M_SAD, "no memory");
+    render(F_ERROR, M_SAD, "no memory", false, false);
     while (true) delay(1000);
   }
   startAmp();
@@ -704,7 +712,7 @@ void loop() {
   lastTalk = millis();
   int samples = recordWhileHeld();
   if (samples < REC_RATE / 3) {  // too short: just a tap
-    render(F_IDLE, M_SURPRISED, "hold BOOT & talk");
+    render(F_IDLE, M_SURPRISED, "hold BOOT & talk", false, false);
     delay(1200);
     return;
   }
@@ -712,23 +720,23 @@ void loop() {
   for (int i = 0; i < samples; i++) peak = max(peak, abs((int)audioBuf[i]));
   if (peak < 30) {  // only zeros: the mic is not sending anything
     Serial.println("Mic silent: check INMP441 wires, or set MIC_RIGHT = true");
-    render(F_ERROR, M_SAD, "mic silent");
+    render(F_ERROR, M_SAD, "mic silent", false, false);
     beep(220, 300);
     delay(2000);
     return;
   }
   if (WiFi.status() != WL_CONNECTED) {
-    render(F_ERROR, M_SAD, "no WiFi");
+    render(F_ERROR, M_SAD, "no WiFi", false, false);
     beep(220, 300);
     delay(1500);
     return;
   }
 
-  render(F_THINK, M_NORMAL, "thinking...");
+  render(F_THINK, M_NORMAL, "thinking...", false, false);
   String heard, reply, err;
   Mood mood = M_NORMAL;
   if (!askGemini(samples, heard, reply, mood, err)) {
-    render(F_ERROR, M_SAD, err.c_str());
+    render(F_ERROR, M_SAD, err.c_str(), false, false);
     beep(220, 300);
     delay(2500);
     return;
@@ -738,12 +746,12 @@ void loop() {
   remember("model", reply);
 
   if (!speak(reply, mood, err)) {
-    render(F_ERROR, M_SAD, err.c_str());
+    render(F_ERROR, M_SAD, err.c_str(), false, false);
     beep(220, 300);
     delay(2500);
     return;
   }
-  render(F_IDLE, mood, "press BOOT");
+  render(F_IDLE, mood, "press BOOT", false, false);
   delay(800);
   lastTalk = millis();
 }

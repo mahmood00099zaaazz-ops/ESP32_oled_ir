@@ -1,0 +1,60 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Switch Wiring</title>
+<style>body{margin:0;background:#f4f5f7}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1180" viewBox="0 0 760 1180" font-family="DejaVu Sans, sans-serif">
+  <rect width="760" height="1180" fill="#f4f5f7"/>
+  <text x="380" y="58" font-size="32" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">دوگما سۆر (سویچ) ل کیڤە؟ 🔴</text>
+  <text x="380" y="98" font-size="20" fill="#5d6878" text-anchor="middle" direction="rtl">ل ناڤبەرا TP4056 و MT3608، ل سەر تێلا سۆر (+)</text>
+
+  <rect x="30" y="125" width="700" height="640" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <!-- TP4056 -->
+  <rect x="60" y="180" width="220" height="130" rx="10" fill="#1565c0"/>
+  <text x="170" y="252" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">TP4056</text>
+  <g font-size="16" font-weight="bold" fill="#ffd54f"><text x="215" y="205">OUT+</text><text x="215" y="300">OUT−</text></g>
+  <!-- switch big -->
+  <rect x="345" y="170" width="90" height="120" rx="12" fill="#222"/>
+  <circle cx="390" cy="315" r="38" fill="#e53935" stroke="#111" stroke-width="5"/>
+  <rect x="362" y="135" width="10" height="40" fill="#c0c0c0"/><rect x="408" y="135" width="10" height="40" fill="#c0c0c0"/>
+  <circle cx="367" cy="135" r="8" fill="#fbc02d"/><circle cx="413" cy="135" r="8" fill="#fbc02d"/>
+  <text x="390" y="380" font-size="18" font-weight="bold" fill="#333" text-anchor="middle" direction="rtl">سویچ</text>
+  <!-- MT3608 -->
+  <rect x="480" y="180" width="220" height="130" rx="10" fill="#1565c0"/>
+  <text x="590" y="252" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">MT3608</text>
+  <g font-size="16" font-weight="bold" fill="#ffd54f"><text x="490" y="205">VIN+</text><text x="490" y="300">VIN−</text></g>
+  <!-- wires -->
+  <path d="M270 200 C310 200 330 135 359 135" stroke="#e53935" stroke-width="7" fill="none"/>
+  <path d="M421 135 C450 135 470 200 490 200" stroke="#e53935" stroke-width="7" fill="none"/>
+  <path d="M270 300 C330 300 330 420 390 420 C450 420 450 300 490 300" stroke="#222" stroke-width="7" fill="none"/>
+  <text x="390" y="455" font-size="17" fill="#333" text-anchor="middle" direction="rtl">تێلا رەش ب راستی دچیت (بێ سویچ)</text>
+
+  <g font-size="22" direction="rtl" text-anchor="start" fill="#1b1f24">
+    <text x="690" y="520" font-weight="bold">١. پینا ئێکێ یا سویچی ← OUT+ یا TP4056</text>
+    <text x="690" y="565" font-weight="bold">٢. پینا دووێ یا سویچی ← VIN+ یا MT3608</text>
+    <text x="690" y="610">٣. تێلا رەش راستەوخۆ: OUT− بۆ VIN−</text>
+    <text x="690" y="665" fill="#1e9e45">💡 سویچ + و − نینە: هەر پینەک بۆ هەر لایەکی</text>
+    <text x="690" y="705" fill="#1e9e45">💡 جارەکێ بکە = ON ، جارەکا دی = OFF</text>
+    <text x="690" y="745" fill="#c62828">⚠️ هەردو پینێن سویچی ب ئێک نەگرە ب لحیمێ</text>
+  </g>
+
+  <rect x="30" y="785" width="700" height="370" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <text x="380" y="835" font-size="24" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">رێزا کارەبێ 🔋</text>
+  <g font-size="19" font-weight="bold" fill="#fff" text-anchor="middle">
+    <rect x="50" y="870" width="120" height="70" rx="10" fill="#222"/><text x="110" y="913">باتری</text>
+    <rect x="200" y="870" width="130" height="70" rx="10" fill="#1565c0"/><text x="265" y="913">TP4056</text>
+    <rect x="360" y="870" width="100" height="70" rx="35" fill="#e53935"/><text x="410" y="913">سویچ</text>
+    <rect x="490" y="870" width="130" height="70" rx="10" fill="#1565c0"/><text x="555" y="913">MT3608</text>
+    <rect x="650" y="870" width="80" height="70" rx="10" fill="#7b1f1f"/><text x="690" y="913">ESP32</text>
+  </g>
+  <g fill="#333"><path d="M172 905 l22 0 l-8 -8 M194 905 l-8 8" stroke="#333" stroke-width="4"/>
+  <path d="M332 905 l22 0 l-8 -8 M354 905 l-8 8" stroke="#333" stroke-width="4"/>
+  <path d="M462 905 l22 0 l-8 -8 M484 905 l-8 8" stroke="#333" stroke-width="4"/>
+  <path d="M622 905 l22 0 l-8 -8 M644 905 l-8 8" stroke="#333" stroke-width="4"/></g>
+  <g font-size="20" direction="rtl" text-anchor="start">
+    <text x="700" y="1000" fill="#c62828" font-weight="bold">⚠️ MT3608 دڤێت 5.0V بیت بەری ESP32</text>
+    <text x="700" y="1045" fill="#1b1f24">🔌 دەمێ Upload یان USB: سویچ OFF</text>
+    <text x="700" y="1090" fill="#1b1f24">🔋 دەمێ رۆبۆت ب باتریێ کار بکەت: سویچ ON</text>
+    <text x="700" y="1130" fill="#5d6878">شەحنا باتریێ: USB یا TP4056 (سویچ دبیت OFF بیت)</text>
+  </g>
+</svg>
+</body></html>

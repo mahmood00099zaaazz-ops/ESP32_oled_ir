@@ -1,0 +1,58 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Battery Percent Wiring</title>
+<style>body{margin:0;background:#f4f5f7}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1200" viewBox="0 0 760 1200" font-family="DejaVu Sans, sans-serif">
+  <rect width="760" height="1200" fill="#f4f5f7"/>
+  <text x="380" y="55" font-size="30" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">رێژا باتریێ ل سەر شاشێ 🔋</text>
+  <text x="380" y="92" font-size="19" fill="#5d6878" text-anchor="middle" direction="rtl">پێدڤی ب ٢ رێزیستەرێن 100k (قەهوەیی رەش زەر) هەیە</text>
+
+  <!-- oled preview -->
+  <rect x="200" y="120" width="360" height="200" rx="14" fill="#1565c0"/>
+  <rect x="220" y="140" width="320" height="160" fill="#000"/>
+  <rect x="280" y="190" width="70" height="70" rx="16" fill="#7fdcff"/><rect x="410" y="190" width="70" height="70" rx="16" fill="#7fdcff"/>
+  <text x="458" y="166" font-size="17" fill="#7fdcff" font-family="DejaVu Sans Mono, monospace" text-anchor="end">87%</text>
+  <rect x="464" y="152" width="44" height="18" fill="none" stroke="#7fdcff" stroke-width="2.5"/><rect x="508" y="156" width="5" height="10" fill="#7fdcff"/>
+  <rect x="467" y="155" width="34" height="12" fill="#7fdcff"/>
+  <text x="380" y="292" font-size="16" fill="#7fdcff" text-anchor="middle">press BOOT</text>
+  <circle cx="490" cy="161" r="38" fill="none" stroke="#ffd740" stroke-width="4"/>
+
+  <!-- circuit -->
+  <rect x="30" y="350" width="700" height="520" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <rect x="60" y="400" width="170" height="110" rx="10" fill="#1565c0"/>
+  <text x="145" y="460" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">TP4056</text>
+  <text x="200" y="425" font-size="15" font-weight="bold" fill="#ffd54f">B+</text>
+  <text x="200" y="500" font-size="15" font-weight="bold" fill="#ffd54f">B−</text>
+  <!-- resistor 1 -->
+  <path d="M230 420 H330" stroke="#e53935" stroke-width="6"/>
+  <rect x="330" y="403" width="110" height="34" rx="14" fill="#e0c9a6" stroke="#8d6e63" stroke-width="3"/>
+  <rect x="352" y="403" width="9" height="34" fill="#6d4c41"/><rect x="372" y="403" width="9" height="34" fill="#000"/><rect x="392" y="403" width="9" height="34" fill="#fbc02d"/><rect x="420" y="403" width="7" height="34" fill="#c9a54a"/>
+  <text x="385" y="395" font-size="16" font-weight="bold" fill="#333" text-anchor="middle">100k</text>
+  <path d="M440 420 H540" stroke="#e53935" stroke-width="6"/>
+  <circle cx="540" cy="420" r="9" fill="#ff9100"/>
+  <!-- to gpio34 -->
+  <path d="M540 420 H640" stroke="#ff9100" stroke-width="6"/>
+  <rect x="640" y="395" width="70" height="50" rx="8" fill="#7b1f1f"/><text x="675" y="427" font-size="18" font-weight="bold" fill="#ffd54f" text-anchor="middle">34</text>
+  <!-- resistor 2 -->
+  <path d="M540 420 V520" stroke="#ff9100" stroke-width="6"/>
+  <rect x="523" y="520" width="34" height="110" rx="14" fill="#e0c9a6" stroke="#8d6e63" stroke-width="3"/>
+  <rect x="523" y="542" width="34" height="9" fill="#6d4c41"/><rect x="523" y="562" width="34" height="9" fill="#000"/><rect x="523" y="582" width="34" height="9" fill="#fbc02d"/><rect x="523" y="610" width="34" height="7" fill="#c9a54a"/>
+  <text x="575" y="580" font-size="16" font-weight="bold" fill="#333">100k</text>
+  <path d="M540 630 V720" stroke="#222" stroke-width="6"/>
+  <rect x="490" y="720" width="100" height="50" rx="8" fill="#7b1f1f"/><text x="540" y="752" font-size="18" font-weight="bold" fill="#ffd54f" text-anchor="middle">GND</text>
+  <text x="540" y="795" font-size="15" fill="#333" text-anchor="middle">ESP32</text>
+  <text x="675" y="465" font-size="15" fill="#333" text-anchor="middle">ESP32</text>
+  <text x="250" y="600" font-size="15" fill="#5d6878" direction="rtl" text-anchor="middle">B− ب ESP32 ڤە گرێ نەدە</text>
+  <text x="250" y="625" font-size="15" fill="#5d6878" direction="rtl" text-anchor="middle">(GND ژ رێکا MT3608 هەیە)</text>
+
+  <g font-size="20" direction="rtl" text-anchor="start" fill="#1b1f24">
+    <text x="720" y="910" font-weight="bold">١. B+ یا TP4056 ← رێزیستەرا ئێکێ 100k</text>
+    <text x="720" y="950" font-weight="bold">٢. جهێ ناڤەراستێ ← پینا 34 یا ESP32</text>
+    <text x="720" y="990" font-weight="bold">٣. رێزیستەرا دووێ 100k ← GND</text>
+    <text x="720" y="1045" fill="#1e9e45">✓ پاشی شاشە دێ بێژیت: 87% و ئایکۆنا باتریێ</text>
+    <text x="720" y="1085" fill="#1e9e45">⚡ دەمێ شەحن دبیت، برووسکەک دیار دبیت</text>
+    <text x="720" y="1125" fill="#c62828">🔴 LOW = باتری کێمە، شەحن بکە</text>
+    <text x="720" y="1165" fill="#5d6878">💡 بێ رێزیستەران، ئایکۆنا باتریێ دیار نابیت (رۆبۆت هەر کار دکەت)</text>
+  </g>
+</svg>
+</body></html>

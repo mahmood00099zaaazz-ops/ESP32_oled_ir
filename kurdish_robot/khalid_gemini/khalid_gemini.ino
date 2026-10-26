@@ -103,14 +103,27 @@ void readBattery() {
     mv += analogRead(PIN_BATT) * 3300UL / 4095;  // older ESP32 cores: rough value
 #endif
   }
-  battVolts = (mv / 16.0f) * 2.0f / 1000.0f;  // 100k/100k divider
-  battPresent = battVolts > 2.5f;              // nothing connected reads ~0 V
+  float v = (mv / 16.0f) * 2.0f / 1000.0f;  // 100k/100k divider
+  battPresent = v > 2.5f;                    // nothing connected reads ~0 V
+  if (!battPresent || battVolts < 2.5f) battVolts = v;
+  else battVolts = battVolts * 0.8f + v * 0.2f;  // smooth out dips while talking
   lastBattRead = millis();
+}
+
+// Li-ion voltage to percent (the curve is not a straight line).
+int battPercent(float v) {
+  static const float V[] = {3.30, 3.40, 3.50, 3.60, 3.70, 3.80, 3.90, 4.00, 4.10, 4.20};
+  static const int   P[] = {0, 5, 10, 20, 35, 50, 65, 80, 90, 100};
+  if (v <= V[0]) return 0;
+  for (int i = 1; i < 10; i++) {
+    if (v < V[i]) return P[i - 1] + (int)((v - V[i - 1]) / (V[i] - V[i - 1]) * (P[i] - P[i - 1]));
+  }
+  return 100;
 }
 
 void drawBattery() {
   if (!battPresent) return;
-  int pct = constrain((int)((battVolts - 3.3f) / (4.2f - 3.3f) * 100), 0, 100);
+  int pct = battPercent(battVolts);
   bool charging = battVolts >= 4.18f;
   bool low = battVolts < 3.45f;
   u8g2.drawFrame(106, 1, 19, 9);
@@ -120,6 +133,11 @@ void drawBattery() {
     u8g2.drawTriangle(100, 1, 96, 6, 100, 6);
     u8g2.drawTriangle(99, 5, 103, 5, 99, 10);
   }
+  char txt[6];
+  snprintf(txt, sizeof(txt), "%d%%", pct);
+  u8g2.setFont(u8g2_font_5x7_tr);
+  int right = charging ? 94 : 104;
+  u8g2.drawStr(right - u8g2.getStrWidth(txt), 8, txt);
   if (low) {
     u8g2.setFont(u8g2_font_helvB08_tr);
     u8g2.drawStr(0, 9, "LOW");

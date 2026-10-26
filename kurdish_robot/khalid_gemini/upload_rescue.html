@@ -1,0 +1,79 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Upload Rescue</title>
+<style>body{margin:0;background:#f4f5f7}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1900" viewBox="0 0 760 1900" font-family="DejaVu Sans, sans-serif">
+  <rect width="760" height="1900" fill="#f4f5f7"/>
+  <text x="380" y="52" font-size="30" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">Upload ب تەمامی بکە ⬆️</text>
+  <text x="380" y="88" font-size="18" fill="#5d6878" text-anchor="middle" direction="rtl">پاشی شاشە دیسان هەلدبیت 😊</text>
+
+  <!-- 1 -->
+  <rect x="30" y="110" width="700" height="360" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <circle cx="680" cy="160" r="26" fill="#ff3b30"/><text x="680" y="171" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">١</text>
+  <text x="640" y="170" font-size="23" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">هەمی تێلان دەرێخە</text>
+  <text x="640" y="208" font-size="18" fill="#5d6878" direction="rtl" text-anchor="start">ب تنێ کابلێ USB بهێلە</text>
+  <text x="640" y="238" font-size="18" fill="#c62828" direction="rtl" text-anchor="start">سویچا باتریێ OFF ⚫</text>
+  <image href="real/p_esp.jpg" x="70" y="150" width="170" height="292"/>
+  <g stroke="#ff1744" stroke-width="5">
+    <path d="M250 200 l60 0 M290 185 l20 15 l-20 15" fill="none"/>
+    <path d="M330 175 l30 30 M360 175 l-30 30"/>
+    <path d="M250 300 l60 0 M290 285 l20 15 l-20 15" fill="none"/>
+    <path d="M330 275 l30 30 M360 275 l-30 30"/>
+  </g>
+  <rect x="135" y="440" width="40" height="22" fill="#eee"/>
+  <text x="380" y="420" font-size="18" fill="#1e9e45" text-anchor="middle" direction="rtl">✓ USB ب تنێ</text>
+
+  <!-- 2 -->
+  <rect x="30" y="490" width="700" height="430" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <circle cx="680" cy="540" r="26" fill="#14a3a8"/><text x="680" y="551" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">٢</text>
+  <text x="640" y="550" font-size="23" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">BOOT بگرە ✋ + EN پال بدە 👆</text>
+  <!-- big esp bottom crop -->
+  <clipPath id="eb"><rect x="70" y="590" width="390" height="300" rx="14"/></clipPath>
+  <image href="real/p_esp.jpg" x="70" y="-290" width="390" height="1180" clip-path="url(#eb)" preserveAspectRatio="none"/>
+  <!-- EN at (85,599)/(390x670) scaled: x=70+85*1=155, y=-290+599*1.761=765 ; IO0 x=70+306=376 -->
+  <circle cx="155" cy="765" r="40" fill="none" stroke="#2979ff" stroke-width="8"/>
+  <circle cx="376" cy="765" r="40" fill="none" stroke="#00e676" stroke-width="8"/>
+  <g font-size="19" direction="rtl" text-anchor="start">
+    <text x="700" y="620" fill="#1e9e45" font-weight="bold">١) BOOT (IO0) ← بگرە ✋</text>
+    <text x="700" y="650" fill="#5d6878">دوگما راستێ، بەرنەدە!</text>
+    <text x="700" y="710" fill="#1565c0" font-weight="bold">٢) EN ← جارەکێ پال بدە 👆</text>
+    <text x="700" y="740" fill="#5d6878">دوگما چەپێ، پاشی بەردە</text>
+    <text x="700" y="800" fill="#c62828" font-weight="bold">٣) BOOT هێشتا بگرە ✋</text>
+  </g>
+  <rect x="490" y="830" width="210" height="60" rx="12" fill="#00e676"/><text x="595" y="868" font-size="22" font-weight="bold" fill="#1b1f24" text-anchor="middle">IO0 = BOOT</text>
+
+  <!-- 3 -->
+  <rect x="30" y="940" width="700" height="330" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <circle cx="680" cy="990" r="26" fill="#34c759"/><text x="680" y="1001" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">٣</text>
+  <text x="640" y="1000" font-size="23" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">ب دەستێ دی Upload بکە ⬆️</text>
+  <text x="640" y="1038" font-size="18" fill="#c62828" direction="rtl" text-anchor="start">BOOT هەر بگرە هەتا Done ✋⏳</text>
+  <rect x="70" y="1070" width="420" height="80" rx="10" fill="#000"/>
+  <text x="90" y="1120" font-size="22" font-weight="bold" fill="#14a3a8">ArduinoDroid</text>
+  <path d="M395 1092 v24 M385 1107 l10 10 l10 -10 M383 1128 h24" stroke="#fff" stroke-width="4" fill="none"/>
+  <circle cx="395" cy="1110" r="28" fill="none" stroke="#ff3b30" stroke-width="5"/>
+  <text x="280" y="1200" font-size="18" fill="#5d6878" text-anchor="middle" direction="rtl">یان ⋮ ← Upload</text>
+  <text x="280" y="1240" font-size="18" fill="#5d6878" text-anchor="middle" direction="rtl">١–٢ خولەک چاڤەرێ بە ⏳</text>
+
+  <!-- 4 -->
+  <rect x="30" y="1290" width="700" height="580" rx="22" fill="#fff" stroke="#34c759" stroke-width="4"/>
+  <circle cx="680" cy="1340" r="26" fill="#5d6878"/><text x="680" y="1351" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">٤</text>
+  <text x="640" y="1350" font-size="23" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">Done ← BOOT بەردە ← EN پال بدە</text>
+  <rect x="70" y="1380" width="620" height="160" rx="10" fill="#0b0b0b"/>
+  <g font-family="DejaVu Sans Mono, monospace" font-size="17" fill="#9be59b">
+    <text x="90" y="1412">Writing at 0x00010000... (100 %)</text>
+    <text x="90" y="1440">Wrote 1050000 bytes ...</text>
+    <text x="90" y="1468">Hash of data verified.</text>
+    <text x="90" y="1515" fill="#fff" font-weight="bold" font-size="24">Done ✓</text>
+  </g>
+  <!-- oled back -->
+  <rect x="230" y="1560" width="300" height="170" rx="12" fill="#1565c0"/>
+  <rect x="250" y="1580" width="260" height="130" fill="#000"/>
+  <rect x="300" y="1610" width="55" height="55" rx="12" fill="#7fdcff"/><rect x="405" y="1610" width="55" height="55" rx="12" fill="#7fdcff"/>
+  <text x="380" y="1700" font-size="14" fill="#7fdcff" text-anchor="middle">Silav! Ez Xalid im</text>
+  <g font-size="19" direction="rtl" text-anchor="start">
+    <text x="700" y="1775" fill="#1e9e45" font-weight="bold">✓ پاشی تێلان دیسان گرێ بدە ← شاشە هەلدبیت 😊</text>
+    <text x="700" y="1815" fill="#c62828">✗ هەر Error؟ ← کابلەکێ دی 🔌 یان کۆمپیوتەر 💻</text>
+    <text x="700" y="1850" fill="#5d6878">📸 وێنێ OUTPUT بهنێرە</text>
+  </g>
+</svg>
+</body></html>

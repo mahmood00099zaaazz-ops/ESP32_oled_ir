@@ -1,0 +1,51 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>OUT and GND</title>
+<style>body{margin:0;background:#fff}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1500" viewBox="0 0 1125 2220" font-family="DejaVu Sans, sans-serif">
+  <rect width="1125" height="2220" fill="#fff"/>
+  <text x="562" y="70" font-size="50" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">OUT و GND 🔊</text>
+  <clipPath id="zc"><rect x="60" y="110" width="1005" height="840" rx="24"/></clipPath>
+  <g clip-path="url(#zc)">
+    <image href="real/p_spk3.jpg" x="-1920" y="-5480" width="4200" height="7467"/>
+  </g>
+  <rect x="60" y="110" width="1005" height="840" rx="24" fill="none" stroke="#d5dbe4" stroke-width="4"/>
+  <!-- in zoom: scale 4200/1125=3.733; screw1 (627,1573) -> (-1920+627*3.733, -5480+1573*3.733) = (420,392); screw2 (666,1571)->(566,384) -->
+  <circle cx="420" cy="395" r="60" fill="none" stroke="#e040fb" stroke-width="12"/>
+  <circle cx="566" cy="388" r="60" fill="none" stroke="#00e676" stroke-width="12"/>
+  <rect x="150" y="160" width="270" height="100" rx="16" fill="#6a1b9a"/>
+  <text x="285" y="225" font-size="50" font-weight="bold" fill="#fff" text-anchor="middle">OUT</text>
+  <rect x="640" y="160" width="270" height="100" rx="16" fill="#2e7d32"/>
+  <text x="775" y="225" font-size="50" font-weight="bold" fill="#fff" text-anchor="middle">GND</text>
+  <path d="M330 260 L395 330" stroke="#e040fb" stroke-width="10"/>
+  <path d="M700 260 L600 330" stroke="#00e676" stroke-width="10"/>
+  <rect x="120" y="800" width="885" height="120" rx="18" fill="#000" opacity="0.7"/>
+  <text x="562" y="850" font-size="36" font-weight="bold" fill="#fff" text-anchor="middle" direction="rtl">پینا بنەفشی ← OUT  •  پینا سەوز ← GND</text>
+  <text x="562" y="898" font-size="30" fill="#ffd740" text-anchor="middle" direction="rtl">پین بکە د کونا ل بن بورغیێ دا، پاشی بورغیێ قایم بکە 🪛</text>
+
+  <!-- steps -->
+  <g transform="translate(0,980)">
+    <rect x="40" y="0" width="1045" height="1200" rx="24" fill="#f4f5f7" stroke="#d5dbe4" stroke-width="3"/>
+    <!-- terminal drawing -->
+    <rect x="300" y="140" width="520" height="300" rx="20" fill="#4caf50"/>
+    <circle cx="430" cy="240" r="60" fill="#e0e0e0" stroke="#999" stroke-width="5"/><path d="M390 240 h80" stroke="#555" stroke-width="12"/>
+    <circle cx="690" cy="240" r="60" fill="#e0e0e0" stroke="#999" stroke-width="5"/><path d="M650 240 h80" stroke="#555" stroke-width="12"/>
+    <rect x="390" y="360" width="80" height="60" rx="8" fill="#1b5e20"/><rect x="650" y="360" width="80" height="60" rx="8" fill="#1b5e20"/>
+    <text x="430" y="125" font-size="40" font-weight="bold" fill="#6a1b9a" text-anchor="middle">OUT</text>
+    <text x="690" y="125" font-size="40" font-weight="bold" fill="#2e7d32" text-anchor="middle">GND</text>
+    <!-- pins entering -->
+    <rect x="410" y="520" width="40" height="120" rx="6" fill="#222"/><path d="M430 520 V430" stroke="#c0c0c0" stroke-width="10"/><path d="M430 640 V720" stroke="#8e24aa" stroke-width="12"/>
+    <rect x="670" y="520" width="40" height="120" rx="6" fill="#222"/><path d="M690 520 V430" stroke="#c0c0c0" stroke-width="10"/><path d="M690 640 V720" stroke="#2e7d32" stroke-width="12"/>
+    <path d="M380 470 l50 -40 l50 40" stroke="#ff1744" stroke-width="8" fill="none"/>
+    <path d="M640 470 l50 -40 l50 40" stroke="#ff1744" stroke-width="8" fill="none"/>
+    <g font-size="38" direction="rtl" text-anchor="start" fill="#1b1f24">
+      <text x="1050" y="820">١. 🪛 هەردو بورغیان ڤەکە ↺ (٢-٣ جاران)</text>
+      <text x="1050" y="890">٢. پینا بنەفشی بکە د کونا OUT دا</text>
+      <text x="1050" y="960">٣. پینا سەوز بکە د کونا GND دا</text>
+      <text x="1050" y="1030">٤. 🪛 بورغیان قایم بکە ↻</text>
+      <text x="1050" y="1100" fill="#1e9e45">٥. هێدی بکێشە: دەرنەکەفت = ✓</text>
+      <text x="1050" y="1160" fill="#5d6878" font-size="32">💡 ئەگەر بەرەڤاژی ژی بکەی، کار دکەت</text>
+    </g>
+  </g>
+</svg>
+</body></html>

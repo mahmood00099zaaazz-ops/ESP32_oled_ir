@@ -1,0 +1,68 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Power Wiring Real</title>
+<style>body{margin:0;background:#fff}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1420" viewBox="0 0 760 1420" font-family="DejaVu Sans, sans-serif">
+  <rect width="760" height="1420" fill="#fff"/>
+  <text x="380" y="45" font-size="28" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">کارەبا بۆ ESP32 ب پارچێن تە 🔋</text>
+  <image href="real/p_batt.jpg" x="20" y="90" width="220" height="293"/>
+  <image href="real/p_tp.jpg" x="290" y="80" width="180" height="265"/>
+  <image href="real/p_sw.jpg" x="540" y="100" width="150" height="238"/>
+  <image href="real/p_mt.jpg" x="40" y="520" width="380" height="315"/>
+  <image href="real/p_esp.jpg" x="480" y="520" width="250" height="429"/>
+  <g font-size="16" font-weight="bold" fill="#1b1f24" text-anchor="middle">
+    <text x="130" y="80">باتری</text><text x="380" y="72">TP4056</text><text x="615" y="92">سویچ</text>
+    <text x="230" y="512">MT3608</text><text x="605" y="512">ESP32</text>
+  </g>
+  <!-- pad marks -->
+  <g fill="none" stroke-width="4">
+    <circle cx="322" cy="307" r="11" stroke="#222"/><circle cx="355" cy="306" r="11" stroke="#1e88e5"/>
+    <circle cx="417" cy="307" r="11" stroke="#ff9100"/><circle cx="445" cy="307" r="11" stroke="#ff1744"/>
+    <circle cx="159" cy="544" r="13" stroke="#222"/><circle cx="73" cy="655" r="13" stroke="#ff1744"/>
+    <circle cx="390" cy="686" r="13" stroke="#1e88e5"/><circle cx="306" cy="812" r="13" stroke="#ff9100"/>
+    <circle cx="497" cy="931" r="13" stroke="#ff1744"/><circle cx="691" cy="537" r="13" stroke="#222"/>
+  </g>
+  <!-- wires -->
+  <g fill="none" stroke-width="6" stroke-linecap="round">
+    <path d="M90 383 C150 420 300 400 417 318" stroke="#e53935"/>
+    <path d="M232 372 C280 380 340 360 355 318" stroke="#222"/>
+    <path d="M445 318 C480 360 540 360 563 300" stroke="#e53935"/>
+    <path d="M602 300 C640 420 455 430 455 600 V812 H319" stroke="#e53935"/>
+    <path d="M322 318 C322 430 430 470 430 600 L401 680" stroke="#222"/>
+    <path d="M70 668 C20 820 60 985 300 985 H497 V944" stroke="#e53935" stroke-dasharray="14 8"/>
+    <path d="M168 534 C220 470 450 470 600 475 C680 480 691 500 691 524" stroke="#222" stroke-dasharray="14 8"/>
+  </g>
+  <!-- chips -->
+  <g font-size="12" font-weight="bold" text-anchor="middle" fill="#fff">
+    <rect x="296" y="350" width="40" height="20" rx="5" fill="#222"/><text x="316" y="365">OUT−</text>
+    <rect x="340" y="372" width="30" height="20" rx="5" fill="#1e88e5"/><text x="355" y="387">B−</text>
+    <rect x="400" y="372" width="30" height="20" rx="5" fill="#ff9100"/><text x="415" y="387">B+</text>
+    <rect x="428" y="270" width="40" height="20" rx="5" fill="#ff1744"/><text x="448" y="285">OUT+</text>
+    <rect x="170" y="548" width="48" height="20" rx="5" fill="#222"/><text x="194" y="563">OUT−</text>
+    <rect x="85" y="620" width="48" height="20" rx="5" fill="#ff1744"/><text x="109" y="635">OUT+</text>
+    <rect x="320" y="700" width="44" height="20" rx="5" fill="#1e88e5"/><text x="342" y="715">VIN−</text>
+    <rect x="240" y="780" width="44" height="20" rx="5" fill="#ff9100"/><text x="262" y="795">VIN+</text>
+    <rect x="512" y="895" width="34" height="20" rx="5" fill="#ff1744"/><text x="529" y="910">5V</text>
+    <rect x="640" y="555" width="44" height="20" rx="5" fill="#222"/><text x="662" y="570">GND</text>
+  </g>
+  <text x="300" y="1012" font-size="14" fill="#c62828" text-anchor="middle" direction="rtl">- - - ئەڤ ٢ تێلە دوماهیێ، پشتی 5.0V</text>
+
+  <!-- steps -->
+  <rect x="20" y="1035" width="720" height="370" rx="16" fill="#f4f5f7" stroke="#d5dbe4" stroke-width="2"/>
+  <g font-size="18" fill="#1b1f24">
+    <text x="40" y="1072" font-family="DejaVu Sans Mono, monospace" font-weight="bold">1. Battery red   → TP4056 B+</text>
+    <text x="40" y="1104" font-family="DejaVu Sans Mono, monospace" font-weight="bold">2. Battery black → TP4056 B−</text>
+    <text x="40" y="1136" font-family="DejaVu Sans Mono, monospace" font-weight="bold">3. TP4056 OUT+  → Switch → MT3608 VIN+</text>
+    <text x="40" y="1168" font-family="DejaVu Sans Mono, monospace" font-weight="bold">4. TP4056 OUT−  → MT3608 VIN−</text>
+    <text x="40" y="1200" font-family="DejaVu Sans Mono, monospace" font-weight="bold" fill="#1565c0">5. Switch ON → Multimeter → 5.00V 🪛</text>
+    <text x="40" y="1232" font-family="DejaVu Sans Mono, monospace" font-weight="bold" fill="#c62828">6. Switch OFF, then:</text>
+    <text x="40" y="1264" font-family="DejaVu Sans Mono, monospace" font-weight="bold" fill="#c62828">   MT3608 OUT+ → ESP32 5V  (bottom-left, near EN)</text>
+    <text x="40" y="1296" font-family="DejaVu Sans Mono, monospace" font-weight="bold" fill="#c62828">   MT3608 OUT− → ESP32 GND (top-right pin)</text>
+  </g>
+  <g font-size="16" direction="rtl" text-anchor="start" fill="#5d6878">
+    <text x="720" y="1336">💡 ESP32 بزڤڕینە و نڤیسینا 5V و GND ل پشتێ بخوینە دا پشتراست بی</text>
+    <text x="720" y="1366">⚠️ دەمێ USB ب ESP32 ڤە یە، سویچ OFF</text>
+    <text x="720" y="1394">🔌 شەحنا باتریێ: USB یا TP4056</text>
+  </g>
+</svg>
+</body></html>

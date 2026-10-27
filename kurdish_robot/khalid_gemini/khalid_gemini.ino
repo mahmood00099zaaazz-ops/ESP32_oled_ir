@@ -29,7 +29,7 @@ const char *TTS_MODEL  = "gemini-3.1-flash-tts-preview";  // turns the answer in
 const char *VOICE      = "Puck";                          // other voices: Kore, Fenrir, Charon, Aoede
 const bool  ARABIC_SCRIPT = false;   // false: Latin Kurmanci letters (usually spoken better)
 const bool  AMP_LM386 = true;        // true: LM386 board on pin 25 (built-in DAC). false: MAX98357A
-const float VOLUME = 0.5;            // 0.0 - 1.0. With LM386, set the loudness with its blue knob
+const float VOLUME = 0.9;            // 0.0 - 1.0. With LM386, set the loudness with its blue knob
 const bool  MIC_RIGHT = false;       // set true if the screen says "mic silent"
 
 // ---------- Pins ----------

@@ -348,6 +348,11 @@ int recordWhileHeld() {
   return n;
 }
 
+// Functions from other parts, used before they appear below.
+Mood moodFromName(const String &s);
+void render(Face f, Mood m, const char *label, bool mouthOpen, bool blink);
+void drawBattery();
+
 // ---------- JSON helpers ----------
 String jsonEscape(const String &s) {
   String out;

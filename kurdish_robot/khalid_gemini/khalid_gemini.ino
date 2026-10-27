@@ -224,8 +224,8 @@ void render(Face f, Mood m, const char *label, bool mouthOpen, bool blink) {
   }
   if (f == F_SLEEP) {
     u8g2.setFont(u8g2_font_helvB08_tr);
-    u8g2.drawStr(110, 22, "z");
-    u8g2.drawStr(116, 15, "Z");
+    u8g2.drawStr(108, 30, "z");
+    u8g2.drawStr(115, 22, "Z");
   }
   u8g2.sendBuffer();
 }

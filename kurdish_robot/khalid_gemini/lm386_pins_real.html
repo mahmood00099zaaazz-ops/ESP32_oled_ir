@@ -1,0 +1,41 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>LM386 Pins</title><style>body{margin:0;background:#fff}</style></head><body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1500" viewBox="0 0 760 1500" font-family="DejaVu Sans, sans-serif">
+<rect width="760" height="1500" fill="#fff"/>
+<text x="380" y="46" font-size="29" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">تێلێن تە دروستن ✓ ئەڤە بکە</text>
+<clipPath id="c"><rect x="20" y="70" width="720" height="820" rx="18"/></clipPath>
+<!-- crop region x 420..1080, y 700..1450 ; scale 1.09 -->
+<image href="real/p_lm5.jpg" x="-438" y="-693" width="1226" height="2180" clip-path="url(#c)"/>
+<!-- labels GND(655,905)->(276,293); GND(725,920)->(352,310); IN(790,925)->(423,315); VCC(870,935)->(510,326) -->
+<g font-size="17" font-weight="bold" text-anchor="middle" fill="#fff">
+ <rect x="215" y="110" width="80" height="58" rx="10" fill="#9e9e9e"/><text x="255" y="135">GND</text><text x="255" y="158">ڤالا</text>
+ <rect x="305" y="110" width="80" height="58" rx="10" fill="#1565c0"/><text x="345" y="135">GND</text><text x="345" y="158">→GND</text>
+ <rect x="395" y="110" width="80" height="58" rx="10" fill="#2e7d32"/><text x="435" y="135">IN</text><text x="435" y="158">→25</text>
+ <rect x="485" y="110" width="80" height="58" rx="10" fill="#f9a825"/><text x="525" y="135">VCC</text><text x="525" y="158">→5V</text>
+</g>
+<g stroke-width="4"><path d="M255 168 L265 225" stroke="#9e9e9e"/><path d="M345 168 L340 215" stroke="#1565c0"/><path d="M435 168 L420 215" stroke="#2e7d32"/><path d="M525 168 L505 220" stroke="#f9a825"/></g>
+<!-- knob (665,1000)->(287,397) -->
+<circle cx="287" cy="397" r="62" fill="none" stroke="#00e676" stroke-width="8"/>
+<path d="M240 300 A100 100 0 0 1 380 340" stroke="#ff1744" stroke-width="0" fill="none"/>
+<path d="M350 330 A80 80 0 0 1 360 450" stroke="#ffd740" stroke-width="8" fill="none"/>
+<path d="M345 440 l16 14 l8 -22" stroke="#ffd740" stroke-width="8" fill="none"/>
+<rect x="420" y="380" width="300" height="100" rx="14" fill="#1e9e45"/>
+<text x="570" y="420" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle" direction="rtl">🪛 دەرنەڤیس د کونێ دا</text>
+<text x="570" y="456" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle" direction="rtl">↻ بزڤڕینە = 🔊 بلندتر</text>
+<!-- terminal (650,1700)? out of crop -->
+<rect x="20" y="910" width="720" height="570" rx="18" fill="#f4f5f7" stroke="#d5dbe4" stroke-width="2"/>
+<g font-size="21" direction="rtl" text-anchor="start" fill="#1b1f24">
+<text x="710" y="955" font-weight="bold" fill="#1e9e45">✓ ل سەر بۆردێ: GND · GND · IN · VCC</text>
+<text x="710" y="1005">🔵 تێلا شین (GND) ← GND یا ESP32</text>
+<text x="710" y="1045">🟢 تێلا سەوز (IN) ← پینا 25 یا ESP32</text>
+<text x="710" y="1085">🟡 تێلا زەر (VCC) ← 5V یا ESP32</text>
+<text x="710" y="1125" fill="#5d6878">⚪ GND یا ئێکێ ڤالا ✓</text>
+<text x="710" y="1185" font-weight="bold">🪛 دوگما سپی: دەرنەڤیسا بچویک بکە د کونا وێ دا</text>
+<text x="710" y="1222">هێدی ↻ بزڤڕینە (وەکی دەمژمێرێ) ← دەنگ بلند دبیت</text>
+<text x="710" y="1259">↺ بەرەڤاژی ← دەنگ کێم دبیت</text>
+<text x="710" y="1315" font-weight="bold">🔊 پاشی: ESP32 ← EN پال بدە ← ٢ بیپ</text>
+<text x="710" y="1365" fill="#c62828">⚠️ دەنگ تنێ دهێت ئەگەر Upload ← Done ✓ بوو</text>
+<text x="710" y="1405" fill="#c62828">⚠️ تێلا سەوز ب پینا 25 ڤە بیت، نە پینەکا دی</text>
+<text x="710" y="1450" fill="#5d6878">📸 وێنێ ESP32 بهنێرە دا پینا 25 ببینم</text>
+</g>
+</svg></body></html>

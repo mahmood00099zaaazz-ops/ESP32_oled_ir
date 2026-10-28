@@ -1,0 +1,71 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Board And Port</title><style>body{margin:0;background:#f4f5f7}</style></head><body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1900" viewBox="0 0 760 1900" font-family="DejaVu Sans, sans-serif">
+<rect width="760" height="1900" fill="#f4f5f7"/>
+<text x="380" y="50" font-size="30" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">گاڤا ٥: ESP32 ← Board و Port 🔌</text>
+
+<!-- A plug -->
+<rect x="30" y="80" width="700" height="300" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+<circle cx="680" cy="130" r="26" fill="#ff3b30"/><text x="680" y="141" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">أ</text>
+<text x="640" y="140" font-size="23" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">ESP32 ب کابلێ USB ب لاپتۆپی ڤە بکە</text>
+<rect x="70" y="190" width="240" height="150" rx="10" fill="#263238"/><rect x="85" y="205" width="210" height="110" fill="#00979c"/>
+<rect x="50" y="340" width="280" height="14" rx="5" fill="#455a64"/>
+<path d="M330 330 C400 330 420 270 470 270" stroke="#eee" stroke-width="10" fill="none"/>
+<rect x="470" y="220" width="90" height="140" rx="8" fill="#1b1f24"/><rect x="490" y="232" width="50" height="40" fill="#d6cfc0"/>
+<text x="515" y="300" font-size="13" fill="#fff" text-anchor="middle">ESP32</text>
+<text x="700" y="290" font-size="17" fill="#5d6878" direction="rtl" text-anchor="start">ب تنێ USB،</text>
+<text x="700" y="318" font-size="17" fill="#5d6878" direction="rtl" text-anchor="start">چ تێل نە ✓</text>
+
+<!-- B select board -->
+<rect x="30" y="400" width="700" height="560" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+<circle cx="680" cy="450" r="26" fill="#14a3a8"/><text x="680" y="461" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">ب</text>
+<text x="640" y="460" font-size="23" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">ل سەری: Select Board ← Select other...</text>
+<rect x="70" y="500" width="620" height="44" fill="#263238"/>
+<circle cx="95" cy="522" r="13" fill="#00979c"/><circle cx="130" cy="522" r="13" fill="#00979c"/>
+<rect x="160" y="508" width="290" height="28" rx="5" fill="#455a64" stroke="#ff3b30" stroke-width="4"/>
+<text x="172" y="528" font-size="15" fill="#fff">Select Board  ▼</text>
+<rect x="160" y="540" width="290" height="80" fill="#fff" stroke="#999"/>
+<text x="172" y="568" font-size="14" fill="#999">Unknown  COM3</text>
+<rect x="164" y="582" width="282" height="32" fill="#e0f2f1"/>
+<text x="172" y="604" font-size="14" font-weight="bold" fill="#00796b">Select other board and port...</text>
+<!-- dialog -->
+<rect x="70" y="640" width="620" height="290" rx="10" fill="#fff" stroke="#bbb" stroke-width="2"/>
+<text x="90" y="672" font-size="15" font-weight="bold" fill="#333">BOARDS</text><text x="400" y="672" font-size="15" font-weight="bold" fill="#333">PORTS</text>
+<rect x="90" y="684" width="280" height="34" rx="5" fill="#fff" stroke="#00e676" stroke-width="3"/><text x="100" y="707" font-size="15" fill="#1b1f24">esp32 dev</text>
+<rect x="90" y="726" width="280" height="34" fill="#e0f2f1"/><text x="100" y="749" font-size="15" font-weight="bold" fill="#00796b">ESP32 Dev Module ✓</text>
+<text x="100" y="790" font-size="14" fill="#999">ESP32 Wrover Module</text>
+<rect x="400" y="726" width="270" height="34" fill="#e0f2f1"/><text x="410" y="749" font-size="15" font-weight="bold" fill="#00796b">COM3 Serial Port (USB) ✓</text>
+<rect x="570" y="880" width="100" height="36" rx="6" fill="#00979c"/><text x="620" y="904" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">OK</text>
+<text x="90" y="855" font-size="14" fill="#5d6878" direction="ltr">COM3 / COM4 / COM5 ... (any number)</text>
+
+<!-- C upload speed -->
+<rect x="30" y="980" width="700" height="330" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+<circle cx="680" cy="1030" r="26" fill="#fb8c00"/><text x="680" y="1041" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">ج</text>
+<text x="640" y="1040" font-size="23" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">Tools ← Upload Speed ← 115200 🐢</text>
+<rect x="70" y="1080" width="620" height="200" rx="8" fill="#fff" stroke="#bbb" stroke-width="2"/>
+<rect x="70" y="1080" width="620" height="32" fill="#eceff1"/><text x="85" y="1102" font-size="15" fill="#333">File  Edit  Sketch  <tspan font-weight="bold">Tools</tspan>  Help</text>
+<g font-size="15" fill="#333"><text x="90" y="1140">Board: "ESP32 Dev Module"</text><text x="90" y="1170">Port: "COM3"</text>
+<text x="90" y="1200" font-weight="bold" fill="#00796b">Upload Speed: "921600" ▸</text></g>
+<rect x="330" y="1186" width="180" height="84" fill="#fff" stroke="#999"/>
+<text x="345" y="1210" font-size="14" fill="#999">921600</text>
+<rect x="334" y="1222" width="172" height="26" fill="#e0f2f1"/><text x="345" y="1240" font-size="14" font-weight="bold" fill="#00796b">● 115200 ✓</text>
+<text x="670" y="1260" font-size="16" fill="#5d6878" direction="rtl" text-anchor="start">هێدیتر = سلامەتتر</text>
+
+<!-- D driver -->
+<rect x="30" y="1330" width="700" height="290" rx="22" fill="#fff8e1" stroke="#ffb300" stroke-width="2"/>
+<g direction="rtl" text-anchor="start">
+<text x="700" y="1375" font-size="22" font-weight="bold" fill="#5d4037">❓ چ COM دیار نابیت؟</text>
+<text x="700" y="1420" font-size="19" fill="#5d4037">١. کابلەکێ دی تاقی بکە (یێ داتا)</text>
+<text x="700" y="1460" font-size="19" fill="#5d4037">٢. ل چیپا بچویک ل تەنشت USB-C بنێڕە:</text>
+<text x="700" y="1500" font-size="19" fill="#5d4037">CP2102 ← درایڤەرێ CP210x دابەزینە</text>
+<text x="700" y="1540" font-size="19" fill="#5d4037">CH340 / CH343 / CH9102 ← درایڤەرێ WCH</text>
+<text x="700" y="1585" font-size="17" fill="#8d6e63">📸 وێنێ وێ چیپێ بۆ من بهنێرە ئەگەر نەزانی</text>
+</g>
+
+<rect x="30" y="1640" width="700" height="230" rx="22" fill="#e8f5e9" stroke="#1e9e45" stroke-width="3"/>
+<g direction="rtl" text-anchor="start">
+<text x="700" y="1690" font-size="23" font-weight="bold" fill="#1e9e45">✓ پاشی گاڤا ٦: کۆدێ خالدی ← ➡️ Upload</text>
+<text x="700" y="1740" font-size="19" fill="#1b1f24">Ctrl+A ← Delete ← Ctrl+V ← ➡️</text>
+<text x="700" y="1785" font-size="19" fill="#1b1f24">چاڤەرێ بە هەتا Done uploading ✓</text>
+<text x="700" y="1835" font-size="19" fill="#1565c0" font-weight="bold">📸 وێنێ شاشا لاپتۆپی بۆ من بهنێرە</text>
+</g>
+</svg></body></html>

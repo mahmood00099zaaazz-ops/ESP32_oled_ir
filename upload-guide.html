@@ -1,0 +1,216 @@
+<title>ESP32 Upload Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@600;800&family=Vazirmatn:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one RTL column, a large bench-style diagram up top, then numbered steps and a wiring sheet */
+:root{
+  --bg:#eef3f1; --panel:#ffffff; --fg:#14211d; --muted:#55665f; --line:#c9d6d1;
+  --pcb:#16201d; --pcb-edge:#2c3b36; --metal:#c8cdd0; --accent:#0f8a6a; --accent-soft:#d5efe6;
+  --wire-red:#d23b2f; --wire-blk:#2a2a2a; --wire-blu:#2a6fd6; --wire-yel:#d9a400; --wire-grn:#2f9d4a;
+  --screen:#1d2a33; --screen-fg:#cfe8df; --warn:#b5541a; --warn-soft:#fbe9dc;
+  --f-display:"Noto Kufi Arabic","Vazirmatn",Tahoma,sans-serif;
+  --f-body:"Vazirmatn",Tahoma,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1715; --panel:#16211e; --fg:#e4efeb; --muted:#93a8a0; --line:#2b3a35;
+  --pcb:#0a0f0e; --pcb-edge:#3a4c46; --metal:#9aa3a7; --accent:#3cc79d; --accent-soft:#163a2f;
+  --wire-blk:#8d8d8d; --screen:#0b1216; --screen-fg:#bfe3d6; --warn:#f0965a; --warn-soft:#3a2416; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1715; --panel:#16211e; --fg:#e4efeb; --muted:#93a8a0; --line:#2b3a35;
+  --pcb:#0a0f0e; --pcb-edge:#3a4c46; --metal:#9aa3a7; --accent:#3cc79d; --accent-soft:#163a2f;
+  --wire-blk:#8d8d8d; --screen:#0b1216; --screen-fg:#bfe3d6; --warn:#f0965a; --warn-soft:#3a2416; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+main{max-width:960px;margin:0 auto;display:grid;gap:28px}
+h1,h2{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.4}
+h1{font-size:clamp(1.6rem,4vw,2.3rem);font-weight:800}
+h2{font-size:1.3rem;font-weight:800}
+.lede{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.mono{font-family:var(--f-mono);direction:ltr;unicode-bidi:isolate}
+figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:8px}
+.svgwrap{overflow-x:auto}
+.svgwrap svg{display:block;width:100%;min-width:640px;height:auto}
+figcaption{color:var(--muted);font-size:.92rem}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.steps li::before{content:counter(s);font-family:var(--f-display);font-weight:800;font-size:1.2rem;
+  width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.steps li > div{min-width:0}
+.steps b{font-family:var(--f-display);font-weight:600;display:block;margin-bottom:2px}
+.steps p{margin:0;color:var(--muted)}
+code{font-family:var(--f-mono);font-size:.85em;background:var(--accent-soft);color:var(--fg);padding:2px 6px;border-radius:5px;direction:ltr;unicode-bidi:isolate;word-break:break-all}
+.warn{background:var(--warn-soft);border:1px solid var(--warn);border-radius:12px;padding:14px 16px}
+.warn h2{color:var(--warn);font-size:1.1rem;margin-bottom:6px}
+.warn ul{margin:0;padding-inline-start:20px}
+table{border-collapse:collapse;width:100%;min-width:420px;background:var(--panel)}
+th,td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:start}
+th{font-family:var(--f-display);font-weight:600;font-size:.95rem}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-inline-end:8px;vertical-align:middle}
+</style>
+
+<main dir="rtl" lang="ku">
+  <header>
+    <h1>چاوا کۆدی ژ لاپتۆپێ بۆ ESP32 بفرێکی</h1>
+    <p class="lede">لاپتۆپ ب کێبلا USB-C ڤە ب بۆردێ ڤە گرێدە، د Arduino IDE دا بۆرد و پۆرتی هەلبژێرە، پاشی Upload بکە.</p>
+  </header>
+
+  <figure>
+    <div class="svgwrap">
+    <svg viewBox="0 0 900 400" role="img" aria-label="لاپتۆپ ب کێبلا USB-C ڤە ب ESP32 ڤە گرێدایە">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+      <!-- Laptop (left) -->
+      <rect x="40" y="60" width="330" height="210" rx="12" fill="var(--metal)"/>
+      <rect x="54" y="74" width="302" height="182" rx="4" fill="var(--screen)"/>
+      <!-- IDE toolbar -->
+      <rect x="54" y="74" width="302" height="30" fill="var(--accent)" opacity=".9"/>
+      <circle cx="74" cy="89" r="9" fill="var(--panel)"/>
+      <path d="M70,89 l4,4 l6,-8" stroke="var(--accent)" stroke-width="2.4" fill="none"/>
+      <circle cx="100" cy="89" r="9" fill="var(--panel)"/>
+      <path d="M95,89 h9 m-4,-4 l4,4 l-4,4" stroke="var(--accent)" stroke-width="2.4" fill="none"/>
+      <text x="118" y="94" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--panel)">Upload</text>
+      <text x="345" y="94" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--panel)">ESP32 Dev Module · COM5</text>
+      <g font-family="JetBrains Mono, monospace" font-size="11" fill="var(--screen-fg)">
+        <text x="66" y="128">void setup() {</text>
+        <text x="80" y="146">u8g2.begin();</text>
+        <text x="66" y="164">}</text>
+        <text x="66" y="200" fill="var(--accent)">Writing at 0x00010000 (62%)</text>
+        <rect x="66" y="210" width="270" height="8" rx="4" fill="var(--pcb-edge)"/>
+        <rect x="66" y="210" width="168" height="8" rx="4" fill="var(--accent)"/>
+        <text x="66" y="240">Hard resetting via RTS pin...</text>
+      </g>
+      <!-- base -->
+      <path d="M20,270 h370 l-18,26 h-334 z" fill="var(--metal)"/>
+      <rect x="170" y="280" width="70" height="8" rx="4" fill="var(--line)"/>
+      <!-- USB-C port on laptop side -->
+      <rect x="384" y="276" width="10" height="12" rx="3" fill="var(--pcb)"/>
+      <text x="205" y="330" text-anchor="middle" font-family="Noto Kufi Arabic, Vazirmatn, sans-serif" font-size="17" font-weight="800" fill="var(--fg)">لاپتۆپ</text>
+      <text x="205" y="352" text-anchor="middle" font-family="Vazirmatn, sans-serif" font-size="13" fill="var(--muted)">Arduino IDE</text>
+
+      <!-- Cable -->
+      <path d="M394,282 C470,282 470,210 540,210 S610,200 640,200" stroke="var(--fg)" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <rect x="626" y="192" width="26" height="16" rx="4" fill="var(--metal)"/>
+      <!-- data arrow -->
+      <path d="M440,240 C490,180 540,170 600,172" stroke="var(--accent)" stroke-width="2.5" fill="none" stroke-dasharray="6 5" marker-end="url(#arr)"/>
+      <text x="515" y="150" text-anchor="middle" font-family="Noto Kufi Arabic, Vazirmatn, sans-serif" font-size="15" font-weight="600" fill="var(--accent)">کێبلا USB-C (Data)</text>
+      <text x="515" y="252" text-anchor="middle" font-family="Vazirmatn, sans-serif" font-size="12" fill="var(--muted)">نە کێبلا بەس شەحنێ</text>
+
+      <!-- ESP32 board (right) -->
+      <rect x="650" y="110" width="210" height="180" rx="10" fill="var(--pcb)" stroke="var(--pcb-edge)" stroke-width="2"/>
+      <!-- pin headers -->
+      <g fill="var(--metal)">
+        <circle cx="672" cy="125" r="3.5"/><circle cx="692" cy="125" r="3.5"/><circle cx="712" cy="125" r="3.5"/><circle cx="732" cy="125" r="3.5"/><circle cx="752" cy="125" r="3.5"/><circle cx="772" cy="125" r="3.5"/><circle cx="792" cy="125" r="3.5"/><circle cx="812" cy="125" r="3.5"/><circle cx="832" cy="125" r="3.5"/>
+        <circle cx="672" cy="275" r="3.5"/><circle cx="692" cy="275" r="3.5"/><circle cx="712" cy="275" r="3.5"/><circle cx="732" cy="275" r="3.5"/><circle cx="752" cy="275" r="3.5"/><circle cx="772" cy="275" r="3.5"/><circle cx="792" cy="275" r="3.5"/><circle cx="812" cy="275" r="3.5"/><circle cx="832" cy="275" r="3.5"/>
+      </g>
+      <!-- shielded module -->
+      <rect x="745" y="145" width="100" height="110" rx="4" fill="var(--metal)"/>
+      <text x="795" y="195" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--pcb)">ESP32</text>
+      <text x="795" y="212" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--pcb)">WROOM-32</text>
+      <!-- USB chip -->
+      <rect x="690" y="180" width="34" height="34" rx="3" fill="var(--pcb-edge)"/>
+      <text x="707" y="230" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--metal)">CH340</text>
+      <!-- USB-C socket on board -->
+      <rect x="650" y="190" width="14" height="22" rx="4" fill="var(--metal)"/>
+      <!-- buttons -->
+      <rect x="664" y="145" width="18" height="18" rx="3" fill="var(--metal)"/><circle cx="673" cy="154" r="5" fill="var(--pcb-edge)"/>
+      <rect x="664" y="240" width="18" height="18" rx="3" fill="var(--metal)"/><circle cx="673" cy="249" r="5" fill="var(--pcb-edge)"/>
+      <!-- button callouts -->
+      <path d="M664,154 L620,90" stroke="var(--muted)" stroke-width="1.2"/>
+      <text x="615" y="82" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="var(--fg)">EN</text>
+      <text x="615" y="64" text-anchor="end" font-family="Vazirmatn, sans-serif" font-size="12" fill="var(--muted)">ڕیسێت</text>
+      <path d="M664,249 L620,330" stroke="var(--warn)" stroke-width="1.4"/>
+      <text x="615" y="342" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="var(--warn)">BOOT</text>
+      <text x="615" y="362" text-anchor="end" font-family="Vazirmatn, sans-serif" font-size="12" fill="var(--muted)">دەمێ Connecting... ڤە بگرە</text>
+      <text x="755" y="330" text-anchor="middle" font-family="Noto Kufi Arabic, Vazirmatn, sans-serif" font-size="17" font-weight="800" fill="var(--fg)">ESP32</text>
+    </svg>
+    </div>
+    <figcaption>وێنە ١: کۆد ژ Arduino IDE ب ڕێکا کێبلا USB-C دچیتە د ناڤ ESP32 دا.</figcaption>
+  </figure>
+
+  <section style="display:grid;gap:14px">
+    <h2>ڕێک ب ڕێک</h2>
+    <ol class="steps">
+      <li><div><b>Arduino IDE دابەزینە</b><p>ژ <code>arduino.cc/en/software</code> دابەزینە و install بکە.</p></div></li>
+      <li><div><b>پشتگیریا ESP32 زێدە بکە</b><p>File ← Preferences، ڤی لینکی دانە: <code>https://espressif.github.io/arduino-esp32/package_esp32_index.json</code>. پاشی Tools ← Board ← Boards Manager، <span class="mono">esp32</span> یێ Espressif install بکە.</p></div></li>
+      <li><div><b>کتێبخانا U8g2 دانە</b><p>Sketch ← Include Library ← Manage Libraries، ل <span class="mono">U8g2</span> بگەڕێ و install بکە.</p></div></li>
+      <li><div><b>کێبلێ گرێدە</b><p>کێبلا USB-C یا data بکاربینە. ئەگەر پۆرت دیار نەبوو، driverێ <span class="mono">CH340</span> یان <span class="mono">CP2102</span> دابەزینە.</p></div></li>
+      <li><div><b>بۆرد و پۆرتی هەلبژێرە</b><p>Tools ← Board ← <span class="mono">ESP32 Dev Module</span>، و Tools ← Port ← <span class="mono">COM</span>ێ تە.</p></div></li>
+      <li><div><b>Upload بکە</b><p>فایلا <code>OLED_IR_CODE.ino</code> ڤەکە و دووگمەیا → بکە. دەمێ <span class="mono">Hard resetting via RTS pin</span> دیار بوو، کار تەمام بوو.</p></div></li>
+    </ol>
+  </section>
+
+  <aside class="warn">
+    <h2>ئەگەر کار نەکر</h2>
+    <ul>
+      <li><span class="mono">Connecting.......</span> ڕاوەستیا: دووگمەیا <b>BOOT</b> ڤە بگرە هەتا <span class="mono">%</span> دەست پێ دکەت.</li>
+      <li>پۆرت ل Tools دیار نینە: کێبلەکا دی تاقی بکە، یان driver دابەزینە.</li>
+      <li>پشتی upload شاشە ڕەشە: دووگمەیا <b>EN</b> پاڵ بدە و تەلێن OLED کۆنترۆل بکە.</li>
+    </ul>
+  </aside>
+
+  <figure>
+    <div class="svgwrap">
+    <svg viewBox="0 0 900 330" role="img" aria-label="گرێدانا OLED و IR ب ESP32 ڤە">
+      <!-- OLED -->
+      <rect x="30" y="70" width="210" height="150" rx="8" fill="var(--pcb)" stroke="var(--pcb-edge)" stroke-width="2"/>
+      <rect x="48" y="110" width="174" height="92" rx="3" fill="var(--screen)"/>
+      <rect x="80" y="140" width="38" height="38" rx="3" fill="var(--screen-fg)"/>
+      <rect x="152" y="140" width="38" height="38" rx="3" fill="var(--screen-fg)"/>
+      <g font-family="JetBrains Mono, monospace" font-size="11" fill="var(--metal)" text-anchor="middle">
+        <text x="70" y="94">GND</text><text x="110" y="94">VCC</text><text x="150" y="94">SCL</text><text x="190" y="94">SDA</text>
+      </g>
+      <text x="135" y="250" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" fill="var(--fg)">OLED 128×64</text>
+
+      <!-- ESP32 -->
+      <rect x="350" y="40" width="200" height="240" rx="10" fill="var(--pcb)" stroke="var(--pcb-edge)" stroke-width="2"/>
+      <rect x="400" y="60" width="100" height="90" rx="4" fill="var(--metal)"/>
+      <text x="450" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--pcb)">ESP32</text>
+      <g font-family="JetBrains Mono, monospace" font-size="12" fill="var(--metal)">
+        <text x="364" y="180">GND</text><text x="364" y="205">3V3</text><text x="364" y="230">D22</text><text x="364" y="255">D21</text>
+        <text x="536" y="190" text-anchor="end">D34</text><text x="536" y="215" text-anchor="end">3V3</text><text x="536" y="240" text-anchor="end">GND</text>
+      </g>
+
+      <!-- IR -->
+      <rect x="670" y="120" width="190" height="110" rx="8" fill="var(--pcb)" stroke="var(--pcb-edge)" stroke-width="2"/>
+      <circle cx="830" cy="160" r="12" fill="var(--metal)"/><circle cx="830" cy="196" r="12" fill="var(--pcb-edge)"/>
+      <g font-family="JetBrains Mono, monospace" font-size="11" fill="var(--metal)">
+        <text x="684" y="164">OUT</text><text x="684" y="189">VCC</text><text x="684" y="214">GND</text>
+      </g>
+      <text x="765" y="260" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" fill="var(--fg)">IR Sensor</text>
+
+      <!-- wires OLED -> ESP32 -->
+      <g fill="none" stroke-width="3.5" stroke-linecap="round">
+        <path d="M70,70 V30 H300 V176 H350" stroke="var(--wire-blk)"/>
+        <path d="M110,70 V40 H290 V201 H350" stroke="var(--wire-red)"/>
+        <path d="M150,70 V50 H280 V226 H350" stroke="var(--wire-yel)"/>
+        <path d="M190,70 V60 H270 V251 H350" stroke="var(--wire-blu)"/>
+        <!-- wires ESP32 -> IR -->
+        <path d="M550,186 H620 V160 H670" stroke="var(--wire-grn)"/>
+        <path d="M550,211 H630 V185 H670" stroke="var(--wire-red)"/>
+        <path d="M550,236 H640 V210 H670" stroke="var(--wire-blk)"/>
+      </g>
+    </svg>
+    </div>
+    <figcaption>وێنە ٢: گرێدانا تەلان. ڤێ بەری upload کرنێ بکە.</figcaption>
+  </figure>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>پارچە</th><th>پین</th><th>پینا ESP32</th></tr></thead>
+      <tbody>
+        <tr><td>OLED</td><td class="mono"><span class="sw" style="background:var(--wire-blu)"></span>SDA</td><td class="mono">GPIO 21</td></tr>
+        <tr><td>OLED</td><td class="mono"><span class="sw" style="background:var(--wire-yel)"></span>SCL</td><td class="mono">GPIO 22</td></tr>
+        <tr><td>OLED / IR</td><td class="mono"><span class="sw" style="background:var(--wire-red)"></span>VCC</td><td class="mono">3.3V</td></tr>
+        <tr><td>OLED / IR</td><td class="mono"><span class="sw" style="background:var(--wire-blk)"></span>GND</td><td class="mono">GND</td></tr>
+        <tr><td>IR</td><td class="mono"><span class="sw" style="background:var(--wire-grn)"></span>OUT</td><td class="mono">GPIO 34</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>

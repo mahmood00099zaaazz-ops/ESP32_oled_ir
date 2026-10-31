@@ -1,0 +1,194 @@
+<title>ESP32 Upload Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one column, RTL, a large wiring-style drawing up top, then numbered steps each with its own small drawing */
+:root{
+  --bg:#eef3f1; --panel:#ffffff; --fg:#14231f; --muted:#5b6d68;
+  --line:#c9d6d2; --pcb:#163b33; --copper:#c9822b; --accent:#0a7c66; --warn:#b4471f;
+  --display:"Vazirmatn","Noto Sans Arabic",Tahoma,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1614; --panel:#16211e; --fg:#e4efeb; --muted:#93a8a2;
+  --line:#2b3c37; --pcb:#0f4a3d; --copper:#e0a050; --accent:#3fc7a8; --warn:#f08a5d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1614; --panel:#16211e; --fg:#e4efeb; --muted:#93a8a2;
+  --line:#2b3c37; --pcb:#0f4a3d; --copper:#e0a050; --accent:#3fc7a8; --warn:#f08a5d; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--display);font-size:17px;line-height:1.8}
+.wrap{direction:rtl;max-width:860px;margin:0 auto;padding-block:28px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:grid;gap:22px}
+h1{font-weight:800;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1.3;margin:0;text-wrap:balance}
+.lead{color:var(--muted);margin:0}
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:560px;height:auto;direction:ltr}
+svg text{font-family:var(--display);fill:var(--fg)}
+svg .mono{font-family:var(--mono)}
+ol{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+li{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;
+  display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start}
+.n{width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--panel);
+  display:grid;place-items:center;font-weight:800;font-size:1.1rem}
+li > div{min-width:0}
+li h2{margin:0 0 2px;font-size:1.08rem}
+li p{margin:0;color:var(--muted)}
+code{font-family:var(--mono);font-size:.82em;direction:ltr;unicode-bidi:isolate;background:var(--bg);
+  border:1px solid var(--line);border-radius:6px;padding:1px 6px;word-break:break-all}
+.copy{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.copy code{flex:1 1 260px;padding:6px 8px}
+button{font-family:var(--display);font-size:.9rem;background:var(--accent);color:var(--panel);border:0;border-radius:8px;padding:6px 14px;cursor:pointer}
+button:focus-visible{outline:3px solid var(--copper);outline-offset:2px}
+.mini{margin-top:10px;overflow-x:auto}
+.mini svg{display:block;max-width:100%;height:auto;direction:ltr}
+.warn{border-color:var(--warn)}
+.warn .n{background:var(--warn)}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+td{border-top:1px solid var(--line);padding:8px 6px;vertical-align:top}
+td:first-child{font-family:var(--mono);font-size:.8rem;direction:ltr;text-align:left;color:var(--warn);width:45%}
+</style>
+
+<div class="wrap">
+  <h1>چاوا کۆدی ژ لاپتۆپی بۆ ESP32 فرێکەی</h1>
+  <p class="lead">لاپتۆپ ← کێبلێ USB-C یێ داتا ← ESP32. ب Arduino IDE.</p>
+
+  <!-- Main drawing -->
+  <div class="fig" role="img" aria-label="لاپتۆپ ب کێبلێ USB-C ب ESP32 ڤە گرێدای">
+  <svg viewBox="0 0 760 330">
+    <!-- Laptop -->
+    <rect x="30" y="40" width="270" height="170" rx="10" fill="var(--fg)"/>
+    <rect x="42" y="52" width="246" height="146" rx="4" fill="var(--panel)"/>
+    <!-- IDE window -->
+    <rect x="42" y="52" width="246" height="26" fill="var(--accent)"/>
+    <circle cx="60" cy="65" r="8" fill="var(--panel)"/><path d="M55 65 l4 4 l7 -8" stroke="var(--accent)" stroke-width="2.4" fill="none"/>
+    <circle cx="84" cy="65" r="8" fill="var(--panel)"/><path d="M79 65 h9 m-4 -4 l4 4 l-4 4" stroke="var(--accent)" stroke-width="2.4" fill="none"/>
+    <text x="205" y="70" font-size="11" fill="var(--panel)" style="fill:var(--panel)" class="mono">Arduino IDE</text>
+    <text x="54" y="100" font-size="10" class="mono" style="fill:var(--muted)">void setup() {</text>
+    <text x="54" y="116" font-size="10" class="mono" style="fill:var(--muted)">  u8g2.begin();</text>
+    <text x="54" y="132" font-size="10" class="mono" style="fill:var(--muted)">}</text>
+    <rect x="42" y="168" width="246" height="30" fill="var(--bg)"/>
+    <text x="54" y="187" font-size="10" class="mono" style="fill:var(--accent)">Writing at 0x0001... (100 %)</text>
+    <path d="M10 210 h310 l-18 22 h-274 z" fill="var(--muted)"/>
+    <text x="165" y="258" font-size="15" text-anchor="middle">لاپتۆپ (Windows)</text>
+    <!-- USB port on laptop side -->
+    <rect x="316" y="196" width="12" height="9" rx="2" fill="var(--fg)"/>
+
+    <!-- Cable -->
+    <path d="M328 200 C 400 200, 400 140, 470 140" stroke="var(--fg)" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M328 200 C 400 200, 400 140, 470 140" stroke="var(--copper)" stroke-width="2" fill="none" stroke-dasharray="7 9">
+      <animate attributeName="stroke-dashoffset" from="32" to="0" dur="1s" repeatCount="indefinite"/>
+    </path>
+    <text x="398" y="232" font-size="13" text-anchor="middle">USB-C کێبلێ داتا</text>
+    <text x="398" y="250" font-size="11" text-anchor="middle" style="fill:var(--warn)">نە کێبلێ شەحنێ ب تنێ</text>
+
+    <!-- ESP32 board (rotated: USB on left) -->
+    <rect x="470" y="70" width="260" height="140" rx="8" fill="var(--pcb)"/>
+    <rect x="470" y="124" width="18" height="32" rx="3" fill="#9aa5a2"/>
+    <!-- pins -->
+    <g fill="var(--copper)">
+      <rect x="500" y="76" width="220" height="6" rx="2"/>
+      <rect x="500" y="198" width="220" height="6" rx="2"/>
+    </g>
+    <!-- module -->
+    <rect x="610" y="92" width="110" height="96" rx="4" fill="#cfd6d4"/>
+    <rect x="618" y="100" width="94" height="80" rx="3" fill="#e9eeec"/>
+    <text x="665" y="146" font-size="12" text-anchor="middle" class="mono" style="fill:#14231f">ESP32</text>
+    <!-- USB chip -->
+    <rect x="510" y="128" width="26" height="24" rx="2" fill="#0b0f0e"/>
+    <!-- buttons -->
+    <rect x="500" y="94" width="22" height="18" rx="3" fill="#e8e8e8"/><circle cx="511" cy="103" r="5" fill="#333"/>
+    <rect x="500" y="168" width="22" height="18" rx="3" fill="#e8e8e8"/><circle cx="511" cy="177" r="5" fill="#333"/>
+    <!-- labels -->
+    <path d="M511 94 L511 40" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="511" y="32" font-size="13" text-anchor="middle" style="fill:var(--accent)" class="mono">EN</text>
+    <text x="560" y="32" font-size="12" text-anchor="start">= ڕیسێت</text>
+    <path d="M511 186 L511 285" stroke="var(--warn)" stroke-width="1.5"/>
+    <text x="511" y="302" font-size="13" text-anchor="middle" style="fill:var(--warn)" class="mono">BOOT</text>
+    <text x="545" y="302" font-size="12" text-anchor="start">= بگرە دەمێ Connecting...</text>
+    <path d="M523 140 L560 140" stroke="var(--muted)" stroke-width="1"/>
+    <text x="566" y="235" font-size="11" class="mono" style="fill:var(--muted)">CP2102 / CH340</text>
+    <path d="M523 152 L563 226" stroke="var(--muted)" stroke-width="1"/>
+  </svg>
+  </div>
+
+  <ol>
+    <li><span class="n">١</span><div>
+      <h2>Arduino IDE دابەزینە</h2>
+      <p>ل سەر لاپتۆپی بچە: <code>arduino.cc/en/software</code> و Windows دابەزینە.</p>
+    </div></li>
+
+    <li><span class="n">٢</span><div>
+      <h2>ESP32 زێدە بکە</h2>
+      <p><code>File → Preferences</code> ← ڤێ لینکێ ل <b>Additional boards manager URLs</b> دانە:</p>
+      <div class="copy"><code id="url">https://espressif.github.io/arduino-esp32/package_esp32_index.json</code><button id="copyBtn" type="button">کۆپی</button></div>
+      <p style="margin-top:8px"><code>Tools → Board → Boards Manager</code> ← <code>esp32</code> ← <b>esp32 by Espressif</b> ← Install</p>
+    </div></li>
+
+    <li><span class="n">٣</span><div>
+      <h2>کتێبخانا U8g2 دامەزرینە</h2>
+      <p><code>Sketch → Include Library → Manage Libraries</code> ← <code>U8g2</code> ← Install</p>
+    </div></li>
+
+    <li><span class="n">٤</span><div>
+      <h2>بۆرد و پۆرت هەلبژێرە</h2>
+      <p><code>Tools → Board → ESP32 Dev Module</code> و <code>Tools → Port → COM3</code></p>
+      <div class="mini"><svg viewBox="0 0 360 96" width="360">
+        <rect x="1" y="1" width="358" height="94" rx="8" fill="var(--bg)" stroke="var(--line)"/>
+        <text x="16" y="28" font-size="13" class="mono">Tools ▸ Board ▸</text>
+        <rect x="140" y="12" width="200" height="24" rx="4" fill="var(--accent)"/>
+        <text x="150" y="29" font-size="13" class="mono" style="fill:var(--panel)">ESP32 Dev Module</text>
+        <text x="16" y="70" font-size="13" class="mono">Tools ▸ Port ▸</text>
+        <rect x="140" y="54" width="200" height="24" rx="4" fill="var(--accent)"/>
+        <text x="150" y="71" font-size="13" class="mono" style="fill:var(--panel)">COM3</text>
+      </svg></div>
+      <p style="margin-top:8px">ئەگەر COM دیار نەبوو: کێبلەکێ دی تاقی بکە، یان درایڤەرێ CP2102 / CH340 دامەزرینە.</p>
+    </div></li>
+
+    <li><span class="n">٥</span><div>
+      <h2>Verify پاشان Upload</h2>
+      <div class="mini"><svg viewBox="0 0 360 70" width="360">
+        <rect x="1" y="1" width="358" height="68" rx="8" fill="var(--accent)"/>
+        <circle cx="40" cy="35" r="20" fill="var(--panel)"/><path d="M30 35 l7 7 l13 -15" stroke="var(--accent)" stroke-width="4" fill="none"/>
+        <circle cx="94" cy="35" r="20" fill="var(--panel)"/><path d="M82 35 h22 m-8 -8 l8 8 l-8 8" stroke="var(--accent)" stroke-width="4" fill="none"/>
+        <text x="130" y="30" font-size="13" style="fill:var(--panel)">✔ = Verify (پشکنین)</text>
+        <text x="130" y="52" font-size="13" style="fill:var(--panel)">➜ = Upload (فرێکرن)</text>
+      </svg></div>
+    </div></li>
+
+    <li class="warn"><span class="n">٦</span><div>
+      <h2>ئەگەر <code>Connecting.....____</code> ما</h2>
+      <p>دوگمەیا <b>BOOT</b> بگرە تا <code>Writing at ...</code> دیار دبیت، پاشان بهێلە.</p>
+      <div class="mini"><svg viewBox="0 0 360 60" width="360">
+        <line x1="10" y1="40" x2="350" y2="40" stroke="var(--line)" stroke-width="2"/>
+        <rect x="90" y="30" width="150" height="20" rx="4" fill="var(--warn)"/>
+        <text x="165" y="44" font-size="11" text-anchor="middle" class="mono" style="fill:var(--panel)">BOOT ↓ hold</text>
+        <text x="10" y="20" font-size="10" class="mono" style="fill:var(--muted)">Connecting...</text>
+        <text x="250" y="20" font-size="10" class="mono" style="fill:var(--accent)">Writing... ✓</text>
+      </svg></div>
+    </div></li>
+
+    <li><span class="n">٧</span><div>
+      <h2>تمام بوو</h2>
+      <p>دەمێ <code>Hard resetting via RTS pin...</code> هات، کۆد ل سەر ESP32 یە. ئەگەر دەست پێ نەکر، دوگمەیا <b>EN</b> بکە.</p>
+    </div></li>
+  </ol>
+
+  <div class="fig">
+    <table>
+      <tr><td>Port greyed out / no COM</td><td>کێبلێ داتا + درایڤەر</td></tr>
+      <tr><td>Failed to connect: Timed out</td><td>BOOT بگرە دەمێ Upload</td></tr>
+      <tr><td>U8g2lib.h: No such file</td><td>کتێبخانا U8g2 دامەزرینە</td></tr>
+      <tr><td>no matching member function for call to 'print'</td><td><code>print(String(x))</code> یان <code>print(x.c_str())</code></td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', function(){
+  var t = document.getElementById('url').textContent, b = this;
+  function done(){ b.textContent = 'کۆپی بوو ✓'; setTimeout(function(){ b.textContent = 'کۆپی'; }, 1500); }
+  function fallback(){ var r = document.createRange(); r.selectNodeContents(document.getElementById('url'));
+    var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  try { navigator.clipboard.writeText(t).then(done, fallback); } catch(e){ fallback(); }
+});
+</script>

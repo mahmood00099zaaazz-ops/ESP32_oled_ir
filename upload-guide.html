@@ -30,7 +30,7 @@ h2{font-size:1.3rem;font-weight:800}
 .lede{color:var(--muted);margin:6px 0 0;max-width:62ch}
 .mono{font-family:var(--f-mono);direction:ltr;unicode-bidi:isolate}
 figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:8px}
-.svgwrap{overflow-x:auto}
+.svgwrap{overflow-x:auto;direction:ltr}
 .svgwrap svg{display:block;width:100%;min-width:640px;height:auto}
 figcaption{color:var(--muted);font-size:.92rem}
 .steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
@@ -99,8 +99,8 @@ th{font-family:var(--f-display);font-weight:600;font-size:.95rem}
       <rect x="626" y="192" width="26" height="16" rx="4" fill="var(--metal)"/>
       <!-- data arrow -->
       <path d="M440,240 C490,180 540,170 600,172" stroke="var(--accent)" stroke-width="2.5" fill="none" stroke-dasharray="6 5" marker-end="url(#arr)"/>
-      <text x="515" y="150" text-anchor="middle" font-family="Noto Kufi Arabic, Vazirmatn, sans-serif" font-size="15" font-weight="600" fill="var(--accent)">کێبلا USB-C (Data)</text>
-      <text x="515" y="252" text-anchor="middle" font-family="Vazirmatn, sans-serif" font-size="12" fill="var(--muted)">نە کێبلا بەس شەحنێ</text>
+      <text x="515" y="150" direction="rtl" text-anchor="middle" font-family="Noto Kufi Arabic, Vazirmatn, sans-serif" font-size="15" font-weight="600" fill="var(--accent)">کێبلا USB-C (Data)</text>
+      <text x="570" y="250" text-anchor="middle" font-family="Vazirmatn, sans-serif" font-size="12" fill="var(--muted)">نە کێبلا بەس شەحنێ</text>
 
       <!-- ESP32 board (right) -->
       <rect x="650" y="110" width="210" height="180" rx="10" fill="var(--pcb)" stroke="var(--pcb-edge)" stroke-width="2"/>
@@ -127,7 +127,7 @@ th{font-family:var(--f-display);font-weight:600;font-size:.95rem}
       <text x="615" y="64" text-anchor="end" font-family="Vazirmatn, sans-serif" font-size="12" fill="var(--muted)">ڕیسێت</text>
       <path d="M664,249 L620,330" stroke="var(--warn)" stroke-width="1.4"/>
       <text x="615" y="342" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="var(--warn)">BOOT</text>
-      <text x="615" y="362" text-anchor="end" font-family="Vazirmatn, sans-serif" font-size="12" fill="var(--muted)">دەمێ Connecting... ڤە بگرە</text>
+      <text x="615" y="362" direction="rtl" text-anchor="start" font-family="Vazirmatn, sans-serif" font-size="12" fill="var(--muted)">دەمێ Connecting... ڤە بگرە</text>
       <text x="755" y="330" text-anchor="middle" font-family="Noto Kufi Arabic, Vazirmatn, sans-serif" font-size="17" font-weight="800" fill="var(--fg)">ESP32</text>
     </svg>
     </div>

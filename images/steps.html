@@ -1,0 +1,127 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@600;800&family=Vazirmatn:wght@400;600&family=JetBrains+Mono:wght@500;700&display=swap');
+:root{--bg:#eef3f1;--panel:#fff;--fg:#14211d;--muted:#55665f;--line:#c9d6d1;--acc:#0f8a6a;--accs:#d5efe6;--warn:#d0601e;--scr:#1d2a33;--scrf:#cfe8df}
+body{margin:0;background:#d9e3df;font-family:Vazirmatn,Tahoma,sans-serif;color:var(--fg)}
+.card{width:720px;box-sizing:border-box;background:var(--bg);padding:36px 36px 40px;margin:0 0 20px;display:grid;gap:22px}
+.head{display:flex;gap:18px;align-items:center;direction:rtl}
+.num{flex:none;width:72px;height:72px;border-radius:50%;background:var(--acc);color:#fff;font:800 38px "Noto Kufi Arabic";display:grid;place-items:center}
+.head h2{margin:0;font:800 32px/1.5 "Noto Kufi Arabic",sans-serif}
+.say{direction:rtl;font-size:24px;line-height:1.8;margin:0}
+.m{font-family:"JetBrains Mono",monospace;direction:ltr;unicode-bidi:isolate;background:var(--accs);padding:1px 8px;border-radius:6px;font-size:.9em}
+.win{direction:ltr;background:var(--panel);border:2px solid var(--line);border-radius:12px;overflow:hidden;font:20px/1.5 "Segoe UI",Vazirmatn,sans-serif}
+.tb{display:flex;gap:8px;align-items:center;padding:10px 14px;background:var(--line);font:600 17px "JetBrains Mono",monospace}
+.tb i{width:14px;height:14px;border-radius:50%;background:#8aa098}
+.tb span{margin-left:10px}
+.bd{padding:18px;display:grid;gap:12px}
+.f{border:2px solid var(--line);border-radius:6px;padding:8px 10px;font:600 17px "JetBrains Mono",monospace;overflow-wrap:anywhere;background:#f6f9f8}
+.btn{display:inline-block;background:var(--acc);color:#fff;font-weight:700;padding:8px 22px;border-radius:6px}
+.hl{outline:5px solid var(--warn);outline-offset:4px;border-radius:6px;position:relative}
+.click{direction:rtl;color:var(--warn);font:800 22px "Noto Kufi Arabic";display:flex;gap:10px;align-items:center}
+.click::before{content:"👆";font-size:30px}
+.menu div{padding:10px 14px;border-bottom:1px solid var(--line)}
+.on{background:var(--accs);font-weight:700}
+.con{background:var(--scr);color:var(--scrf);font:16px/1.7 "JetBrains Mono",monospace;padding:14px;border-radius:6px;white-space:pre-wrap}
+.ok{color:#5be0a8;font-weight:700}
+.warnbox{direction:rtl;background:#fbe9dc;border:2px solid var(--warn);border-radius:10px;padding:14px 18px;font-size:21px;line-height:1.8}
+.lbl{color:var(--muted);font-size:17px}
+svg text{font-family:Vazirmatn,sans-serif}
+</style>
+
+<!-- 0: overview -->
+<div class="card" id="c0">
+  <div class="head"><h2>چاوا کۆدی ژ لاپتۆپێ بۆ ESP32 بفرێکی</h2></div>
+  <svg viewBox="0 0 650 300" width="648">
+    <defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#0f8a6a"/></marker></defs>
+    <rect x="10" y="40" width="250" height="160" rx="12" fill="#c8cdd0"/>
+    <rect x="22" y="52" width="226" height="136" rx="4" fill="#1d2a33"/>
+    <rect x="22" y="52" width="226" height="32" fill="#0f8a6a"/>
+    <text x="40" y="74" fill="#fff" font-family="JetBrains Mono" font-size="16" font-weight="700">→ Upload</text>
+    <text x="40" y="120" fill="#cfe8df" font-family="JetBrains Mono" font-size="14">void setup(){</text>
+    <text x="40" y="145" fill="#cfe8df" font-family="JetBrains Mono" font-size="14">  ...</text>
+    <path d="M0,200h270l-14,20H14z" fill="#c8cdd0"/>
+    <text x="135" y="260" text-anchor="middle" font-size="26" font-weight="700" fill="#14211d">لاپتۆپ</text>
+    <path d="M270,208 C340,208 340,150 420,150" stroke="#14211d" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M300,120 C340,95 380,95 410,100" stroke="#0f8a6a" stroke-width="4" fill="none" stroke-dasharray="8 6" marker-end="url(#a)"/>
+    <text x="345" y="80" text-anchor="middle" font-size="20" font-weight="700" fill="#0f8a6a">کێبلا USB-C</text>
+    <rect x="420" y="60" width="210" height="170" rx="12" fill="#16201d"/>
+    <rect x="410" y="138" width="16" height="26" rx="4" fill="#c8cdd0"/>
+    <rect x="510" y="85" width="100" height="110" rx="4" fill="#c8cdd0"/>
+    <text x="560" y="145" text-anchor="middle" font-family="JetBrains Mono" font-size="18" font-weight="700" fill="#16201d">ESP32</text>
+    <rect x="440" y="80" width="22" height="22" rx="3" fill="#c8cdd0"/><text x="451" y="122" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#c8cdd0">EN</text>
+    <rect x="440" y="190" width="22" height="22" rx="3" fill="#d0601e"/><text x="451" y="182" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#f0965a">BOOT</text>
+    <text x="525" y="270" text-anchor="middle" font-size="26" font-weight="700" fill="#14211d">ESP32</text>
+  </svg>
+  <p class="say">١. لاپتۆپ ئامادە بکە (ڕێکێن ١ هەتا ٤، بەس جارەکێ).<br>٢. ESP32 ب کێبلێ ڤە گرێدە.<br>٣. Upload بکە.</p>
+</div>
+
+<div class="card" id="c1">
+  <div class="head"><div class="num">١</div><h2>Arduino IDE دابەزینە</h2></div>
+  <p class="say">ل سەر لاپتۆپێ Chrome ڤەکە و بچە: <span class="m">arduino.cc/en/software</span></p>
+  <div class="win"><div class="tb"><i></i><i></i><i></i><span>arduino.cc/en/software</span></div>
+    <div class="bd"><b style="font-size:24px">Arduino IDE 2</b><div><span class="btn hl">Windows  Win 10 and newer, 64 bits</span></div><div class="lbl">Linux · macOS</div></div></div>
+  <div class="click">ل ڤێرێ بکە، پاشی فایلێ ڤەکە: Next ← Next ← Install</div>
+</div>
+
+<div class="card" id="c2">
+  <div class="head"><div class="num">٢</div><h2>لینکێ ESP32 دانە</h2></div>
+  <p class="say">Arduino IDE ڤەکە. ژ سەری: <span class="m">File</span> ← <span class="m">Preferences</span></p>
+  <div class="win"><div class="tb"><i></i><i></i><i></i><span>Preferences</span></div>
+    <div class="bd">
+      <div class="lbl">Additional boards manager URLs:</div>
+      <div class="f hl">https://espressif.github.io/arduino-esp32/package_esp32_index.json</div>
+      <div style="text-align:right"><span class="btn">OK</span></div>
+    </div></div>
+  <div class="click">ڤی لینکی ب دروستی کۆپی بکە و ل ڤێرێ دانە، پاشی OK</div>
+</div>
+
+<div class="card" id="c3">
+  <div class="head"><div class="num">٣</div><h2>بۆردا ESP32 install بکە</h2></div>
+  <p class="say"><span class="m">Tools</span> ← <span class="m">Board</span> ← <span class="m">Boards Manager</span>، و بنڤیسە <span class="m">esp32</span></p>
+  <div class="win"><div class="tb"><i></i><i></i><i></i><span>Boards Manager</span></div>
+    <div class="bd"><div class="f">esp32</div><div><b>esp32</b> by Espressif Systems</div><div><span class="btn hl">INSTALL</span></div></div></div>
+  <div class="click">INSTALL بکە و چاڤەڕێ بە (٥ هەتا ١٠ خولەک)</div>
+  <div class="warnbox">پێدڤی ب ئینتەرنێتێ هەیە.</div>
+</div>
+
+<div class="card" id="c4">
+  <div class="head"><div class="num">٤</div><h2>کتێبخانا OLED دانە</h2></div>
+  <p class="say"><span class="m">Sketch</span> ← <span class="m">Include Library</span> ← <span class="m">Manage Libraries</span>، و بنڤیسە <span class="m">U8g2</span></p>
+  <div class="win"><div class="tb"><i></i><i></i><i></i><span>Library Manager</span></div>
+    <div class="bd"><div class="f">U8g2</div><div><b>U8g2</b> by oliver</div><div><span class="btn hl">INSTALL</span></div></div></div>
+  <div class="click">INSTALL بکە</div>
+</div>
+
+<div class="card" id="c5">
+  <div class="head"><div class="num">٥</div><h2>ESP32 ب لاپتۆپێ ڤە گرێدە</h2></div>
+  <p class="say">کێبلا USB-C بکاربینە. پاشی کلیکا ڕاست ل سەر Start بکە و <span class="m">Device Manager</span> ڤەکە.</p>
+  <div class="win"><div class="tb"><i></i><i></i><i></i><span>Device Manager</span></div>
+    <div class="bd"><div>▾ Ports (COM &amp; LPT)</div><div class="hl" style="padding:6px 12px;margin-left:24px">USB-SERIAL CH340 (COM5)</div></div></div>
+  <div class="click">ئەڤە دیار بوو؟ باشە! ژمارا COM بنڤیسە.</div>
+  <div class="warnbox">❌ دیار نەبوو؟<br>• کێبلەکا دی تاقی بکە. هندەک کێبل بەس بۆ شەحنێنە.<br>• driverێ <span class="m">CH340</span> یان <span class="m">CP2102</span> دابەزینە.</div>
+</div>
+
+<div class="card" id="c6">
+  <div class="head"><div class="num">٦</div><h2>بۆرد و پۆرتی هەلبژێرە</h2></div>
+  <p class="say">ژ مێنیوا <span class="m">Tools</span> ڤان هەردووکان هەلبژێرە:</p>
+  <div class="win"><div class="tb"><i></i><i></i><i></i><span>Tools</span></div>
+    <div class="bd menu" style="padding:0">
+      <div>Manage Libraries…</div>
+      <div class="on hl">Board: "ESP32 Dev Module"</div>
+      <div class="on hl">Port: "COM5"</div>
+      <div>Upload Speed: "921600"</div>
+    </div></div>
+</div>
+
+<div class="card" id="c7">
+  <div class="head"><div class="num">٧</div><h2>Upload بکە</h2></div>
+  <p class="say">فایلا <span class="m">OLED_IR_CODE.ino</span> ڤەکە، پاشی دووگمەیا تیرێ بکە.</p>
+  <div class="win"><div class="tb"><i></i><i></i><i></i><span>OLED_IR_CODE | Arduino IDE</span></div>
+    <div class="bd">
+      <div style="display:flex;gap:14px;align-items:center"><span class="btn">✓</span><span class="btn hl">→</span><span class="lbl">ESP32 Dev Module · COM5</span></div>
+      <div class="con">Connecting.......
+Writing at 0x00010000... (100 %)
+<span class="ok">Hard resetting via RTS pin...</span></div>
+    </div></div>
+  <div class="click">دەمێ ئەڤ نڤیسینا کەسک دیار بوو، کار تەمام بوو ✅</div>
+  <div class="warnbox">ل سەر <span class="m">Connecting.......</span> ڕاوەستیا؟<br>دووگمەیا <b>BOOT</b> ل سەر ESP32 ڤە بگرە، هەتا % دیار دبیت.</div>
+</div>

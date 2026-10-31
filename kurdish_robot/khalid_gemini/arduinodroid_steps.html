@@ -1,0 +1,80 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>ArduinoDroid Steps</title>
+<style>body{margin:0;background:#f4f5f7}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1500" viewBox="0 0 760 1500" font-family="DejaVu Sans, sans-serif">
+  <rect width="760" height="1500" fill="#f4f5f7"/>
+  <text x="380" y="58" font-size="36" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">نوکە چ بکەی؟</text>
+  <text x="380" y="98" font-size="22" fill="#5d6878" text-anchor="middle" direction="rtl">٤ گاڤ ل ArduinoDroid</text>
+
+  <!-- phone -->
+  <rect x="80" y="130" width="600" height="900" rx="40" fill="#111" />
+  <rect x="100" y="160" width="560" height="840" rx="10" fill="#000"/>
+  <!-- top bar -->
+  <rect x="100" y="160" width="560" height="120" fill="#000"/>
+  <text x="118" y="205" font-size="28" font-weight="bold" fill="#14a3a8">ArduinoDroid</text>
+  <text x="118" y="245" font-size="20" fill="#ccc">*sketch</text>
+  <!-- icons -->
+  <rect x="345" y="185" width="40" height="40" rx="6" fill="#fff"/>
+  <!-- compile bolt highlighted -->
+  <circle cx="430" cy="205" r="34" fill="none" stroke="#ff3b30" stroke-width="6"/>
+  <path d="M436 182 L418 210 L430 210 L424 230 L444 200 L432 200 Z" fill="#fff"/>
+  <path d="M495 185 v24 M485 200 l10 10 l10 -10 M483 222 h24" stroke="#fff" stroke-width="5" fill="none"/>
+  <path d="M545 222 l22 -26 M560 186 l4 6 M572 196 l6 4" stroke="#fff" stroke-width="4" fill="none"/>
+  <rect x="590" y="187" width="32" height="28" rx="4" fill="#fff"/>
+  <circle cx="643" cy="190" r="4" fill="#fff"/><circle cx="643" cy="205" r="4" fill="#fff"/><circle cx="643" cy="220" r="4" fill="#fff"/>
+  <!-- tabs -->
+  <g font-size="20" fill="#ddd" text-anchor="middle">
+    <text x="190" y="315">NAVIGATOR</text><text x="380" y="315" fill="#fff" font-weight="bold">EDITOR</text><text x="570" y="315">AI ASSISTANT</text>
+  </g>
+  <rect x="300" y="328" width="160" height="4" fill="#14a3a8"/>
+  <!-- code -->
+  <g font-family="DejaVu Sans Mono, monospace" font-size="19">
+    <text x="118" y="385" fill="#c678dd">#include &lt;WiFi.h&gt;</text>
+    <text x="118" y="420" fill="#c678dd">#include &lt;WiFiClientSecure.h&gt;</text>
+    <rect x="108" y="450" width="544" height="120" rx="8" fill="#14313a" stroke="#14a3a8" stroke-width="2"/>
+    <text x="118" y="482" fill="#c678dd">#define <tspan fill="#fff">WIFI_NAME  </tspan><tspan fill="#ffd54f">"Khalid"</tspan></text>
+    <text x="118" y="517" fill="#c678dd">#define <tspan fill="#fff">WIFI_PASS  </tspan><tspan fill="#ffd54f">"11111111"</tspan></text>
+    <text x="118" y="552" fill="#c678dd">#define <tspan fill="#fff">GEMINI_KEY </tspan><tspan fill="#ffd54f">"AQ.Ab8..."</tspan></text>
+    <text x="118" y="610" fill="#888">...</text>
+  </g>
+  <!-- bottom tabs -->
+  <rect x="100" y="660" width="560" height="340" fill="#0b0b0b"/>
+  <g font-size="21" text-anchor="middle">
+    <text x="240" y="700" fill="#aaa">DIAGNOSTICS</text>
+    <text x="500" y="700" fill="#fff" font-weight="bold">OUTPUT</text>
+  </g>
+  <rect x="420" y="664" width="160" height="52" rx="10" fill="none" stroke="#ff3b30" stroke-width="6"/>
+  <rect x="420" y="714" width="160" height="4" fill="#14a3a8"/>
+  <g font-family="DejaVu Sans Mono, monospace" font-size="17" fill="#9be59b">
+    <text x="118" y="770">Compiling...</text>
+    <text x="118" y="805">Linking...</text>
+    <text x="118" y="840">Sketch uses 912345 bytes</text>
+    <text x="118" y="875" fill="#fff" font-weight="bold">Done ✓</text>
+  </g>
+  <rect x="108" y="740" width="544" height="155" rx="8" fill="none" stroke="#34c759" stroke-width="3" stroke-dasharray="8 6"/>
+
+  <!-- number badges on phone -->
+  <g font-size="30" font-weight="bold" fill="#fff" text-anchor="middle">
+    <circle cx="430" cy="128" r="26" fill="#ff3b30"/><text x="430" y="139">١</text>
+    <circle cx="610" cy="690" r="26" fill="#ff3b30"/><text x="610" y="701">٢</text>
+    <circle cx="640" cy="760" r="26" fill="#34c759"/><text x="640" y="771">٣</text>
+    <circle cx="660" cy="510" r="26" fill="#14a3a8"/><text x="660" y="521">✎</text>
+  </g>
+
+  <!-- steps text -->
+  <g direction="rtl" text-anchor="start" font-size="25" fill="#1b1f24">
+    <rect x="40" y="1060" width="680" height="400" rx="20" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+    <circle cx="680" cy="1105" r="22" fill="#ff3b30"/><text x="680" y="1114" fill="#fff" text-anchor="middle" font-weight="bold">١</text>
+    <text x="645" y="1114">⚡ بکە (ل سەرێ) دا کۆد Compile ببیت</text>
+    <circle cx="680" cy="1185" r="22" fill="#ff3b30"/><text x="680" y="1194" fill="#fff" text-anchor="middle" font-weight="bold">٢</text>
+    <text x="645" y="1194">ل خوارێ OUTPUT بکە، نە DIAGNOSTICS</text>
+    <circle cx="680" cy="1265" r="22" fill="#34c759"/><text x="680" y="1274" fill="#fff" text-anchor="middle" font-weight="bold">٣</text>
+    <text x="645" y="1274">١–٣ خولەکان چاڤەرێ بە هەتا Done دیار دبیت</text>
+    <circle cx="680" cy="1345" r="22" fill="#5d6878"/><text x="680" y="1354" fill="#fff" text-anchor="middle" font-weight="bold">٤</text>
+    <text x="645" y="1354">وێنێ OUTPUT بۆ من بهنێرە 📸</text>
+    <circle cx="680" cy="1420" r="22" fill="#14a3a8"/><text x="680" y="1429" fill="#fff" text-anchor="middle" font-weight="bold">✎</text>
+    <text x="645" y="1429" font-size="21" fill="#5d6878">ناڤ و پاسوۆردا WiFi ل ڤێرێ نە (رێز ٢١–٢٣)</text>
+  </g>
+</svg>
+</body></html>

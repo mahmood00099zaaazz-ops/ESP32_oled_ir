@@ -1,0 +1,79 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Amp Safe Fix</title>
+<style>body{margin:0;background:#f4f5f7}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1560" viewBox="0 0 760 1560" font-family="DejaVu Sans, sans-serif">
+  <rect width="760" height="1560" fill="#f4f5f7"/>
+  <text x="380" y="58" font-size="34" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">چارەسەریا ئەمپێ 🔧</text>
+
+  <!-- step 1 burnt check -->
+  <rect x="30" y="90" width="700" height="330" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <circle cx="680" cy="140" r="26" fill="#ff3b30"/><text x="680" y="151" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">١</text>
+  <text x="640" y="150" font-size="25" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">ئەمپێ ببینە: سۆتیە؟</text>
+  <!-- good amp -->
+  <rect x="70" y="190" width="250" height="140" rx="10" fill="#5e35b1"/>
+  <rect x="160" y="230" width="70" height="60" rx="4" fill="#222"/>
+  <text x="195" y="370" font-size="22" fill="#1e9e45" font-weight="bold" text-anchor="middle" direction="rtl">✓ پاقژ = باشە</text>
+  <!-- burnt amp -->
+  <rect x="420" y="190" width="250" height="140" rx="10" fill="#5e35b1"/>
+  <rect x="510" y="230" width="70" height="60" rx="4" fill="#222"/>
+  <circle cx="545" cy="260" r="48" fill="#3e2723" opacity="0.85"/>
+  <text x="600" y="235" font-size="30">💨</text>
+  <text x="545" y="370" font-size="22" fill="#c62828" font-weight="bold" text-anchor="middle" direction="rtl">✗ رەش = سۆتیە</text>
+  <text x="545" y="402" font-size="18" fill="#5d6878" text-anchor="middle" direction="rtl">ئەمپەکا نوو بکڕە</text>
+
+  <!-- step 2 safe wiring -->
+  <rect x="30" y="440" width="700" height="760" rx="22" fill="#fff" stroke="#34c759" stroke-width="4"/>
+  <circle cx="680" cy="490" r="26" fill="#34c759"/><text x="680" y="501" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">٢</text>
+  <text x="640" y="500" font-size="25" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">رێکا سلامەت: ب USB</text>
+  <text x="640" y="540" font-size="20" fill="#5d6878" direction="rtl" text-anchor="start">باتری و MT3608 نوکە نەبکار بینە</text>
+
+  <!-- usb phone -->
+  <rect x="70" y="580" width="110" height="190" rx="16" fill="#222"/><rect x="82" y="598" width="86" height="150" rx="6" fill="#4fc3f7"/>
+  <text x="125" y="800" font-size="18" fill="#333" text-anchor="middle" direction="rtl">موبایل / شاحن</text>
+  <path d="M180 690 C240 690 250 650 300 650" stroke="#555" stroke-width="10" fill="none"/>
+  <text x="235" y="630" font-size="18" fill="#333" text-anchor="middle">USB</text>
+
+  <!-- esp32 -->
+  <rect x="300" y="580" width="380" height="150" rx="12" fill="#7b1f1f"/>
+  <text x="490" y="650" font-size="34" font-weight="bold" fill="#fff" text-anchor="middle">ESP32</text>
+  <g font-size="19" font-weight="bold" fill="#ffd54f" text-anchor="middle">
+    <text x="360" y="715">VIN</text><text x="430" y="715">GND</text><text x="500" y="715">25</text><text x="565" y="715">26</text><text x="630" y="715">27</text>
+  </g>
+  <!-- wires -->
+  <path d="M360 730 V900" stroke="#e53935" stroke-width="7"/>
+  <path d="M430 730 V900" stroke="#555" stroke-width="7"/>
+  <path d="M500 730 V900" stroke="#fb8c00" stroke-width="7"/>
+  <path d="M565 730 V900" stroke="#1e88e5" stroke-width="7"/>
+  <path d="M630 730 V900" stroke="#43a047" stroke-width="7"/>
+  <rect x="320" y="770" width="80" height="40" rx="8" fill="#fff" stroke="#e53935" stroke-width="3"/>
+  <text x="360" y="797" font-size="18" fill="#e53935" font-weight="bold" text-anchor="middle">5V</text>
+
+  <!-- amp -->
+  <rect x="300" y="900" width="380" height="150" rx="12" fill="#5e35b1"/>
+  <g font-size="19" font-weight="bold" fill="#fff" text-anchor="middle">
+    <text x="360" y="930">VIN</text><text x="430" y="930">GND</text><text x="500" y="930">LRC</text><text x="565" y="930">BCLK</text><text x="630" y="930">DIN</text>
+  </g>
+  <text x="380" y="1000" font-size="22" fill="#fff" text-anchor="middle" direction="rtl">ئەمپ</text>
+  <rect x="520" y="960" width="120" height="60" rx="6" fill="#2e7d32"/>
+  <circle cx="550" cy="990" r="15" fill="#1b5e20"/><circle cx="610" cy="990" r="15" fill="#1b5e20"/>
+  <text x="550" y="1040" font-size="20" fill="#fff" text-anchor="middle">+</text><text x="610" y="1040" font-size="20" fill="#fff" text-anchor="middle">−</text>
+  <path d="M550 1050 C550 1100 510 1110 520 1130" stroke="#fbc02d" stroke-width="7" fill="none"/>
+  <path d="M610 1050 C610 1100 600 1110 580 1130" stroke="#1e88e5" stroke-width="7" fill="none"/>
+  <circle cx="550" cy="1150" r="35" fill="#222"/><circle cx="550" cy="1150" r="12" fill="#555"/>
+  <text x="440" y="1160" font-size="20" fill="#333" text-anchor="middle" direction="rtl">بلندگۆ</text>
+  <text x="160" y="1000" font-size="19" fill="#1e9e45" text-anchor="middle" direction="rtl">USB = 5V یا دروست ✓</text>
+  <text x="160" y="1035" font-size="19" fill="#1e9e45" text-anchor="middle" direction="rtl">ئەمپ ناسۆژیت</text>
+
+  <!-- step 3 rules -->
+  <rect x="30" y="1220" width="700" height="310" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <circle cx="680" cy="1270" r="26" fill="#14a3a8"/><text x="680" y="1281" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">٣</text>
+  <text x="640" y="1280" font-size="25" font-weight="bold" fill="#1b1f24" direction="rtl" text-anchor="start">هشیار بە</text>
+  <g font-size="22" direction="rtl" text-anchor="start" fill="#1b1f24">
+    <text x="640" y="1335">✓ VIN ← VIN یا ESP32 (5V)</text>
+    <text x="640" y="1380">✓ بلندگۆ ب تنێ ← + و −</text>
+    <text x="640" y="1425" fill="#c62828">✗ − یا بلندگۆی نەدە GND</text>
+    <text x="640" y="1470" fill="#c62828">✗ VIN نەدە 3V3، و نەدە MT3608</text>
+  </g>
+</svg>
+</body></html>

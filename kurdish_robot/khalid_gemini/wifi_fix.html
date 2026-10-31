@@ -1,0 +1,88 @@
+<!doctype html><html><head><meta charset="utf-8"><title>WiFi Fix</title><style>body{margin:0;background:#f4f5f7}</style></head><body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1500" viewBox="0 0 760 1500" font-family="DejaVu Sans, sans-serif">
+  <rect width="760" height="1500" fill="#f4f5f7"/>
+  <text x="380" y="56" font-size="34" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">چارەسەرکرنا "no WiFi" 📶</text>
+
+  <!-- step 1: phone wifi settings -->
+  <g transform="translate(40,90)">
+    <rect width="680" height="360" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+    <rect x="20" y="20" width="400" height="320" rx="24" fill="#1b1f24"/>
+    <rect x="32" y="36" width="376" height="288" rx="12" fill="#fff"/>
+    <text x="52" y="76" font-size="22" font-weight="bold" fill="#1b1f24">Wi-Fi</text>
+    <rect x="44" y="100" width="352" height="64" rx="10" fill="#e8f5e9" stroke="#34c759" stroke-width="5"/>
+    <text x="64" y="140" font-size="26" font-weight="bold" fill="#1b5e20">Khalid</text>
+    <text x="300" y="140" font-size="18" fill="#1b5e20">2.4 GHz</text>
+    <text x="64" y="205" font-size="22" fill="#888">Khalid-5G</text>
+    <line x1="58" y1="198" x2="250" y2="198" stroke="#ff3b30" stroke-width="4"/>
+    <text x="300" y="205" font-size="18" fill="#ff3b30">5 GHz ✗</text>
+    <text x="64" y="262" font-size="22" fill="#888">...</text>
+    <circle cx="610" cy="70" r="30" fill="#ff3b30"/><text x="610" y="82" font-size="32" fill="#fff" font-weight="bold" text-anchor="middle">١</text>
+    <g direction="rtl" text-anchor="start">
+      <text x="660" y="150" font-size="22" fill="#1b1f24" font-weight="bold">Settings ← WiFi</text>
+      <text x="660" y="190" font-size="19" fill="#5d6878">ناڤێ WiFi حەرف ب</text>
+      <text x="660" y="218" font-size="19" fill="#5d6878">حەرف بخوینە</text>
+      <text x="660" y="270" font-size="19" fill="#ff3b30">ب تنێ 2.4 GHz ✓</text>
+      <text x="660" y="298" font-size="19" fill="#ff3b30">5G کار ناکەت ✗</text>
+    </g>
+  </g>
+
+  <!-- step 2: code lines -->
+  <g transform="translate(40,480)">
+    <rect width="680" height="330" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+    <rect x="20" y="20" width="440" height="200" rx="14" fill="#000"/>
+    <g font-family="DejaVu Sans Mono, monospace" font-size="19">
+      <text x="34" y="70" fill="#888">21</text><text x="70" y="70" fill="#c678dd">#define <tspan fill="#fff">WIFI_NAME </tspan><tspan fill="#ffd54f">"Khalid"</tspan></text>
+      <text x="34" y="115" fill="#888">22</text><text x="70" y="115" fill="#c678dd">#define <tspan fill="#fff">WIFI_PASS </tspan><tspan fill="#ffd54f">"11111111"</tspan></text>
+    </g>
+    <rect x="318" y="44" width="122" height="36" rx="6" fill="none" stroke="#34c759" stroke-width="4"/>
+    <rect x="318" y="89" width="138" height="36" rx="6" fill="none" stroke="#34c759" stroke-width="4"/>
+    <text x="240" y="180" font-size="19" fill="#aaa" text-anchor="middle" direction="rtl">ب تنێ ناڤبەرا " " بگوهۆڕە</text>
+    <circle cx="610" cy="70" r="30" fill="#ff3b30"/><text x="610" y="82" font-size="32" fill="#fff" font-weight="bold" text-anchor="middle">٢</text>
+    <g direction="rtl" text-anchor="start">
+      <text x="660" y="150" font-size="18" fill="#1b1f24" font-weight="bold">ل کۆدی راست بکە</text>
+      <text x="660" y="190" font-size="19" fill="#5d6878">ناڤ و پاسوۆرد</text>
+      <text x="660" y="218" font-size="19" fill="#5d6878">وەکی موبایلێ</text>
+    </g>
+    <g direction="rtl" text-anchor="start" font-size="19">
+      <text x="660" y="270" fill="#1b1f24">Khalid ≠ khalid</text>
+      <text x="660" y="300" fill="#5d6878">پیتێن مەزن و بچویک گرنگن</text>
+    </g>
+  </g>
+
+  <!-- step 3: hotspot -->
+  <g transform="translate(40,840)">
+    <rect width="680" height="260" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+    <rect x="20" y="20" width="400" height="220" rx="14" fill="#2b3140"/>
+    <text x="44" y="70" font-size="21" fill="#fff" font-weight="bold">Mobile Hotspot</text>
+    <text x="44" y="120" font-size="19" fill="#ddd">AP Band</text>
+    <rect x="200" y="96" width="200" height="40" rx="8" fill="#163b26" stroke="#34c759" stroke-width="4"/>
+    <text x="300" y="123" font-size="20" fill="#34c759" font-weight="bold" text-anchor="middle">2.4 GHz ✓</text>
+    <text x="44" y="185" font-size="19" fill="#ddd">ON  ●</text>
+    <circle cx="610" cy="70" r="30" fill="#14a3a8"/><text x="610" y="82" font-size="32" fill="#fff" font-weight="bold" text-anchor="middle">٣</text>
+    <g direction="rtl" text-anchor="start">
+      <text x="660" y="150" font-size="20" fill="#1b1f24" font-weight="bold">ئەگەر Hotspot بیت:</text>
+      <text x="660" y="190" font-size="19" fill="#5d6878">ڤەکری بیت +</text>
+      <text x="660" y="218" font-size="19" fill="#5d6878">AP Band = 2.4 GHz</text>
+    </g>
+  </g>
+
+  <!-- step 4: upload + EN -->
+  <g transform="translate(40,1130)">
+    <rect width="680" height="320" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+    <rect x="40" y="40" width="160" height="240" rx="12" fill="#111"/>
+    <rect x="70" y="60" width="100" height="70" fill="#bbb"/><text x="120" y="102" font-size="18" text-anchor="middle" font-weight="bold">ESP32</text>
+    <rect x="55" y="220" width="36" height="26" rx="4" fill="#ddd"/><text x="73" y="270" font-size="15" fill="#fff" text-anchor="middle">EN</text>
+    <rect x="150" y="220" width="36" height="26" rx="4" fill="#ddd"/><text x="168" y="270" font-size="15" fill="#fff" text-anchor="middle">BOOT</text>
+    <circle cx="73" cy="233" r="28" fill="none" stroke="#ff3b30" stroke-width="5"/>
+    <rect x="240" y="80" width="200" height="100" rx="10" fill="#000"/>
+    <rect x="262" y="96" width="38" height="38" rx="9" fill="#7de2fc"/><rect x="340" y="96" width="38" height="38" rx="9" fill="#7de2fc"/>
+    <text x="340" y="168" font-size="17" fill="#7de2fc" text-anchor="middle" font-weight="bold">press BOOT ✓</text>
+    <circle cx="610" cy="70" r="30" fill="#34c759"/><text x="610" y="82" font-size="32" fill="#fff" font-weight="bold" text-anchor="middle">٤</text>
+    <g direction="rtl" text-anchor="start">
+      <text x="660" y="150" font-size="21" fill="#1b1f24" font-weight="bold">⬇️ Upload بکە</text>
+      <text x="660" y="190" font-size="19" fill="#5d6878">پاشی EN بکە</text>
+      <text x="660" y="240" font-size="19" fill="#34c759">شاشە دێ بێژیت</text>
+      <text x="660" y="268" font-size="19" fill="#34c759">press BOOT ✓</text>
+    </g>
+  </g>
+</svg></body></html>

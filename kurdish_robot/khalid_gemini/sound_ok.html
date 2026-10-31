@@ -1,0 +1,57 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Sound Without Errors</title>
+<style>body{margin:0;background:#fff}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="2050" viewBox="0 0 760 2050" font-family="DejaVu Sans, sans-serif">
+  <rect width="760" height="2050" fill="#fff"/>
+  <text x="380" y="48" font-size="30" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">دەنگ بێ خەلەتی 🔊</text>
+  <!-- photo crop: show region (450,650)-(1000,1450) of 1125x2000 -->
+  <clipPath id="pc"><rect x="20" y="70" width="720" height="700" rx="18"/></clipPath>
+  <image href="real/p_lm4.jpg" x="-436" y="-780" width="1350" height="2400" clip-path="url(#pc)"/>
+  <circle cx="366" cy="306" r="42" fill="none" stroke="#00e676" stroke-width="8"/>
+  <rect x="40" y="250" width="200" height="74" rx="12" fill="#1e9e45"/><text x="140" y="282" font-size="18" font-weight="bold" fill="#fff" text-anchor="middle" direction="rtl">بلندیا دەنگی</text><text x="140" y="310" font-size="18" font-weight="bold" fill="#fff" text-anchor="middle">↻ 🔊+</text>
+  <path d="M240 290 L322 302" stroke="#00e676" stroke-width="6"/>
+  <rect x="520" y="110" width="210" height="74" rx="12" fill="#c62828"/><text x="625" y="142" font-size="17" font-weight="bold" fill="#fff" text-anchor="middle" direction="rtl">٤ پین: نڤیسینێ</text><text x="625" y="168" font-size="17" font-weight="bold" fill="#fff" text-anchor="middle" direction="rtl">ل سەر بخوینە 🔍</text>
+  <path d="M530 170 L470 220" stroke="#ff1744" stroke-width="6"/>
+  <circle cx="278" cy="636" r="60" fill="none" stroke="#2979ff" stroke-width="7"/>
+  <rect x="40" y="690" width="300" height="56" rx="10" fill="#1565c0"/><text x="190" y="726" font-size="18" fill="#fff" text-anchor="middle" direction="rtl">پارچا سەوز ← بلندگۆ ✓</text>
+
+  <!-- pin table -->
+  <rect x="20" y="790" width="720" height="420" rx="18" fill="#f4f5f7" stroke="#d5dbe4" stroke-width="2"/>
+  <text x="380" y="830" font-size="23" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">٤ پینێن LM386 ← ESP32</text>
+  <g font-size="22" font-weight="bold">
+    <rect x="60" y="855" width="640" height="70" rx="12" fill="#ffebee"/>
+    <text x="90" y="900" fill="#e53935" font-family="DejaVu Sans Mono, monospace">VCC</text><text x="250" y="900" fill="#333">────▶</text><text x="400" y="900" fill="#e53935">5V (VIN)</text>
+    <rect x="60" y="935" width="640" height="70" rx="12" fill="#fff8e1"/>
+    <text x="90" y="980" fill="#f57f17" font-family="DejaVu Sans Mono, monospace">IN</text><text x="250" y="980" fill="#333">────▶</text><text x="400" y="980" fill="#f57f17">GPIO 25</text>
+    <rect x="60" y="1015" width="640" height="70" rx="12" fill="#eceff1"/>
+    <text x="90" y="1060" fill="#222" font-family="DejaVu Sans Mono, monospace">GND</text><text x="250" y="1060" fill="#333">────▶</text><text x="400" y="1060" fill="#222">GND</text>
+    <rect x="60" y="1095" width="640" height="70" rx="12" fill="#fafafa" stroke="#ddd"/>
+    <text x="90" y="1140" fill="#999" font-family="DejaVu Sans Mono, monospace">GND</text><text x="250" y="1140" fill="#bbb">────▶</text><text x="400" y="1140" fill="#999" direction="rtl">ڤالا ✓</text>
+  </g>
+
+  <!-- checklist -->
+  <rect x="20" y="1230" width="720" height="800" rx="18" fill="#fff" stroke="#34c759" stroke-width="4"/>
+  <text x="380" y="1275" font-size="24" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">✅ ب رێزێ بکە</text>
+  <g font-size="21" direction="rtl" text-anchor="start" fill="#1b1f24">
+    <text x="715" y="1330" font-weight="bold">١. نڤیسینا بچویک ل بن پینان بخوینە 🔍</text>
+    <text x="715" y="1362" fill="#5d6878" font-size="18">VCC، IN، GND ← تێلێ ل گۆر نڤیسینێ گرێ بدە</text>
+    <text x="715" y="1420" font-weight="bold">٢. IN تنێ دچیتە پینا 25 یا ESP32</text>
+    <text x="715" y="1452" fill="#c62828" font-size="18">⚠️ نە 26، نە 27 ، نە 3V3</text>
+    <text x="715" y="1510" font-weight="bold">٣. بلندگۆ ← پارچا سەوز (OUT + GND)</text>
+    <text x="715" y="1542" fill="#5d6878" font-size="18">بورغیان قایم بکە 🪛</text>
+    <text x="715" y="1600" font-weight="bold">٤. کۆدێ خالدی Upload بکە ← Done ✓</text>
+    <text x="715" y="1632" fill="#5d6878" font-size="18">AMP_LM386 = true ، VOLUME = 0.9</text>
+    <text x="715" y="1690" font-weight="bold">٥. دوگما شین ↻ هەتا نیڤێ</text>
+    <text x="715" y="1748" font-weight="bold">٦. EN پال بدە 🔄</text>
+  </g>
+  <rect x="60" y="1780" width="640" height="220" rx="14" fill="#e8f5e9"/>
+  <g font-size="20" direction="rtl" text-anchor="start">
+    <text x="680" y="1825" fill="#1e9e45" font-weight="bold">✓ ٢ بیپ 🔊🔊 هاتن = هەمی دروستە!</text>
+    <text x="680" y="1870" fill="#c62828">✗ بێدەنگ: تێلا IN و پینا 25 ببینە</text>
+    <text x="680" y="1910" fill="#c62828">✗ گڵۆپا LM386 هەلنابیت: VCC و GND ببینە</text>
+    <text x="680" y="1950" fill="#c62828">✗ خشەخش: دوگما شین کێمتر بکە ↺</text>
+    <text x="680" y="1985" fill="#5d6878" font-size="17">📸 وێنێ پینان ژ نێزیک بهنێرە</text>
+  </g>
+</svg>
+</body></html>

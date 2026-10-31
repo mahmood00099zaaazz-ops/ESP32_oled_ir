@@ -1,0 +1,89 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Measure MT3608</title>
+<style>body{margin:0;background:#f4f5f7}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1500" viewBox="0 0 760 1500" font-family="DejaVu Sans, sans-serif">
+  <rect width="760" height="1500" fill="#f4f5f7"/>
+  <text x="380" y="58" font-size="32" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">ل کیڤە بپیڤی؟ 📟</text>
+
+  <!-- wrong / right -->
+  <rect x="30" y="90" width="700" height="300" rx="22" fill="#fff" stroke="#d5dbe4" stroke-width="2"/>
+  <!-- LM386 wrong -->
+  <rect x="70" y="150" width="260" height="90" rx="8" fill="#0d47a1"/>
+  <rect x="80" y="160" width="55" height="70" rx="4" fill="#4caf50"/>
+  <circle cx="290" cy="195" r="18" fill="#1e88e5"/><circle cx="290" cy="195" r="10" fill="#eee"/>
+  <text x="210" y="202" font-size="18" font-weight="bold" fill="#fff" text-anchor="middle">LM386</text>
+  <path d="M70 140 l260 110 M330 140 l-260 110" stroke="#ff1744" stroke-width="9"/>
+  <text x="200" y="300" font-size="22" font-weight="bold" fill="#c62828" text-anchor="middle" direction="rtl">✗ ئەمپ نا</text>
+  <text x="200" y="335" font-size="17" fill="#5d6878" text-anchor="middle" direction="rtl">ئەو کارەبێ نادەت</text>
+  <!-- MT3608 right -->
+  <rect x="420" y="140" width="270" height="110" rx="8" fill="#1565c0"/>
+  <rect x="405" y="170" width="30" height="45" rx="4" fill="#bbb"/>
+  <circle cx="500" cy="195" r="26" fill="#333"/><text x="500" y="201" font-size="14" fill="#fff" text-anchor="middle">220</text>
+  <rect x="580" y="165" width="50" height="50" rx="5" fill="#1e88e5" stroke="#fff" stroke-width="2"/><circle cx="605" cy="190" r="12" fill="#fff"/>
+  <rect x="410" y="128" width="290" height="134" rx="12" fill="none" stroke="#00c853" stroke-width="7"/>
+  <text x="555" y="300" font-size="22" font-weight="bold" fill="#1e9e45" text-anchor="middle" direction="rtl">✓ MT3608 ئەڤە</text>
+  <text x="555" y="335" font-size="17" fill="#5d6878" text-anchor="middle" direction="rtl">USB-C + بورغیێ شین یێ چوارگۆشە</text>
+
+  <!-- full setup -->
+  <rect x="30" y="410" width="700" height="860" rx="22" fill="#fff" stroke="#34c759" stroke-width="4"/>
+  <text x="380" y="460" font-size="25" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">ب ڤی رەنگی گرێ بدە و بپیڤە</text>
+
+  <!-- battery -->
+  <rect x="60" y="500" width="150" height="100" rx="10" fill="#222"/>
+  <text x="80" y="528" font-size="22" fill="#e53935" font-weight="bold">+</text><text x="185" y="528" font-size="22" fill="#1e88e5" font-weight="bold">−</text>
+  <text x="135" y="565" font-size="19" fill="#fff" text-anchor="middle">باتری</text>
+  <!-- tp4056 -->
+  <rect x="290" y="495" width="180" height="110" rx="8" fill="#1565c0"/>
+  <text x="380" y="558" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">TP4056</text>
+  <g font-size="14" font-weight="bold" fill="#ffd54f"><text x="298" y="515">B+</text><text x="420" y="515">OUT+</text><text x="298" y="598">B−</text><text x="420" y="598">OUT−</text></g>
+  <path d="M80 500 V475 H310 V497" stroke="#e53935" stroke-width="6" fill="none"/>
+  <path d="M185 600 V630 H310 V603" stroke="#222" stroke-width="6" fill="none"/>
+  <!-- switch -->
+  <circle cx="600" cy="540" r="28" fill="#e53935" stroke="#222" stroke-width="5"/>
+  <text x="600" y="598" font-size="16" fill="#333" text-anchor="middle" direction="rtl">سویچ ON</text>
+  <path d="M465 510 H540 V540 H572" stroke="#e53935" stroke-width="6" fill="none"/>
+  <!-- MT3608 big -->
+  <rect x="190" y="700" width="400" height="200" rx="10" fill="#1565c0"/>
+  <rect x="170" y="765" width="40" height="60" rx="5" fill="#bbb"/>
+  <circle cx="320" cy="800" r="45" fill="#333"/><text x="320" y="807" font-size="18" fill="#fff" text-anchor="middle">220</text>
+  <rect x="440" y="750" width="80" height="80" rx="8" fill="#1e88e5" stroke="#fff" stroke-width="3"/><circle cx="480" cy="790" r="20" fill="#fff"/><path d="M466 790 h28" stroke="#555" stroke-width="4"/>
+  <text x="390" y="880" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">MT3608</text>
+  <!-- pads -->
+  <g font-size="15" font-weight="bold" fill="#ffd54f">
+    <rect x="530" y="712" width="50" height="22" rx="3" fill="#cfa040"/><text x="530" y="752">VIN+</text>
+    <rect x="530" y="860" width="50" height="22" rx="3" fill="#cfa040"/><text x="530" y="853">VIN−</text>
+    <rect x="200" y="712" width="56" height="22" rx="3" fill="#cfa040"/><text x="200" y="752">VOUT+</text>
+    <rect x="200" y="860" width="56" height="22" rx="3" fill="#cfa040"/><text x="200" y="853">VOUT−</text>
+  </g>
+  <path d="M628 540 H690 V723 H580" stroke="#e53935" stroke-width="6" fill="none"/>
+  <path d="M465 595 C500 640 650 650 690 700 C710 760 700 870 580 871" stroke="#222" stroke-width="6" fill="none"/>
+  <!-- probes -->
+  <path d="M200 723 H150" stroke="#bbb" stroke-width="5"/><path d="M150 723 H70" stroke="#e53935" stroke-width="22" stroke-linecap="round"/>
+  <path d="M200 871 H150" stroke="#bbb" stroke-width="5"/><path d="M150 871 H70" stroke="#222" stroke-width="22" stroke-linecap="round"/>
+  <text x="85" y="700" font-size="18" fill="#e53935" font-weight="bold">سۆر</text>
+  <text x="85" y="912" font-size="18" fill="#222" font-weight="bold">رەش</text>
+  <!-- meter -->
+  <rect x="440" y="960" width="200" height="270" rx="20" fill="#ffca28" stroke="#333" stroke-width="4"/>
+  <rect x="460" y="980" width="160" height="60" rx="5" fill="#cfd8dc"/>
+  <text x="540" y="1025" font-size="34" font-weight="bold" fill="#1b1f24" text-anchor="middle" font-family="DejaVu Sans Mono, monospace">5.00</text>
+  <circle cx="540" cy="1120" r="50" fill="#444"/><path d="M540 1120 L505 1085" stroke="#fff" stroke-width="7"/>
+  <text x="490" y="1075" font-size="14" fill="#c62828" font-weight="bold">20</text>
+  <path d="M65 871 C40 1100 300 1220 500 1215" stroke="#222" stroke-width="4" fill="none"/>
+  <path d="M62 723 C20 900 60 1180 520 1220" stroke="#e53935" stroke-width="4" fill="none"/>
+  <g font-size="19" direction="rtl" text-anchor="start" fill="#1b1f24">
+    <text x="410" y="1000">🪛 بورغیێ شین</text>
+    <text x="410" y="1032">بزڤڕینە هەتا</text>
+    <text x="410" y="1064" fill="#1e9e45" font-weight="bold">5.00 ✓</text>
+  </g>
+
+  <!-- note -->
+  <rect x="30" y="1290" width="700" height="180" rx="16" fill="#fff8e1" stroke="#ffb300" stroke-width="2"/>
+  <g font-size="19" direction="rtl" text-anchor="start" fill="#5d4037">
+    <text x="710" y="1330">💡 نڤیسینێن VIN و VOUT ل سەر پارچا تە بخوینە</text>
+    <text x="710" y="1365">جهێ وان دبیت ژ ڤی وێنەی جودا بیت</text>
+    <text x="710" y="1400" fill="#c62828">⚠️ ESP32 و LM386 هێشتا گرێ نەدە</text>
+    <text x="710" y="1435">📸 وێنێ MT3608 ژ نێزیک بهنێرە دا ئەز ببینم</text>
+  </g>
+</svg>
+</body></html>

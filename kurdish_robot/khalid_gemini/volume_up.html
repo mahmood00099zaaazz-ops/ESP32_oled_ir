@@ -1,0 +1,44 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Volume Up</title>
+<style>body{margin:0;background:#fff}</style></head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1900" viewBox="0 0 760 1900" font-family="DejaVu Sans, sans-serif">
+  <rect width="760" height="1900" fill="#fff"/>
+  <text x="380" y="50" font-size="30" font-weight="bold" fill="#1b1f24" text-anchor="middle" direction="rtl">دەنگ بلندتر بکە 🔊</text>
+  <!-- photo 720x1275 scaled to 680x1204 -->
+  <image href="real/p_lm_vol.jpg" x="40" y="80" width="680" height="1204"/>
+  <!-- pot at (425,520) in screenshot -> crop (425,325) -> scaled *0.944 -> (401+40, 307+80) -->
+  <circle cx="441" cy="387" r="58" fill="none" stroke="#00e676" stroke-width="8"/>
+  <path d="M470 300 A95 95 0 0 1 530 400" stroke="#ffd740" stroke-width="9" fill="none"/>
+  <path d="M515 392 l16 18 l10 -24" stroke="#ffd740" stroke-width="9" fill="none"/>
+  <rect x="540" y="260" width="180" height="110" rx="14" fill="#1e9e45"/>
+  <text x="630" y="305" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle" direction="rtl">دوگما شین</text>
+  <text x="630" y="345" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">↻ = 🔊+</text>
+  <!-- terminal -->
+  <circle cx="290" cy="710" r="80" fill="none" stroke="#2979ff" stroke-width="7"/>
+  <rect x="50" y="560" width="230" height="80" rx="12" fill="#1565c0"/>
+  <text x="165" y="597" font-size="18" font-weight="bold" fill="#fff" text-anchor="middle" direction="rtl">بورغیان قایم بکە 🪛</text>
+  <text x="165" y="625" font-size="16" fill="#fff" text-anchor="middle" direction="rtl">دا تێل نەلڤن</text>
+
+  <!-- steps -->
+  <rect x="20" y="1300" width="720" height="580" rx="18" fill="#f4f5f7" stroke="#d5dbe4" stroke-width="2"/>
+  <g font-size="21" direction="rtl" text-anchor="start" fill="#1b1f24">
+    <text x="715" y="1345" font-weight="bold">١. 🪛 دوگما شین ب دەرنەڤیسێ بزڤڕینە ↻</text>
+    <text x="715" y="1378" fill="#5d6878" font-size="18">وەکی دەمژمێرێ ← دەنگ بلندتر دبیت</text>
+    <text x="715" y="1430" font-weight="bold">٢. د کۆدی دا (رێز ٣١):</text>
+  </g>
+  <rect x="60" y="1450" width="640" height="90" rx="10" fill="#0b0b0b"/>
+  <g font-family="DejaVu Sans Mono, monospace" font-size="19">
+    <text x="80" y="1485" fill="#888">const float VOLUME = <tspan fill="#ff5252">0.5</tspan>;</text>
+    <text x="80" y="1522" fill="#9be59b">const float VOLUME = <tspan fill="#00e676" font-weight="bold">0.9</tspan>;  ✓</text>
+  </g>
+  <g font-size="20" direction="rtl" text-anchor="start">
+    <text x="715" y="1590" fill="#c62828" font-weight="bold">⚠️ دەنگ تنێ دهێت ئەگەر Upload ب Done ب دوماهی هاتبیت</text>
+    <text x="715" y="1630" fill="#5d6878">ESP32 بێ کۆد ← چ دەنگ نائێت</text>
+    <text x="715" y="1680" fill="#1b1f24">٣. VCC یا LM386 ← 5V ، IN ← 25 ، GND ← GND</text>
+    <text x="715" y="1730" fill="#c62828">⚠️ بلندگۆ 0.5W یە: زێدە بلند نەکە، دسۆژیت 🔥</text>
+    <text x="715" y="1775" fill="#5d6878">💡 خشەخش هات؟ دوگما شین کێمتر بکە ↺</text>
+    <text x="715" y="1825" fill="#1e9e45">✓ دەمێ ESP32 دەستپێدکەت: ٢ بیپ 🔊🔊</text>
+  </g>
+</svg>
+</body></html>

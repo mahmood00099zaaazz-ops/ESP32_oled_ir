@@ -49,6 +49,22 @@ table{border-collapse:collapse;width:100%;min-width:420px;background:var(--panel
 th,td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:start}
 th{font-family:var(--f-display);font-weight:600;font-size:.95rem}
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.win{direction:ltr;font-family:"Segoe UI",var(--f-body);font-size:13px;line-height:1.5;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel);margin-top:10px;max-width:520px}
+.win .tb{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--line);font-size:12px;color:var(--fg)}
+.win .tb i{width:10px;height:10px;border-radius:50%;background:var(--muted);opacity:.5}
+.win .tb span{margin-inline-start:auto;font-family:var(--f-mono);font-size:11px}
+.win .bd{padding:10px 12px;display:grid;gap:6px;color:var(--fg)}
+.win .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.win .lbl{color:var(--muted);min-width:0}
+.win .field{flex:1 1 200px;min-width:0;border:1px solid var(--line);border-radius:4px;padding:3px 6px;font-family:var(--f-mono);font-size:11px;overflow-wrap:anywhere;background:var(--bg)}
+.hl{outline:3px solid var(--warn);outline-offset:2px;border-radius:4px}
+.btn{display:inline-block;padding:3px 12px;border-radius:4px;background:var(--accent);color:var(--panel);font-weight:600;font-size:12px}
+.menu{display:grid;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.menu div{padding:3px 10px;border-bottom:1px solid var(--line)}
+.menu div:last-child{border-bottom:0}
+.menu .on{background:var(--accent-soft);font-weight:600}
+.con{background:var(--screen);color:var(--screen-fg);font-family:var(--f-mono);font-size:11px;padding:8px 10px;border-radius:4px;white-space:pre-wrap;overflow-wrap:anywhere}
+.tip{font-size:.9rem;color:var(--warn);margin-top:6px}
 .sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-inline-end:8px;vertical-align:middle}
 </style>
 
@@ -135,14 +151,65 @@ th{font-family:var(--f-display);font-weight:600;font-size:.95rem}
   </figure>
 
   <section style="display:grid;gap:14px">
-    <h2>ڕێک ب ڕێک</h2>
+    <h2>ئامادەکرنا لاپتۆپێ، ڕێک ب ڕێک</h2>
+    <p class="lede" style="margin:0">ئەڤ کارە بەس جارەکێ ل سەر لاپتۆپێ دکەی. خانێن ب چوارچۆڤێ پرتەقالی، ئەو جهن یێن تو ل سەر دکەی یان تێدا دنڤیسی.</p>
     <ol class="steps">
-      <li><div><b>Arduino IDE دابەزینە</b><p>ژ <code>arduino.cc/en/software</code> دابەزینە و install بکە.</p></div></li>
-      <li><div><b>پشتگیریا ESP32 زێدە بکە</b><p>File ← Preferences، ڤی لینکی دانە: <code>https://espressif.github.io/arduino-esp32/package_esp32_index.json</code>. پاشی Tools ← Board ← Boards Manager، <span class="mono">esp32</span> یێ Espressif install بکە.</p></div></li>
-      <li><div><b>کتێبخانا U8g2 دانە</b><p>Sketch ← Include Library ← Manage Libraries، ل <span class="mono">U8g2</span> بگەڕێ و install بکە.</p></div></li>
-      <li><div><b>کێبلێ گرێدە</b><p>کێبلا USB-C یا data بکاربینە. ئەگەر پۆرت دیار نەبوو، driverێ <span class="mono">CH340</span> یان <span class="mono">CP2102</span> دابەزینە.</p></div></li>
-      <li><div><b>بۆرد و پۆرتی هەلبژێرە</b><p>Tools ← Board ← <span class="mono">ESP32 Dev Module</span>، و Tools ← Port ← <span class="mono">COM</span>ێ تە.</p></div></li>
-      <li><div><b>Upload بکە</b><p>فایلا <code>OLED_IR_CODE.ino</code> ڤەکە و دووگمەیا → بکە. دەمێ <span class="mono">Hard resetting via RTS pin</span> دیار بوو، کار تەمام بوو.</p></div></li>
+      <li><div><b>Arduino IDE دابەزینە و install بکە</b>
+        <p>ڤی ماڵپەڕی ڤەکە، <span class="mono">Windows</span> هەلبژێرە، پاشی Next ← Next ← Install.</p>
+        <div class="win"><div class="tb"><i></i><i></i><i></i><span>arduino.cc/en/software</span></div>
+          <div class="bd"><b>Arduino IDE 2</b><div class="row"><span class="btn hl">Windows Win 10 and newer, 64 bits</span></div><div class="lbl">Linux · macOS</div></div></div></div></li>
+
+      <li><div><b>لینکێ ESP32 دانە د Preferences دا</b>
+        <p>Arduino IDE ڤەکە: <span class="mono">File ← Preferences</span>. لینکی کۆپی بکە و د خانا ژێرێ دا دانە، پاشی OK.</p>
+        <div class="win"><div class="tb"><i></i><i></i><i></i><span>Preferences</span></div>
+          <div class="bd">
+            <div class="row"><span class="lbl">Sketchbook location:</span><span class="field">C:\Users\Dell\Documents\Arduino</span></div>
+            <div class="row"><span class="lbl">Additional boards manager URLs:</span><span class="field hl">https://espressif.github.io/arduino-esp32/package_esp32_index.json</span></div>
+            <div class="row" style="justify-content:flex-end"><span class="btn">OK</span></div>
+          </div></div></div></li>
+
+      <li><div><b>بۆردا ESP32 install بکە</b>
+        <p><span class="mono">Tools ← Board ← Boards Manager</span>، بنڤیسە <span class="mono">esp32</span>، و INSTALL ل سەر یێ Espressif بکە. چەند خولەکان دڤێت.</p>
+        <div class="win"><div class="tb"><i></i><i></i><i></i><span>Boards Manager</span></div>
+          <div class="bd">
+            <span class="field">esp32</span>
+            <div><b>esp32</b> by Espressif Systems</div>
+            <div class="lbl">Boards included: ESP32 Dev Module, ESP32-S3…</div>
+            <div class="row"><span class="btn hl">INSTALL</span></div>
+          </div></div></div></li>
+
+      <li><div><b>کتێبخانا U8g2 دانە (بۆ OLED)</b>
+        <p><span class="mono">Sketch ← Include Library ← Manage Libraries</span>، بنڤیسە <span class="mono">U8g2</span> و INSTALL بکە.</p>
+        <div class="win"><div class="tb"><i></i><i></i><i></i><span>Library Manager</span></div>
+          <div class="bd"><span class="field">U8g2</span><div><b>U8g2</b> by oliver</div><div class="row"><span class="btn hl">INSTALL</span></div></div></div></div></li>
+
+      <li><div><b>ESP32 گرێدە و پۆرتی بپشکنە</b>
+        <p>ب کێبلا USB-C یا data گرێدە. د Windows دا <span class="mono">Device Manager</span> ڤەکە (کلیکا ڕاست ل سەر Start). ل ژێر <span class="mono">Ports</span> دڤێت پۆرتەک دیار ببیت.</p>
+        <div class="win"><div class="tb"><i></i><i></i><i></i><span>Device Manager</span></div>
+          <div class="bd"><div>▾ Ports (COM &amp; LPT)</div><div class="hl" style="padding-left:18px">USB-SERIAL CH340 (COM5)</div></div></div>
+        <p class="tip">ئەگەر Ports نەبوو، یان ⚠ ل بەر دیار بوو: driverێ CH340 یان CP2102 دابەزینە، یان کێبلەکا دی تاقی بکە.</p></div></li>
+
+      <li><div><b>بۆرد و پۆرتی هەلبژێرە</b>
+        <p>ژ مێنیوا <span class="mono">Tools</span>:</p>
+        <div class="win"><div class="tb"><i></i><i></i><i></i><span>Tools</span></div>
+          <div class="bd menu">
+            <div>Manage Libraries…</div>
+            <div class="on hl">Board: "ESP32 Dev Module"</div>
+            <div class="on hl">Port: "COM5"</div>
+            <div>Upload Speed: "921600"</div>
+          </div></div></div></li>
+
+      <li><div><b>Upload بکە</b>
+        <p>فایلا <code>OLED_IR_CODE.ino</code> ڤەکە: <span class="mono">File ← Open</span>. پاشی دووگمەیا <b class="mono">Upload</b> بکە.</p>
+        <div class="win"><div class="tb"><i></i><i></i><i></i><span>OLED_IR_CODE | Arduino IDE</span></div>
+          <div class="bd">
+            <div class="row"><span class="btn">✓</span><span class="btn hl">→ Upload</span><span class="lbl">ESP32 Dev Module · COM5</span></div>
+            <div class="con">Connecting.......
+Writing at 0x00010000... (100 %)
+Leaving...
+Hard resetting via RTS pin...</div>
+          </div></div>
+        <p class="tip">ئەگەر ل سەر Connecting....... ڕاوەستیا: دووگمەیا BOOT ل سەر بۆردێ ڤە بگرە هەتا % دیار دبیت.</p></div></li>
     </ol>
   </section>
 

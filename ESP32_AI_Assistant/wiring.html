@@ -1,0 +1,156 @@
+<title>ESP32 AI Wiring</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: one wide wiring drawing, then pin tables per part, then battery/power chain */
+:root{
+  --bg:#eef3f1; --panel:#ffffff; --fg:#14231f; --muted:#5b6d68; --line:#c9d6d2;
+  --pcb:#163b33; --copper:#c9822b; --accent:#0a7c66; --warn:#b4471f;
+  --red:#d23a2e; --blk:#222; --blue:#2f6fd6; --yel:#d9a400; --grn:#2e9d4f; --pur:#8a4fd0; --org:#e07a1f;
+  --display:"Vazirmatn",Tahoma,sans-serif; --mono:"JetBrains Mono",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1614; --panel:#16211e; --fg:#e4efeb; --muted:#93a8a2; --line:#2b3c37; --pcb:#0f4a3d; --blk:#9aa; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1614; --panel:#16211e; --fg:#e4efeb; --muted:#93a8a2; --line:#2b3c37; --pcb:#0f4a3d; --blk:#9aa; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--display);font-size:16px;line-height:1.7}
+.wrap{direction:rtl;max-width:900px;margin:0 auto;padding-block:24px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:18px}
+h1{margin:0;font-size:clamp(1.5rem,5vw,2.1rem);font-weight:800;line-height:1.3;text-wrap:balance}
+h2{margin:0 0 6px;font-size:1.1rem}
+p{margin:0;color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.fig svg{display:block;width:100%;height:auto;direction:ltr}
+svg text{font-family:var(--mono);fill:var(--fg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:14px}
+table{width:100%;border-collapse:collapse;font-size:.92rem;direction:ltr}
+th,td{border-top:1px solid var(--line);padding:5px 6px;text-align:left}
+th{font-family:var(--display);color:var(--muted);font-weight:600;border-top:0}
+td{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.note{border-color:var(--warn)}
+code{font-family:var(--mono);direction:ltr;unicode-bidi:isolate;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:0 5px}
+</style>
+
+<div class="wrap">
+  <h1>گرێدانا تێلان: ESP32 + شاشە + مایکرۆفۆن + سپیکەر + پاتری</h1>
+  <p>ژمارێن پینان بۆ <b>ESP32-S3</b> (دەسپێک) و <b>ESP32</b> یێ ئاسایی (د ناڤ کەڤانێ دا).</p>
+
+  <div class="card fig" role="img" aria-label="Wiring diagram">
+  <svg viewBox="0 0 900 560">
+    <!-- ESP32 board -->
+    <rect x="330" y="150" width="240" height="300" rx="10" fill="var(--pcb)"/>
+    <rect x="390" y="170" width="120" height="90" rx="4" fill="#cfd6d4"/>
+    <text x="450" y="220" text-anchor="middle" font-size="16" style="fill:#14231f">ESP32</text>
+    <rect x="430" y="440" width="40" height="18" rx="3" fill="#9aa5a2"/>
+    <text x="450" y="478" text-anchor="middle" font-size="12">USB-C</text>
+    <rect x="352" y="410" width="22" height="16" rx="3" fill="#e8e8e8"/><text x="363" y="404" text-anchor="middle" font-size="10" style="fill:#e8e8e8">BOOT</text>
+    <!-- left pins -->
+    <g font-size="12">
+      <text x="342" y="290" style="fill:#e8e8e8">3V3</text>
+      <text x="342" y="310" style="fill:#e8e8e8">GND</text>
+      <text x="342" y="330" style="fill:#e8e8e8">8 (21) SDA</text>
+      <text x="342" y="350" style="fill:#e8e8e8">9 (22) SCL</text>
+      <text x="558" y="290" text-anchor="end" style="fill:#e8e8e8">SCK 4 (14)</text>
+      <text x="558" y="310" text-anchor="end" style="fill:#e8e8e8">WS 5 (15)</text>
+      <text x="558" y="330" text-anchor="end" style="fill:#e8e8e8">SD 6 (32)</text>
+      <text x="558" y="350" text-anchor="end" style="fill:#e8e8e8">SPK 7 (25)</text>
+      <text x="558" y="370" text-anchor="end" style="fill:#e8e8e8">BAT 1 (34)</text>
+      <text x="558" y="390" text-anchor="end" style="fill:#e8e8e8">5V / VIN</text>
+    </g>
+
+    <!-- OLED -->
+    <rect x="40" y="60" width="200" height="120" rx="8" fill="#0b0f0e"/>
+    <rect x="55" y="75" width="170" height="70" fill="#123"/>
+    <rect x="85" y="92" width="34" height="38" rx="7" fill="#7fd4ff"/><rect x="150" y="92" width="34" height="38" rx="7" fill="#7fd4ff"/>
+    <text x="140" y="165" text-anchor="middle" font-size="12" style="fill:#e8e8e8">OLED SSD1306</text>
+    <g font-size="11"><text x="250" y="80">VCC</text><text x="250" y="100">GND</text><text x="250" y="120">SDA</text><text x="250" y="140">SCL</text></g>
+    <path d="M245 76 H300 V285 H335" stroke="var(--red)" stroke-width="3" fill="none"/>
+    <path d="M245 96 H292 V305 H335" stroke="var(--blk)" stroke-width="3" fill="none"/>
+    <path d="M245 116 H284 V325 H335" stroke="var(--blue)" stroke-width="3" fill="none"/>
+    <path d="M245 136 H276 V345 H335" stroke="var(--yel)" stroke-width="3" fill="none"/>
+
+    <!-- INMP441 -->
+    <circle cx="760" cy="110" r="60" fill="#1d4fa8"/>
+    <circle cx="760" cy="110" r="12" fill="#ddd"/>
+    <text x="760" y="195" text-anchor="middle" font-size="12">INMP441 mic</text>
+    <g font-size="11"><text x="640" y="60">VDD→3V3</text><text x="640" y="78">GND, L/R→GND</text></g>
+    <path d="M700 120 H620 V285 H565" stroke="var(--grn)" stroke-width="3" fill="none"/>
+    <path d="M700 135 H628 V305 H565" stroke="var(--pur)" stroke-width="3" fill="none"/>
+    <path d="M700 150 H636 V325 H565" stroke="var(--org)" stroke-width="3" fill="none"/>
+    <g font-size="11"><text x="668" y="117">SCK</text><text x="672" y="132">WS</text><text x="672" y="147">SD</text></g>
+
+    <!-- RC filter + LM386 -->
+    <path d="M565 345 H650" stroke="var(--copper)" stroke-width="3"/>
+    <rect x="650" y="337" width="40" height="16" rx="3" fill="none" stroke="var(--fg)" stroke-width="2"/>
+    <text x="670" y="330" text-anchor="middle" font-size="11">1kΩ</text>
+    <path d="M690 345 H760" stroke="var(--copper)" stroke-width="3"/>
+    <path d="M720 345 V362 M708 362 H732 M708 370 H732 M720 370 V385" stroke="var(--fg)" stroke-width="2"/>
+    <text x="740" y="372" font-size="11">10nF→GND</text>
+    <rect x="760" y="310" width="110" height="80" rx="6" fill="#1d4fa8"/>
+    <text x="815" y="345" text-anchor="middle" font-size="13" style="fill:#fff">LM386</text>
+    <text x="815" y="362" text-anchor="middle" font-size="10" style="fill:#fff">IN · GND · 5V</text>
+    <!-- speaker -->
+    <path d="M790 430 h20 l20 -16 v58 l-20 -16 h-20 z" fill="var(--fg)"/>
+    <path d="M815 390 V420" stroke="var(--fg)" stroke-width="2"/>
+    <text x="815" y="500" text-anchor="middle" font-size="12">Speaker 8Ω</text>
+    <path d="M565 385 H600 V520 H880 V360 H870" stroke="var(--red)" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+    <text x="740" y="535" text-anchor="middle" font-size="11">5V → LM386</text>
+
+    <!-- Battery chain -->
+    <rect x="30" y="420" width="70" height="34" rx="6" fill="var(--grn)"/><text x="65" y="442" text-anchor="middle" font-size="11" style="fill:#fff">18650</text>
+    <rect x="115" y="420" width="62" height="34" rx="4" fill="#1d4fa8"/><text x="146" y="442" text-anchor="middle" font-size="11" style="fill:#fff">TP4056</text>
+    <rect x="192" y="420" width="62" height="34" rx="4" fill="#1d4fa8"/><text x="223" y="442" text-anchor="middle" font-size="11" style="fill:#fff">MT3608</text>
+    <rect x="268" y="426" width="36" height="22" rx="4" fill="var(--muted)"/><rect x="274" y="430" width="12" height="14" rx="2" fill="var(--panel)"/>
+    <text x="286" y="470" text-anchor="middle" font-size="10">ON/OFF</text>
+    <path d="M100 437 H115 M177 437 H192 M254 437 H268" stroke="var(--red)" stroke-width="3"/>
+    <path d="M304 437 H318 V395 H335" stroke="var(--red)" stroke-width="3" fill="none"/>
+    <text x="223" y="410" text-anchor="middle" font-size="10">set to 5.0V</text>
+    <!-- battery sense -->
+    <path d="M65 420 V395 H160" stroke="var(--copper)" stroke-width="2" fill="none"/>
+    <rect x="160" y="388" width="30" height="14" rx="2" fill="none" stroke="var(--fg)"/>
+    <rect x="200" y="388" width="30" height="14" rx="2" fill="none" stroke="var(--fg)"/>
+    <text x="195" y="383" text-anchor="middle" font-size="10">100k + 100k</text>
+    <path d="M190 395 H200" stroke="var(--copper)" stroke-width="2"/>
+    <path d="M195 395 V375 H600 V370 H565" stroke="var(--copper)" stroke-width="2" fill="none"/>
+    <text x="40" y="505" font-size="10" style="fill:var(--muted)">B+ (battery +) → divider middle → BAT pin; divider bottom → GND</text>
+  </svg>
+  </div>
+
+  <div class="grid">
+    <div class="card"><h2>شاشە (OLED)</h2>
+      <table><tr><th>OLED</th><th>ESP32-S3</th><th>ESP32</th></tr>
+      <tr><td><span class="dot" style="background:var(--red)"></span>VCC</td><td>3V3</td><td>3V3</td></tr>
+      <tr><td><span class="dot" style="background:var(--blk)"></span>GND</td><td>GND</td><td>GND</td></tr>
+      <tr><td><span class="dot" style="background:var(--blue)"></span>SDA</td><td>8</td><td>21</td></tr>
+      <tr><td><span class="dot" style="background:var(--yel)"></span>SCL</td><td>9</td><td>22</td></tr></table></div>
+
+    <div class="card"><h2>مایکرۆفۆن (INMP441)</h2>
+      <table><tr><th>INMP441</th><th>ESP32-S3</th><th>ESP32</th></tr>
+      <tr><td>VDD</td><td>3V3</td><td>3V3</td></tr>
+      <tr><td>GND + L/R</td><td>GND</td><td>GND</td></tr>
+      <tr><td><span class="dot" style="background:var(--grn)"></span>SCK</td><td>4</td><td>14</td></tr>
+      <tr><td><span class="dot" style="background:var(--pur)"></span>WS</td><td>5</td><td>15</td></tr>
+      <tr><td><span class="dot" style="background:var(--org)"></span>SD</td><td>6</td><td>32</td></tr></table></div>
+
+    <div class="card"><h2>سپیکەر (LM386)</h2>
+      <table><tr><th>From</th><th>ESP32-S3</th><th>ESP32</th></tr>
+      <tr><td>SPK → 1kΩ → IN</td><td>7</td><td>25</td></tr>
+      <tr><td>10nF: IN → GND</td><td>—</td><td>—</td></tr>
+      <tr><td>LM386 VCC</td><td>5V</td><td>VIN</td></tr>
+      <tr><td>LM386 GND</td><td>GND</td><td>GND</td></tr></table></div>
+
+    <div class="card"><h2>پاتری و سویچ</h2>
+      <table><tr><th>Part</th><th>ESP32-S3</th><th>ESP32</th></tr>
+      <tr><td>18650 → TP4056 B+/B-</td><td>—</td><td>—</td></tr>
+      <tr><td>TP4056 OUT → MT3608 IN</td><td>—</td><td>—</td></tr>
+      <tr><td>MT3608 OUT(5V) → switch</td><td>5V</td><td>VIN</td></tr>
+      <tr><td>B+ → 100k/100k → BAT</td><td>1</td><td>34</td></tr></table></div>
+  </div>
+
+  <div class="card note"><h2>ئاگەهداری</h2>
+    <p>• MT3608 بەری گرێدانێ ب پێچگوهێ (screwdriver) ل سەر <b>5.0V</b> ڕێک بێخە، ب مالتیمیتەری بپێڤە.<br>
+    • هەمی GND پێکڤە گرێ بدە.<br>
+    • دەمێ USB یا لاپتۆپی گرێدای، سویچی بکە OFF.<br>
+    • دوگمەیا <b>BOOT</b> = بگرە و باخڤە. دوو جاران لێدان = گوهۆڕینا زمانی.</p>
+  </div>
+</div>

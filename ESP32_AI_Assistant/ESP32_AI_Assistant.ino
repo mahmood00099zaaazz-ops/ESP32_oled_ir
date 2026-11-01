@@ -10,8 +10,7 @@
 #include <U8g2lib.h>
 #include <ArduinoJson.h>
 #include <ESP_I2S.h>
-#include <BLEDevice.h>
-#include <BLEServer.h>
+#include <BLEServer.h>   // ESP32 BLE (do NOT include <BLEDevice.h>: ArduinoDroid picks the ArduinoBLE library)
 
 // ===== SETTINGS =====
 const char* WIFI_SSID  = "YOUR_WIFI_NAME";

@@ -80,6 +80,12 @@ int readByte(WiFiClientSecure& c) {              // waits up to 15 s
   return c.read();
 }
 
+String readLine(WiFiClientSecure& c) {          // one line, without \r\n
+  String l; int ch;
+  while ((ch = readByte(c)) >= 0 && ch != '\n') if (ch != '\r') l += (char)ch;
+  return l;
+}
+
 bool findStr(WiFiClientSecure& c, const char* k) {
   int m = 0, ch;
   while (k[m] && (ch = readByte(c)) >= 0) m = ch == k[m] ? m + 1 : (ch == k[0] ? 1 : 0);
@@ -89,8 +95,8 @@ bool findStr(WiFiClientSecure& c, const char* k) {
 bool skipHeaders(WiFiClientSecure& c) {          // returns true if HTTP 200
   unsigned long t = millis();                    // Gemini may need some seconds
   while (!c.available() && c.connected() && millis() - t < 30000) delay(10);
-  String first = c.readStringUntil('\n');
-  while (true) { String h = c.readStringUntil('\n'); if (h.length() <= 1) break; }
+  String first = readLine(c);
+  while (readLine(c).length() > 0) {}            // skip headers
   return first.indexOf(" 200") > 0;
 }
 
@@ -259,7 +265,12 @@ void setup() {
 
 void loop() {
   if (digitalRead(BTN) == LOW) record();
-  if (Serial.available()) handle(nullptr, 0, Serial.readStringUntil('\n'));
+  static String line;                            // question from Serial Monitor
+  while (Serial.available()) {
+    char ch = Serial.read();
+    if (ch == '\n') { if (line.length()) handle(nullptr, 0, line); line = ""; }
+    else if (ch != '\r') line += ch;
+  }
   if (bleMsg.length()) { String q = bleMsg; bleMsg = ""; handle(nullptr, 0, q); }
   static unsigned long blink = 0;                // idle eyes
   if (millis() - blink > 4000) {

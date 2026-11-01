@@ -463,6 +463,20 @@ class AudioJsonBody : public Stream {
 // ---- small HTTPS client (no HTTPClient library needed) ----
 const char* GEMINI_HOST = "generativelanguage.googleapis.com";
 
+long hexToLong(const String& t) {   // "1a2f" -> 6703
+  long v = 0;
+  for (unsigned int i = 0; i < t.length(); i++) {
+    char ch = t[i];
+    int d;
+    if (ch >= '0' && ch <= '9') d = ch - '0';
+    else if (ch >= 'a' && ch <= 'f') d = ch - 'a' + 10;
+    else if (ch >= 'A' && ch <= 'F') d = ch - 'A' + 10;
+    else break;
+    v = v * 16 + d;
+  }
+  return v;
+}
+
 struct NetReader {
   WiFiClientSecure* s;
   uint8_t buf[512];
@@ -497,7 +511,7 @@ struct NetReader {
     if (chunkLeft == 0) {
       String l = readLine();
       if (l.length() == 0) l = readLine();          // CRLF after previous chunk
-      chunkLeft = strtol(l.c_str(), nullptr, 16);
+      chunkLeft = hexToLong(l);
       if (chunkLeft <= 0) return -1;
     }
     int c = rawNext();
@@ -533,7 +547,7 @@ bool httpsPostStart(WiFiClientSecure& c, const char* model, size_t contentLength
              "x-goog-api-key: " + apiKey + "\r\n" +
              "Content-Length: " + String((unsigned long)contentLength) + "\r\n" +
              "Connection: close\r\n\r\n";
-  c.print(h);
+  c.write((const uint8_t*)h.c_str(), h.length());
   return true;
 }
 
@@ -625,7 +639,7 @@ size_t speechToBuffer(const String& text, const String& lang, uint8_t* out, size
 
   WiFiClientSecure client;
   if (!httpsPostStart(client, TTS_MODEL, body.length())) return 0;
-  client.print(body);
+  client.write((const uint8_t*)body.c_str(), body.length());
 
   NetReader r{ &client };
   int code = r.readHeaders();

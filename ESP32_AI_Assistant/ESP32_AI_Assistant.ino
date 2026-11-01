@@ -20,6 +20,8 @@ const char* GEMINI_KEY = "YOUR_GEMINI_API_KEY";
 const char* CHAT_MODEL = "gemini-2.5-flash";
 const char* TTS_MODEL  = "gemini-2.5-flash-preview-tts";
 const bool  USE_BATTERY = false;   // true after wiring battery + 100k/100k divider
+const bool  MIC_ANALOG  = false;   // false = INMP441 (I2S). true = analog mic module (MAX4466/MAX9814/KY-037) on MIC_ADC
+const int   MIC_ADC     = 36;      // analog mic OUT -> GPIO 36 (VP) on classic ESP32
 
 // ===== PINS (ESP32-S3 / classic ESP32) =====
 #if CONFIG_IDF_TARGET_ESP32S3
@@ -225,7 +227,14 @@ void record() {
   if (!pcm) return;
   show("Guhdari dikim / Listening");
   size_t n = 0; int32_t raw[128], dc = 0;
-  while (digitalRead(BTN) == LOW && n < maxS) {
+  unsigned long t0 = micros();
+  while (MIC_ANALOG && digitalRead(BTN) == LOW && n < maxS) {   // analog mic, 16 kHz
+    while (micros() - t0 < n * 1000000ULL / MIC_RATE) {}
+    int32_t x = (analogRead(MIC_ADC) - 2048) << 4;
+    dc += (x - dc) >> 8;
+    pcm[n++] = constrain(x - dc, -32768, 32767);
+  }
+  while (!MIC_ANALOG && digitalRead(BTN) == LOW && n < maxS) {  // INMP441
     size_t got = mic.readBytes((char*)raw, sizeof(raw)) / 4;
     for (size_t i = 0; i < got && n < maxS; i++) {
       int32_t x = raw[i] >> 13;
@@ -247,8 +256,8 @@ void setup() {
   pinMode(BTN, INPUT_PULLUP);
   oled.begin();
   show("Silav / Hello / Marhaba");
-  mic.setPins(MIC_SCK, MIC_WS, -1, MIC_SD);
-  mic.begin(I2S_MODE_STD, MIC_RATE, I2S_DATA_BIT_WIDTH_32BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_LEFT);
+  if (!MIC_ANALOG) mic.setPins(MIC_SCK, MIC_WS, -1, MIC_SD);
+  if (!MIC_ANALOG) mic.begin(I2S_MODE_STD, MIC_RATE, I2S_DATA_BIT_WIDTH_32BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_LEFT);
 
   BLEDevice::init("ESP32-AI");
   BLEService* s = BLEDevice::createServer()->createService("6E400001-B5A3-F393-E0A9-E50E24DCCA9E");

@@ -63,6 +63,7 @@ const char* TTS_VOICE  = "Kore";
 const int   MAX_RECORD_SEC   = 6;     // with PSRAM; without PSRAM it uses what fits
 const int   MAX_PLAY_SEC     = 30;
 const int   IDLE_SLEEP_MIN   = 15;    // turn off after N minutes idle (0 = never)
+const bool  USE_BATTERY      = false; // true after you connect the battery + 100k/100k divider
 const float BAT_DIVIDER      = 2.0;   // 100k + 100k divider -> x2
 const float BAT_FULL_V       = 4.20;
 const float BAT_EMPTY_V      = 3.30;
@@ -145,7 +146,7 @@ float batteryVolts() {
   for (int i = 0; i < 8; i++) mv += analogReadMilliVolts(PIN_BAT);
   return (mv / 8.0f) * BAT_DIVIDER / 1000.0f;
 }
-bool batteryPresent(float v) { return v > 2.5f; }   // nothing connected -> ~0 V
+bool batteryPresent(float v) { return USE_BATTERY && v > 2.5f; }   // nothing connected -> ~0 V
 int batteryPercent(float v) {
   int p = (int)((v - BAT_EMPTY_V) * 100.0f / (BAT_FULL_V - BAT_EMPTY_V));
   return constrain(p, 0, 100);

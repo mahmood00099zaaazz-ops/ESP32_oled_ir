@@ -5,6 +5,7 @@
   Libraries: U8g2, ArduinoJson (v7).  Board: esp32 by Espressif 3.x
   Parts: OLED SSD1306, INMP441 mic, LM386 + speaker, battery (optional)
 */
+#include <Wire.h>   // needed by U8g2 (ArduinoDroid links it only when included here)
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <U8g2lib.h>

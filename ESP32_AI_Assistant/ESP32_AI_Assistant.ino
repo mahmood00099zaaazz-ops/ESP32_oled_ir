@@ -34,7 +34,6 @@
 
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
-#include <HTTPClient.h>
 #include <Preferences.h>
 #include <Wire.h>
 #include <U8g2lib.h>
@@ -415,7 +414,8 @@ class AudioJsonBody : public Stream {
   size_t pcmLen = 0;
   size_t pos = 0;
 
-  size_t binLen() const { return sizeof(hdr) + pcmLen; }
+  bool audio = true;
+  size_t binLen() const { return audio ? sizeof(hdr) + pcmLen : 0; }
   size_t b64Len() const { return ((binLen() + 2) / 3) * 4; }
   size_t total() const { return pre.length() + b64Len() + post.length(); }
 
@@ -460,8 +460,96 @@ class AudioJsonBody : public Stream {
 };
 
 // ======================= GEMINI: question -> answer =======================
-String geminiUrl(const char* model) {
-  return String("https://generativelanguage.googleapis.com/v1beta/models/") + model + ":generateContent";
+// ---- small HTTPS client (no HTTPClient library needed) ----
+const char* GEMINI_HOST = "generativelanguage.googleapis.com";
+
+struct NetReader {
+  WiFiClientSecure* s;
+  uint8_t buf[512];
+  int len = 0, idx = 0;
+  bool chunked = false;
+  long chunkLeft = 0;
+
+  int rawNext(uint32_t timeoutMs = 15000) {
+    if (idx < len) return buf[idx++];
+    unsigned long t = millis();
+    while (true) {
+      int a = s->available();
+      if (a > 0) {
+        len = s->read(buf, a < (int)sizeof(buf) ? a : (int)sizeof(buf));
+        idx = 0;
+        if (len > 0) return buf[idx++];
+      } else {
+        if (!s->connected()) return -1;
+        if (millis() - t > timeoutMs) return -1;
+        delay(2);
+      }
+    }
+  }
+  String readLine() {
+    String l; int c;
+    while ((c = rawNext()) >= 0 && c != '\n') if (c != '\r') l += (char)c;
+    return l;
+  }
+  // next byte of the body (handles "Transfer-Encoding: chunked")
+  int next() {
+    if (!chunked) return rawNext();
+    if (chunkLeft == 0) {
+      String l = readLine();
+      if (l.length() == 0) l = readLine();          // CRLF after previous chunk
+      chunkLeft = strtol(l.c_str(), nullptr, 16);
+      if (chunkLeft <= 0) return -1;
+    }
+    int c = rawNext();
+    if (c >= 0) chunkLeft--;
+    return c;
+  }
+  // reads status line + headers, returns HTTP status code
+  int readHeaders() {
+    String status = readLine();
+    int sp = status.indexOf(' ');
+    int code = sp > 0 ? status.substring(sp + 1).toInt() : -1;
+    while (true) {
+      String h = readLine();
+      if (h.length() == 0) break;
+      h.toLowerCase();
+      if (h.startsWith("transfer-encoding:") && h.indexOf("chunked") > 0) chunked = true;
+    }
+    return code;
+  }
+  String readAll(size_t maxLen = 20000) {
+    String o; int c;
+    while (o.length() < maxLen && (c = next()) >= 0) o += (char)c;
+    return o;
+  }
+};
+
+bool httpsPostStart(WiFiClientSecure& c, const char* model, size_t contentLength) {
+  c.setInsecure();
+  if (!c.connect(GEMINI_HOST, 443)) { say("Cannot connect to Gemini"); return false; }
+  String h = String("POST /v1beta/models/") + model + ":generateContent HTTP/1.1\r\n" +
+             "Host: " + GEMINI_HOST + "\r\n" +
+             "Content-Type: application/json\r\n" +
+             "x-goog-api-key: " + apiKey + "\r\n" +
+             "Content-Length: " + String((unsigned long)contentLength) + "\r\n" +
+             "Connection: close\r\n\r\n";
+  c.print(h);
+  return true;
+}
+
+bool sendStream(WiFiClientSecure& c, Stream& body) {
+  char buf[1024];
+  while (body.available() > 0) {
+    size_t n = body.readBytes(buf, sizeof(buf));
+    size_t w = 0;
+    unsigned long t = millis();
+    while (w < n) {
+      size_t k = c.write((const uint8_t*)buf + w, n - w);
+      if (k == 0) { if (!c.connected() || millis() - t > 15000) return false; delay(5); }
+      w += k;
+    }
+  }
+  return true;
 }
 
 bool parseAnswer(const String& payload, Answer& a) {
@@ -497,23 +585,17 @@ bool askGemini(const int16_t* audio, size_t samples, const String& text, Answer&
   } else {
     body.pre  = start + "{\"text\":\"" + jsonEscape(text) + "\"}]}]" + end;
     body.post = "";
-    body.pcmLen = 0;
+    body.audio = false;
   }
 
   WiFiClientSecure client;
-  client.setInsecure();
-  HTTPClient http;
-  http.setTimeout(30000);
-  if (!http.begin(client, geminiUrl(CHAT_MODEL))) return false;
-  http.addHeader("Content-Type", "application/json");
-  http.addHeader("x-goog-api-key", apiKey);
+  if (!httpsPostStart(client, CHAT_MODEL, body.total())) return false;
+  if (!sendStream(client, body)) { client.stop(); say("Upload failed"); return false; }
 
-  int code;
-  if (audio) code = http.sendRequest("POST", &body, body.total());
-  else       code = http.POST(body.pre);
-
-  String payload = http.getString();
-  http.end();
+  NetReader r{ &client };
+  int code = r.readHeaders();
+  String payload = r.readAll();
+  client.stop();
   if (code != 200) {
     say("Gemini error " + String(code) + ": " + payload.substring(0, 300));
     return false;
@@ -531,28 +613,6 @@ static int b64val(int c) {
   return -1;
 }
 
-struct NetReader {
-  HTTPClient* http;
-  WiFiClient* s;
-  uint8_t buf[512];
-  int len = 0, idx = 0;
-  int next(uint32_t timeoutMs = 10000) {
-    if (idx < len) return buf[idx++];
-    unsigned long t = millis();
-    while (true) {
-      int a = s->available();
-      if (a > 0) {
-        len = s->read(buf, min(a, (int)sizeof(buf)));
-        idx = 0;
-        if (len > 0) return buf[idx++];
-      } else {
-        if (!http->connected()) return -1;
-        if (millis() - t > timeoutMs) return -1;
-        delay(2);
-      }
-    }
-  }
-};
 
 size_t speechToBuffer(const String& text, const String& lang, uint8_t* out, size_t cap) {
   String how = lang == "ku" ? "Say this in Kurdish, Badini (Behdini) dialect, warm and clear: "
@@ -564,28 +624,24 @@ size_t speechToBuffer(const String& text, const String& lang, uint8_t* out, size
                 String(TTS_VOICE) + "\"}}}}}";
 
   WiFiClientSecure client;
-  client.setInsecure();
-  HTTPClient http;
-  http.setTimeout(30000);
-  http.useHTTP10(true);   // plain stream, no chunks
-  if (!http.begin(client, geminiUrl(TTS_MODEL))) return 0;
-  http.addHeader("Content-Type", "application/json");
-  http.addHeader("x-goog-api-key", apiKey);
-  int code = http.POST(body);
+  if (!httpsPostStart(client, TTS_MODEL, body.length())) return 0;
+  client.print(body);
+
+  NetReader r{ &client };
+  int code = r.readHeaders();
   if (code != 200) {
-    say("TTS error " + String(code) + ": " + http.getString().substring(0, 300));
-    http.end();
+    say("TTS error " + String(code) + ": " + r.readAll(300));
+    client.stop();
     return 0;
   }
 
-  NetReader r{ &http, http.getStreamPtr() };
   // find  "data"  then the opening quote of its value
   const char* key = "\"data\"";
   int matched = 0, c;
   while (key[matched] && (c = r.next()) >= 0) matched = (c == key[matched]) ? matched + 1 : (c == key[0] ? 1 : 0);
-  if (key[matched]) { http.end(); return 0; }
+  if (key[matched]) { client.stop(); return 0; }
   while ((c = r.next()) >= 0 && c != '"') {}
-  if (c < 0) { http.end(); return 0; }
+  if (c < 0) { client.stop(); return 0; }
 
   // decode base64 -> 16-bit PCM 24 kHz -> average pairs -> 8-bit 12 kHz
   uint32_t acc = 0; int bits = 0;
@@ -609,7 +665,7 @@ size_t speechToBuffer(const String& text, const String& lang, uint8_t* out, size
     m >>= 8;
     out[n++] = (uint8_t)(constrain(m, -128, 127) + 128);
   }
-  http.end();
+  client.stop();
   return n;
 }
 
